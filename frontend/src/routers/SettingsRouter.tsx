@@ -1,11 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react';
 
-import tw from 'twin.macro';
 import ky from 'ky';
+import tw from 'twin.macro';
 import Page from '@/components/Page';
 import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
+import { Spinner } from '@/components/elements/Generic';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
 import { CogIcon, LinkIcon, AdjustmentsIcon } from '@heroicons/react/outline';
@@ -90,6 +91,8 @@ const Sidebar = () => {
 
 const SettingsRouter = () => {
 	const AppSettings = useStoreState((state: ApplicationStore) => state.settings.data);
+	const location = useLocation();
+
 	const [lilithConfig, setLilithConfig] = useState({});
 	const [loaded, setLoaded] = useState(false);
 
@@ -101,24 +104,26 @@ const SettingsRouter = () => {
 				setLilithConfig(data);
 				setLoaded(true);
 			});
-	}, []);
+	}, [location.pathname]);
 
-	if (!loaded) {
-		return <div>loading...</div>;
-	} else {
-		return (
-			<Fragment>
-				{AppSettings!.sidebar ? <Sidebar /> : <TabSwitcher />}
-				<div css={AppSettings!.sidebar && tw`ml-64`}>
+	return (
+		<Fragment>
+			{AppSettings!.sidebar ? <Sidebar /> : <TabSwitcher />}
+			<div css={AppSettings!.sidebar && tw`ml-64`}>
+				{loaded ? (
 					<Routes>
 						<Route path="/general" element={<Page component={Settings} id="settings-general" config={lilithConfig} />} />
 						<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />
 						<Route path="/aliases" element={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />
 					</Routes>
-				</div>
-			</Fragment>
-		);
-	}
+				) : (
+					<div tw="w-full h-screen flex justify-center items-center">
+						<Spinner size="large" />
+					</div>
+				)}
+			</div>
+		</Fragment>
+	);
 };
 
 export default SettingsRouter;

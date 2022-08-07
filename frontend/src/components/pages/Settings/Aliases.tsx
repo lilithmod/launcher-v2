@@ -34,9 +34,12 @@ const Base = (props: { id: string; config: any }) => {
 												<input
 													type="text"
 													name="name"
+													spellCheck={false}
 													id="name"
 													tw="bg-neutral-800 block w-full border-0 p-0 text-neutral-300 placeholder-neutral-400 focus:ring-0 sm:text-sm"
-													placeholder={value}
+													defaultValue={value}
+													onBlur={(event) => console.log(event.target.value)}
+													placeholder={key}
 												/>
 											</div>
 										</div>
@@ -67,9 +70,12 @@ const Base = (props: { id: string; config: any }) => {
 												<input
 													type="text"
 													name="name"
+													spellCheck={false}
 													id="name"
 													tw="bg-neutral-800 block w-full border-0 p-0 text-neutral-300 placeholder-neutral-400 focus:ring-0 sm:text-sm"
-													placeholder={value}
+													defaultValue={value}
+													onBlur={(event) => console.log(event.target.value)}
+													placeholder={key}
 												/>
 											</div>
 										</div>
