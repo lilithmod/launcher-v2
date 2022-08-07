@@ -1,30 +1,25 @@
 import React, { useEffect, useState, Fragment } from 'react';
 
 import tw from 'twin.macro';
+import ky from 'ky';
 import Page from '@/components/Page';
 import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import Settings, { Launcher, Lunar, Queuestats, Autogg, Autododge } from '@/components/pages/Settings';
-import { CogIcon, MoonIcon, ChartBarIcon, AnnotationIcon, AdjustmentsIcon, UsersIcon } from '@heroicons/react/outline';
+import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
+import { CogIcon, LinkIcon, AdjustmentsIcon } from '@heroicons/react/outline';
 
 const tabs = [
 	{ name: 'General', href: '/settings/general' },
+	{ name: 'Aliases', href: '/settings/aliases' },
 	{ name: 'Launcher', href: '/settings/launcher' },
-	{ name: 'Lunar', href: '/settings/lunar' },
-	{ name: 'Queuestats', href: '/settings/queuestats' },
-	{ name: 'AutoGG', href: '/settings/autogg' },
-	{ name: 'Autododge', href: '/settings/autododge' },
 ];
 
 const navigation = [
 	{ name: 'General', href: '/settings/general', icon: CogIcon },
+	{ name: 'Aliases', href: '/settings/aliases', icon: LinkIcon },
 	{ name: 'Launcher', href: '/settings/launcher', icon: AdjustmentsIcon },
-	{ name: 'Lunar', href: '/settings/lunar', icon: MoonIcon },
-	{ name: 'Queuestats', href: '/settings/queuestats', icon: ChartBarIcon },
-	{ name: 'AutoGG', href: '/settings/autogg', icon: AnnotationIcon },
-	{ name: 'Autododge', href: '/settings/autododge', icon: UsersIcon },
 ];
 
 const TabSwitcher = () => {
@@ -95,22 +90,35 @@ const Sidebar = () => {
 
 const SettingsRouter = () => {
 	const AppSettings = useStoreState((state: ApplicationStore) => state.settings.data);
+	const [lilithConfig, setLilithConfig] = useState({});
+	const [loaded, setLoaded] = useState(false);
 
-	return (
-		<Fragment>
-			{AppSettings!.sidebar ? <Sidebar /> : <TabSwitcher />}
-			<div css={AppSettings!.sidebar && tw`ml-64`}>
-				<Routes>
-					<Route path="/general" element={<Page component={Settings} id="settings-general" />} />
-					<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" />} />
-					<Route path="/lunar" element={<Page component={Lunar} id="settings-lunar" />} />
-					<Route path="/queuestats" element={<Page component={Queuestats} id="settings-queuestats" />} />
-					<Route path="/autogg" element={<Page component={Autogg} id="settings-autogg" />} />
-					<Route path="/autododge" element={<Page component={Autododge} id="settings-autododge" />} />
-				</Routes>
-			</div>
-		</Fragment>
-	);
+	useEffect(() => {
+		ky.get('lilith/store.json')
+			.json()
+			.then((data: any) => {
+				console.log(data);
+				setLilithConfig(data);
+				setLoaded(true);
+			});
+	}, []);
+
+	if (!loaded) {
+		return <div>loading...</div>;
+	} else {
+		return (
+			<Fragment>
+				{AppSettings!.sidebar ? <Sidebar /> : <TabSwitcher />}
+				<div css={AppSettings!.sidebar && tw`ml-64`}>
+					<Routes>
+						<Route path="/general" element={<Page component={Settings} id="settings-general" config={lilithConfig} />} />
+						<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />
+						<Route path="/aliases" element={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />
+					</Routes>
+				</div>
+			</Fragment>
+		);
+	}
 };
 
 export default SettingsRouter;

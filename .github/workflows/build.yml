@@ -1,8 +1,6 @@
 name: build
 on:
   push:
-    tags:
-      - '!**pre**'
 jobs:
   build:
     name: Test Build Latest Release

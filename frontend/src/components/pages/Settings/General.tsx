@@ -17,8 +17,8 @@ const Base = (props: { id: string }) => {
 				<div tw="bg-neutral-800 shadow px-4 py-5 rounded-lg sm:p-6 mt-4 w-full">
 					<div tw="md:grid md:grid-cols-4 md:gap-6">
 						<div tw="md:col-span-1">
-							<h3 tw="text-lg font-medium leading-6 text-neutral-300">Essential</h3>
-							<p tw="mt-1.5 text-sm text-neutral-400">Essential configuration values</p>
+							<h3 tw="text-lg font-medium leading-6 text-neutral-300">Theme</h3>
+							<p tw="mt-1.5 text-sm text-neutral-400">Change the lilith theme</p>
 						</div>
 						<div tw="mt-5 md:mt-0 md:col-span-3">
 							<div tw="space-y-6">
