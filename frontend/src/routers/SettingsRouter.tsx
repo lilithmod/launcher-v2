@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 
 import ky from 'ky';
 import tw from 'twin.macro';
+import { BrowserOpenURL } from '@/wailsjs/runtime';
 import Page from '@/components/Page';
 import { classNames, tryParseJSONObject } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
@@ -10,7 +11,7 @@ import { LoadConfig } from '@/wailsjs/go/main/App';
 import { Spinner } from '@/components/elements/Generic';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
-import { CogIcon, LinkIcon, AdjustmentsIcon } from '@heroicons/react/outline';
+import { CogIcon, LinkIcon, AdjustmentsIcon, ExternalLinkIcon } from '@heroicons/react/outline';
 
 const tabs = [
 	{ name: 'General', href: '/settings/general' },
@@ -50,6 +51,12 @@ const TabSwitcher = () => {
 							{tab.name}
 						</Link>
 					))}
+					<button
+						onClick={() => BrowserOpenURL('https://me.lilithmod.xyz')}
+						className="border-transparent text-neutral-500 hover:text-neutral-300 hover:border-neutral-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm transition"
+					>
+						Global Config
+					</button>
 				</nav>
 			</div>
 		</div>
@@ -84,6 +91,19 @@ const Sidebar = () => {
 							</Link>
 						))}
 					</nav>
+				</div>
+				<div tw="flex-shrink-0 flex bg-neutral-700">
+					<button onClick={() => BrowserOpenURL('https://me.lilithmod.xyz')} className="group" tw="flex-shrink-0 w-full block">
+						<div tw="flex items-center ml-1">
+							<div tw="transition flex items-center px-2 py-2 text-sm font-medium rounded-md text-neutral-300 group-hover:text-white">
+								<ExternalLinkIcon
+									className="transition group-hover:text-neutral-200 text-neutral-400 mr-3 flex-shrink-0 h-5 w-5"
+									aria-hidden="true"
+								/>
+								Global Config
+							</div>
+						</div>
+					</button>
 				</div>
 			</div>
 		</div>

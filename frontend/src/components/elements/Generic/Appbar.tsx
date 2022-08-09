@@ -73,6 +73,19 @@ const Appbar = () => {
 										<Menu.Item>
 											{({ active }) => (
 												<a
+													onClick={() => BrowserOpenURL('https://me.lilithmod.xyz')}
+													className={classNames(
+														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',
+														'block px-4 py-2 text-sm cursor-pointer'
+													)}
+												>
+													Account Settings
+												</a>
+											)}
+										</Menu.Item>
+										<Menu.Item>
+											{({ active }) => (
+												<a
 													href="#"
 													className={classNames(
 														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',
