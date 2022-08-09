@@ -1,0 +1,13 @@
+[0;92mWails CLI[0m [0;31mv2.0.0-beta.43[0m
+
+Building frontend for development...
+  - Installing frontend dependencies: Done.
+  - Compiling frontend:     
+    
+[0;92mWails CLI[0m [0;31mv2.0.0-beta.43[0m
+
+Building frontend for development...
+  - Installing frontend dependencies: Done.
+  - Compiling frontend: Done.
+yarn run v1.23.0-20211217.1235
+$ vite

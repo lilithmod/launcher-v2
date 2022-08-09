@@ -6,6 +6,7 @@ import Page from '@/components/Page';
 import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
+import { LoadConfig } from '@/wailsjs/go/main/App';
 import { Spinner } from '@/components/elements/Generic';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
@@ -97,12 +98,14 @@ const SettingsRouter = () => {
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
-		ky.get('lilith/store.json')
-			.json()
+		LoadConfig()
 			.then((data: any) => {
-				console.log(data);
-				setLilithConfig(data);
+				console.log(JSON.parse(data));
+				setLilithConfig(JSON.parse(data));
 				setLoaded(true);
+			})
+			.catch((err) => {
+				console.log(err);
 			});
 	}, [location.pathname]);
 

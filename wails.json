@@ -1,12 +1,14 @@
 {
-  "name": "Lilith Launcher",
-  "outputfilename": "lilith_launcher",
-  "frontend:install": "yarn",
-  "frontend:build": "yarn build",
-  "frontend:dev:watcher": "yarn dev",
-  "frontend:dev:serverUrl": "auto",
-  "author": {
-    "name": "theMackabu",
-    "email": "theMackabu@gmail.com"
-  }
+	"name": "Lilith Launcher",
+	"outputfilename": "lilith_launcher",
+	"assetdir": "frontend/dist",
+	"wailsjsdir": "frontend/src",
+	"frontend:install": "yarn",
+	"frontend:build": "yarn build",
+	"frontend:dev:watcher": "yarn dev",
+	"frontend:dev:serverUrl": "auto",
+	"author": {
+		"name": "theMackabu",
+		"email": "theMackabu@gmail.com"
+	}
 }

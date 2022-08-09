@@ -6,9 +6,10 @@ import { ApplicationStore } from '@/state';
 import { Dialog, Menu, Transition, Switch } from '@headlessui/react';
 import { Link, useParams } from 'react-router-dom';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
+import { SaveConfig } from '@/wailsjs/go/main/App';
 
 const Base = (props: { id: string; config: any }) => {
-	const [lunarSpoof, setLunarSpoof] = useState(false);
+	let config = props.config;
 
 	return (
 		<PageContentBlock pageId={props.id}>
@@ -21,7 +22,7 @@ const Base = (props: { id: string; config: any }) => {
 						</div>
 						<div tw="mt-5 md:mt-0 md:col-span-3">
 							<div tw="space-y-6">
-								{Object.entries(props.config!.commandAliases).map(([key, value]: any, idx) => (
+								{Object.entries(config.commandAliases).map(([key, value]: any, idx) => (
 									<div tw="grid grid-cols-3 gap-6" key={idx}>
 										<div tw="col-span-3 sm:col-span-2">
 											<div tw="relative border border-neutral-600 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-rose-500 focus-within:border-rose-500">
@@ -38,7 +39,11 @@ const Base = (props: { id: string; config: any }) => {
 													id="name"
 													tw="bg-neutral-800 block w-full border-0 p-0 text-neutral-300 placeholder-neutral-400 focus:ring-0 sm:text-sm"
 													defaultValue={value}
-													onBlur={(event) => console.log(event.target.value)}
+													onBlur={(event) => {
+														config.commandAliases[key] = event.target.value;
+														console.log(`updated config value ${config.commandAliases[key]}: ${event.target.value}`);
+														SaveConfig(JSON.stringify(config)).catch((err) => console.log(err));
+													}}
 													placeholder={key}
 												/>
 											</div>
@@ -57,7 +62,7 @@ const Base = (props: { id: string; config: any }) => {
 						</div>
 						<div tw="mt-5 md:mt-0 md:col-span-3">
 							<div tw="space-y-6">
-								{Object.entries(props.config!.gamemodeAliases).map(([key, value]: any, idx) => (
+								{Object.entries(config.gamemodeAliases).map(([key, value]: any, idx) => (
 									<div tw="grid grid-cols-3 gap-6" key={idx}>
 										<div tw="col-span-3 sm:col-span-2">
 											<div tw="relative border border-neutral-600 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-rose-500 focus-within:border-rose-500">
@@ -74,7 +79,11 @@ const Base = (props: { id: string; config: any }) => {
 													id="name"
 													tw="bg-neutral-800 block w-full border-0 p-0 text-neutral-300 placeholder-neutral-400 focus:ring-0 sm:text-sm"
 													defaultValue={value}
-													onBlur={(event) => console.log(event.target.value)}
+													onBlur={(event) => {
+														config.gamemodeAliases[key] = event.target.value;
+														console.log(`updated config value ${config.gamemodeAliases[key]}: ${event.target.value}`);
+														SaveConfig(JSON.stringify(config)).catch((err) => console.log(err));
+													}}
 													placeholder={key}
 												/>
 											</div>

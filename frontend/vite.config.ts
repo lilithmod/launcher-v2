@@ -7,7 +7,6 @@ import banner from 'vite-plugin-banner';
 import checker from 'vite-plugin-checker';
 import path from 'path';
 
-const isProduction = process.env.NODE_ENV === 'production';
 const resolve = path.resolve;
 
 export default defineConfig({
@@ -23,7 +22,7 @@ export default defineConfig({
 				lintCommand: 'eslint',
 			},
 		}),
-		banner(`Copyright (c) ${new Date().getUTCFullYear()} theMackabu @ Gamespeed LTD. All Rights Reserved.
+		banner(`Copyright (c) ${new Date().getUTCFullYear()} theMackabu @ Lilith. All Rights Reserved.
 		version: ${pkg.version} 
 		build: ${process.env.NODE_ENV}
 		`),
