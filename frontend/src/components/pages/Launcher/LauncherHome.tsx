@@ -7,11 +7,12 @@ import { ApplicationStore } from '@/state';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
+import { BrowserOpenURL } from '@/wailsjs/runtime';
 
 const posts = [
 	{
 		title: 'Example Post',
-		href: '#',
+		href: 'https://google.com',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
 		imageUrl: 'https://source.boringavatars.com/marble/512/?square',
@@ -22,7 +23,7 @@ const posts = [
 	},
 	{
 		title: 'Example Post',
-		href: '#',
+		href: 'https://google.com',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
 		imageUrl: 'https://source.boringavatars.com/marble/512/?square',
@@ -33,7 +34,7 @@ const posts = [
 	},
 	{
 		title: 'Example Post',
-		href: '#',
+		href: 'https://google.com',
 		description:
 			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
 		imageUrl: 'https://source.boringavatars.com/marble/512/?square',
@@ -64,8 +65,8 @@ const Base = (props: { id: string }) => {
 				</div>
 				<div className="mx-6 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
 					{posts.map((post) => (
-						<a href={post.href} className="block">
-							<div key={post.title} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
+						<a onClick={() => BrowserOpenURL(post.href)} className="block hover:-translate-y-[3px] transition cursor-pointer">
+							<div key={post.title} className="flex flex-col rounded-lg shadow-lg hover:shadow-xl overflow-hidden transition">
 								<div className="flex-shrink-0">
 									<img className="h-36 w-full object-cover" src={post.imageUrl} alt="" />
 								</div>
