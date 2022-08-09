@@ -3,7 +3,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import ky from 'ky';
 import tw from 'twin.macro';
 import Page from '@/components/Page';
-import { classNames } from '@/helpers';
+import { classNames, tryParseJSONObject } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import { LoadConfig } from '@/wailsjs/go/main/App';
@@ -95,11 +95,14 @@ const SettingsRouter = () => {
 	const location = useLocation();
 
 	const [lilithConfig, setLilithConfig] = useState({});
+	const [validJson, setValidJson] = useState(true);
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
+		setLoaded(false);
 		LoadConfig()
 			.then((data: any) => {
+				tryParseJSONObject(data) ? setValidJson(true) : setValidJson(false);
 				console.log(JSON.parse(data));
 				setLilithConfig(JSON.parse(data));
 				setLoaded(true);
@@ -107,26 +110,34 @@ const SettingsRouter = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [location.pathname]);
+	}, [location]);
 
-	return (
-		<Fragment>
-			{AppSettings!.sidebar ? <Sidebar /> : <TabSwitcher />}
-			<div css={AppSettings!.sidebar && tw`ml-64`}>
-				{loaded ? (
-					<Routes>
-						<Route path="/general" element={<Page component={Settings} id="settings-general" config={lilithConfig} />} />
-						<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />
-						<Route path="/aliases" element={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />
-					</Routes>
-				) : (
-					<div tw="w-full h-screen flex justify-center items-center">
-						<Spinner size="large" />
-					</div>
-				)}
+	if (!validJson) {
+		return (
+			<div tw="w-full h-screen flex justify-center items-center text-red-400 font-black text-xl">
+				Please check your lilith config. JSON parsed from this file is invalid.
 			</div>
-		</Fragment>
-	);
+		);
+	} else {
+		return (
+			<Fragment>
+				{AppSettings!.sidebar ? <Sidebar /> : <TabSwitcher />}
+				<div css={AppSettings!.sidebar && tw`ml-64`}>
+					{loaded ? (
+						<Routes>
+							<Route path="/general" element={<Page component={Settings} id="settings-general" config={lilithConfig} />} />
+							<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />
+							<Route path="/aliases" element={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />
+						</Routes>
+					) : (
+						<div tw="w-full h-screen flex justify-center items-center">
+							<Spinner size="large" />
+						</div>
+					)}
+				</div>
+			</Fragment>
+		);
+	}
 };
 
 export default SettingsRouter;

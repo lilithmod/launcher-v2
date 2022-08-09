@@ -19,4 +19,15 @@ const classNames = (...classes: Array<any>) => {
 	return classes.filter(Boolean).join(' ');
 };
 
-export { getRandomString, toHex, classNames };
+const tryParseJSONObject = (jsonString: string) => {
+	try {
+		var o = JSON.parse(jsonString);
+		if (o && typeof o === 'object') {
+			return o;
+		}
+	} catch (e) {}
+
+	return false;
+};
+
+export { getRandomString, toHex, classNames, tryParseJSONObject };
