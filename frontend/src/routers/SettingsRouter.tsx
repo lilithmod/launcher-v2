@@ -130,7 +130,7 @@ const SettingsRouter = () => {
 							<Route path="/aliases" element={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />
 						</Routes>
 					) : (
-						<div tw="w-full h-screen flex justify-center items-center">
+						<div tw="w-full h-[92vh] flex justify-center items-center">
 							<Spinner size="large" />
 						</div>
 					)}

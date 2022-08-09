@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 
 import tw from 'twin.macro';
 import { classNames } from '@/helpers';
-import { Quit } from '@/wailsjs/runtime';
+import { Quit, BrowserOpenURL } from '@/wailsjs/runtime';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import { LilithLogo } from '@/assets/images';
@@ -40,7 +40,12 @@ const Appbar = () => {
 				</div>
 				<NavLink to="/launch" name="Home" />
 				<NavLink to="/settings/general" name="Settings" />
-				<NavLink to="/about" name="About" />
+				<button
+					onClick={() => BrowserOpenURL('https://lilithmod.xyz/docs/documentation/features/')}
+					tw="text-base font-medium text-neutral-500 rounded hover:(bg-neutral-700 bg-opacity-30 text-rose-100) -my-2 px-2.5 py-1 transition border-2 border-transparent"
+				>
+					Docs
+				</button>
 				<NavLink to="/premium" name="Premium" />
 				<div tw="flex items-center justify-end md:flex-1 lg:w-0">
 					{UserData?.token ? (
