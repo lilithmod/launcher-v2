@@ -33,14 +33,16 @@ const Base = (props: { id: string; config: any }) => {
 												id="name"
 												tw="bg-neutral-800 block w-full border-0 p-0 text-neutral-300 placeholder-neutral-400 focus:ring-0 sm:text-sm"
 												onBlur={(event) => {
-													const nicknames = event.target.value.split(',');
-													nicknames.forEach((item, idx) => {
-														config.nicknames[item.toLowerCase()] = item;
-														console.log(`[added] config.nicknames{${item.toLowerCase()}: ${item}}`);
-													});
-													SaveConfig(JSON.stringify(config))
-														.then(() => navigate('.'))
-														.catch((err) => console.log(err));
+													if (event.target.value.length >= 3 && !event.target.value.includes(' ')) {
+														const nicknames = event.target.value.replace(/\s/g, '').split(',');
+														nicknames.forEach((item, idx) => {
+															config.nicknames[item.toLowerCase()] = item;
+															console.log(`[added] config.nicknames{${item.toLowerCase()}: ${item}}`);
+														});
+														SaveConfig(JSON.stringify(config))
+															.then(() => navigate('.'))
+															.catch((err) => console.log(err));
+													}
 												}}
 												placeholder="use comma as separator..."
 											/>
@@ -49,6 +51,7 @@ const Base = (props: { id: string; config: any }) => {
 											{Object.entries(config.nicknames).length > 0
 												? Object.entries(config.nicknames).map(([key, value]: any, idx: number) => (
 														<span className="inline-flex items-center py-0.5 pl-2 pr-0.5 rounded-full text-xs font-medium bg-rose-800 text-rose-100 inline mr-1.5">
+															<img src={`https://minotar.net/avatar/${key}/20`} tw="w-3 h-3 rounded-sm mr-[0.2rem]" />
 															{value}
 															<button
 																type="button"
