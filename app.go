@@ -257,8 +257,8 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 	
 	if runtime_os.GOOS != "windows" {
-		cmd = exec.Command("chmod", "+x", path)
-		err := cmd.Start()
+		setPerm := exec.Command("chmod", "+x", path)
+		err := setPerm.Run()
 		handle(err, a.ctx)
 	}
 	
@@ -269,8 +269,10 @@ func (a *App) LaunchLilith() (string, error) {
 	} else {
 		cmd = exec.Command(path, "--iknowwhatimdoing")
 	}
+	
 	var logArr []string
 	stdout, _ := cmd.StdoutPipe()
+	cmd.Dir = ldir
 	err = cmd.Start()
 	scanner := bufio.NewScanner(stdout)
 		
