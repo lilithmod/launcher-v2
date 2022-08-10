@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 
 import tw from 'twin.macro';
 import { classNames } from '@/helpers';
-import { Quit, BrowserOpenURL } from '@/wailsjs/runtime';
+import { Quit, BrowserOpenURL, WindowMinimise } from '@/wailsjs/runtime';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import { LilithLogo } from '@/assets/images';
@@ -133,8 +133,14 @@ const Appbar = () => {
 						</Link>
 					)}
 					<button
+						onClick={() => WindowMinimise()}
+						tw="rounded-l-md p-1.5 bg-neutral-700 bg-opacity-60 whitespace-nowrap text-base font-medium text-neutral-300 hover:bg-blue-500 hover:text-white transition border-r border-neutral-700"
+					>
+						<MinusIcon tw="w-5 h-5" />
+					</button>
+					<button
 						onClick={() => Quit()}
-						tw="-mr-3.5 rounded-md p-1.5 bg-neutral-700 bg-opacity-60 whitespace-nowrap text-base font-medium text-neutral-300 hover:bg-red-500 hover:text-white transition"
+						tw="-mr-3.5 rounded-r-md p-1.5 bg-neutral-700 bg-opacity-60 whitespace-nowrap text-base font-medium text-neutral-300 hover:bg-red-500 hover:text-white transition"
 					>
 						<XIcon tw="w-5 h-5" />
 					</button>

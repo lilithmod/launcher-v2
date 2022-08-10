@@ -27,7 +27,7 @@ func main() {
 		Frameless:        true,
 		Assets:           assets,
 		BackgroundColour: &options.RGBA{R: 23, G: 23, B: 23, A: 1},
-		OnStartup:        app.startup,
+		OnDomReady: 		app.domReady,
 		Bind: []interface{}{
 			app,
 		},
