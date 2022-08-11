@@ -150,9 +150,22 @@ const SettingsRouter = () => {
 							<Route path="/aliases" element={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />
 						</Routes>
 					) : (
-						<div tw="w-full h-[92vh] flex justify-center items-center">
-							<Spinner size="large" />
-						</div>
+						<Routes>
+							<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />
+							<Route
+								path="/*"
+								element={
+									<div>
+										<div tw="w-full pt-[17rem] flex justify-center items-center">
+											<Spinner size="large" />
+										</div>
+										<p tw="flex justify-center items-center mt-3 text-neutral-200 font-medium text-lg">
+											Please start lilith to generate a config file.
+										</p>
+									</div>
+								}
+							/>
+						</Routes>
 					)}
 				</div>
 			</Fragment>

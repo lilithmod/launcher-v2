@@ -10,6 +10,7 @@ import { PageContentBlock, Spinner } from '@/components/elements/Generic';
 import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';
 import { LaunchLilith } from '@/wailsjs/go/main/App';
 import { ChevronDownIcon, ExclamationIcon, XIcon } from '@heroicons/react/solid';
+import { parseHtml } from 'ansi-color-parse';
 
 const posts = [
 	{
@@ -94,8 +95,8 @@ const Base = (props: { id: string }) => {
 							leaveFrom="opacity-100 translate-y-0 sm:scale-100"
 							leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 						>
-							<div className="inline-block align-bottom bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-5">
-								<div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+							<div className="inline-block align-bottom bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 rounded-lg text-left overflow-hidden shadow-xl transform transition-all mt-12 sm:align-middle w-[50rem] sm:p-5">
+								<div className="absolute top-0 right-0 pt-4 pr-4">
 									<button
 										type="button"
 										className="text-neutral-400 hover:text-neutral-500 focus:outline-none transition"
@@ -105,8 +106,12 @@ const Base = (props: { id: string }) => {
 										<XIcon className="h-5 w-5" aria-hidden="true" />
 									</button>
 								</div>
-								<div className="sm:flex sm:items-start h-96 overflow-y-scroll">
-									<pre tw="text-neutral-100 text-sm font-medium">{Logs && Logs.map((item: string) => <p>{item}</p>)}</pre>
+								<div className="sm:flex sm:items-start h-[28rem] overflow-y-scroll">
+									<pre tw="text-neutral-200 text-sm font-medium">
+										{Logs.map((item: string) => (
+											<div tw="drop-shadow-md" dangerouslySetInnerHTML={{ __html: parseHtml(item) }} />
+										))}
+									</pre>
 								</div>
 							</div>
 						</Transition.Child>
@@ -170,8 +175,6 @@ const Base = (props: { id: string }) => {
 												<a
 													onClick={() => {
 														EventsEmit('stop');
-														//@ts-ignore limitation of typescript store
-														store.getActions().logs.pushLogs('[Launcher] Stopped Lilith');
 													}}
 													className={classNames(
 														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',

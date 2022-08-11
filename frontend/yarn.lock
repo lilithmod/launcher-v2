@@ -1046,6 +1046,11 @@ ajv@^6.10.0, ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+ansi-color-parse@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/ansi-color-parse/-/ansi-color-parse-0.1.5.tgz#587422dad5db5774877b6da071454a0617ad026b"
+  integrity sha512-NoJ7oUP9zxw/R63MP+/77ncPsO6ayNOmIaeLAmNl7g1iic/oyFaJwLgZSABZMQsnqaYupweZtIds9kiFRv/dQQ==
+
 ansi-escapes@^4.3.0:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.2.tgz#6b2291d1db7d98b6521d5f1efa42d0f3a9feb65e"
