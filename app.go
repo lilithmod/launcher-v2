@@ -2,22 +2,24 @@ package main
 
 import (
 	"os"
-	"fmt"
-	"path"
-	"context"
-	"encoding/json"
-	"errors"
 	"io"
-	"bufio"
-	"io/ioutil"
+	"fmt"
 	"log"
-	"net/http"
+	"path"
+	"time"
+	"bufio"
+	"errors"
+	"context"
 	"os/exec"
-	runtime_os "runtime"
 	"strconv"
 	"strings"
 	"syscall"
-	"time"
+	"net/http"
+	"io/ioutil"
+	"encoding/json"
+	
+	runtime_os "runtime"
+	//"github.com/hugolgst/rich-go/client"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
@@ -48,8 +50,14 @@ type launcherConfig struct {
 
 func handle(err error, ctx context.Context) {
 	if err != nil {
+		runtime.MessageDialog(ctx, runtime.MessageDialogOptions{
+			    Type:         "error",
+				 Title:        "Lilith has encountered an error.",
+				 Message:      err.Error(),
+				 Buttons:      []string{"Ok"},
+				 CancelButton:  "Ok",
+		})
 		log.Fatalln(err)
-		runtime.EventsEmit(ctx, "lilith_err", err.s)
 	}
 }
 
@@ -147,11 +155,37 @@ func NewApp() *App {
 func (a *App) domReady(ctx context.Context) {
 	a.ctx = ctx
 	
+	// err := client.Login("1007151511370993694")
+	// if err != nil {
+	// 	handle(err, ctx)
+	// }
+	// 
+	// now := time.Now()
+	// err = client.SetActivity(client.Activity{
+	// 	Details:    "Lilith v1 on mc.hypixel.net",
+	// 	LargeImage: "lilithlogo",
+	// 	SmallImage: "hypixellogo",
+	// 	SmallText:  "mc.hypixel.net",
+	// 	Timestamps: &client.Timestamps{
+	// 		Start: &now,
+	// 	},
+	// 	Buttons: []*client.Button{
+	// 		&client.Button{
+	// 			Label: "Join the discord",
+	// 			Url:   "discord.gg/lilith",
+	// 		},
+	// 		&client.Button{
+	// 			Label: "Learn more",
+	// 			Url:   "https://lilithmod.xyz",
+	// 		},
+	// 	},
+	// })
+	// if err != nil {
+	// 	handle(err, ctx)
+	// }
+	
 	runtime.EventsOn(ctx, "stop", func(...interface{}) {
-		err := cmd.Process.Kill()
-		handle(ctx, err)
-		
-		runtime.EventsEmit(ctx, "lilith_log", "[Launcher] Stopped Lilith")
+		cmd.Process.Kill()
 		runtime.EventsEmit(ctx, "launch_lilith", "ready to launch")
 	})
 	

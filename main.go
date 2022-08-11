@@ -23,7 +23,7 @@ func main() {
 		Title:            "Lilith Launcher",
 		Width:            1160,
 		DisableResize:    true,
-		Height:           644,
+		Height:           646,
 		Frameless:        true,
 		Assets:           assets,
 		BackgroundColour: &options.RGBA{R: 23, G: 23, B: 23, A: 1},
