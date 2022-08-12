@@ -165,6 +165,19 @@ func (a *App) HandleError(err error) {
 	}
 }
 
+func (a *App) ShowDialog(dialogTitle string, dialogMessage string, dialogButtons []string, dialogDefaultButton string, dialogCancelButton string, meta string,) string {
+		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+				 Title:         dialogTitle,
+				 Message:       dialogMessage,
+				 Buttons:       dialogButtons,
+				 DefaultButton: dialogDefaultButton,
+				 CancelButton:  dialogCancelButton,
+		})
+		log.Println("[Dialog] Title:", dialogTitle, "Message:", dialogMessage)
+		
+		return meta
+}
+
 func (a *App) LoadConfig() (string, error) {
 	homeDir, _ := os.UserHomeDir()
 	fileData, err := os.ReadFile(fmt.Sprint(homeDir, "/lilith/store.json"))

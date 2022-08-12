@@ -15,7 +15,7 @@ const Version = "0.0.2"
 
 func DoSelfUpdate() bool {
 	v := semver.MustParse(Version)
-	latest, err := selfupdate.UpdateSelf(v, "theMackabu/lilith")
+	latest, err := selfupdate.UpdateSelf(v, "lilithmod/launcher-v2")
 	if err != nil {
 		log.Println("Binary update failed:", err)
 		return false
@@ -31,7 +31,7 @@ func DoSelfUpdate() bool {
 }
 
 func DoSelfUpdateMac() bool {
-	latest, found, _ := selfupdate.DetectLatest("theMackabu/lilith")
+	latest, found, _ := selfupdate.DetectLatest("lilithmod/launcher-v2")
 	if found {
 		homeDir, _ := os.UserHomeDir()
 		downloadPath := filepath.Join(homeDir, "Downloads", "LilithLauncher.zip")
@@ -63,7 +63,7 @@ func DoSelfUpdateMac() bool {
 }
 
 func CheckForUpdate() (bool, string) {
-	latest, found, err := selfupdate.DetectLatest("theMackabu/lilith")
+	latest, found, err := selfupdate.DetectLatest("lilithmod/launcher-v2")
 	if err != nil {
 		log.Println("Error occurred while detecting version:", err)
 		return false, ""
@@ -71,7 +71,7 @@ func CheckForUpdate() (bool, string) {
 
 	v := semver.MustParse(Version)
 	if !found || latest.Version.LTE(v) {
-		log.Println("Current version is the latest")
+		log.Println("Current version is the latest:", v, found)
 		return false, ""
 	}
 

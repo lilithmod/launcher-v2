@@ -8,7 +8,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
 import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';
-import { LaunchLilith } from '@/wailsjs/go/main/App';
+import { LaunchLilith, ShowDialog } from '@/wailsjs/go/main/App';
 import { ChevronDownIcon, ExclamationIcon, XIcon } from '@heroicons/react/solid';
 import { parseHtml } from 'ansi-color-parse';
 import { UpdateBanner, LauncherBanner } from '@/assets/images';
@@ -69,6 +69,16 @@ const Base = (props: { id: string }) => {
 						.trim()
 						.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''),
 				});
+			}
+			if (messages.includes('Verify hardware')) {
+				const verifyUrl = messages
+					.split('>')[1]
+					.trim()
+					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+
+				ShowDialog('Verify your hardware', `You will be redirected to ${verifyUrl}`, ['Verify'], 'Verify', '', messages).then((url) =>
+					BrowserOpenURL(verifyUrl)
+				);
 			}
 		});
 	}, []);
