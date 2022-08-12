@@ -7,7 +7,6 @@ import { useStoreState } from 'easy-peasy';
 import { parseHtml } from 'ansi-color-parse';
 import { store, ApplicationStore } from '@/state';
 import { Dialog, Menu, Transition } from '@headlessui/react';
-import { UpdateBanner, LauncherBanner } from '@/assets/images';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { LaunchLilith, ShowDialog } from '@/wailsjs/go/main/App';
 import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';

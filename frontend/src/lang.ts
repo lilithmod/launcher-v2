@@ -1,3 +1,7 @@
+import { UpdateBanner, LauncherBanner } from '@/assets/images';
+import { BadgeCheckIcon, CalendarIcon, FastForwardIcon } from '@heroicons/react/outline';
+import { CogIcon, LinkIcon, AdjustmentsIcon, ExternalLinkIcon } from '@heroicons/react/outline';
+
 const posts = [
 	{
 		uuid: 0,
@@ -39,6 +43,18 @@ const incentives = [
 	{ name: 'Autododge Players', icon: FastForwardIcon },
 	{ name: 'Role Icons (Discord)', icon: BadgeCheckIcon },
 	{ name: 'More coming soon in 1.0', icon: CalendarIcon },
+];
+
+const tabs = [
+	{ name: 'General', href: '/settings/general' },
+	{ name: 'Aliases', href: '/settings/aliases' },
+	{ name: 'Launcher', href: '/settings/launcher' },
+];
+
+const navigation = [
+	{ name: 'General', href: '/settings/general', icon: CogIcon },
+	{ name: 'Aliases', href: '/settings/aliases', icon: LinkIcon },
+	{ name: 'Launcher', href: '/settings/launcher', icon: AdjustmentsIcon },
 ];
 
 export { posts, incentives };

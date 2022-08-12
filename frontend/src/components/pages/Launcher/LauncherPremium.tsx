@@ -4,7 +4,6 @@ import tw from 'twin.macro';
 import { incentives } from '@/lang';
 import { BrowserOpenURL } from '@/wailsjs/runtime';
 import { PageContentBlock } from '@/components/elements/Generic';
-import { BadgeCheckIcon, CalendarIcon, FastForwardIcon } from '@heroicons/react/outline';
 
 const Premium = (props: { id: string }) => {
 	return (

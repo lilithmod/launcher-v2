@@ -3,27 +3,16 @@ import React, { useEffect, useState, Fragment } from 'react';
 import ky from 'ky';
 import tw from 'twin.macro';
 import Page from '@/components/Page';
+import { tabs, navigation } from '@/lang';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import { BrowserOpenURL } from '@/wailsjs/runtime';
 import { LoadConfig } from '@/wailsjs/go/main/App';
 import { Spinner } from '@/components/elements/Generic';
 import { classNames, tryParseJSONObject } from '@/helpers';
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
-import { CogIcon, LinkIcon, AdjustmentsIcon, ExternalLinkIcon } from '@heroicons/react/outline';
-
-const tabs = [
-	{ name: 'General', href: '/settings/general' },
-	{ name: 'Aliases', href: '/settings/aliases' },
-	{ name: 'Launcher', href: '/settings/launcher' },
-];
-
-const navigation = [
-	{ name: 'General', href: '/settings/general', icon: CogIcon },
-	{ name: 'Aliases', href: '/settings/aliases', icon: LinkIcon },
-	{ name: 'Launcher', href: '/settings/launcher', icon: AdjustmentsIcon },
-];
 
 const TabSwitcher = () => {
 	const AppSettings = useStoreState((state: ApplicationStore) => state.settings.data);
