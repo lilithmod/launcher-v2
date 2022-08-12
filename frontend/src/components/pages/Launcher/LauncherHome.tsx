@@ -6,9 +6,9 @@ import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { parseHtml } from 'ansi-color-parse';
 import { store, ApplicationStore } from '@/state';
+import { LaunchLilith } from '@/wailsjs/go/main/App';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { LaunchLilith, ShowDialog } from '@/wailsjs/go/main/App';
 import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
 import { ChevronDownIcon, ExclamationIcon, XIcon } from '@heroicons/react/solid';
@@ -18,33 +18,6 @@ const Base = (props: { id: string }) => {
 	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);
 	const ButtonStartStatus = ButtonData !== 'ready to launch';
 	const [open, setOpen] = useState(false);
-
-	useEffect(() => {
-		EventsOn('launch_lilith', (messages) => {
-			store.getActions().button.setButtonData(messages);
-		});
-		EventsOn('lilith_log', (messages) => {
-			store.getActions().logs.pushLogs(messages);
-			if (messages.includes('Authorized')) {
-				store.getActions().user.setUserData({
-					username: messages
-						.split('>')[1]
-						.trim()
-						.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''),
-				});
-			}
-			if (messages.includes('Verify hardware')) {
-				const verifyUrl = messages
-					.split('>')[1]
-					.trim()
-					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
-
-				ShowDialog('Verify your hardware', `You will be redirected to ${verifyUrl}`, ['Verify'], 'Verify', '', messages).then((url) =>
-					BrowserOpenURL(verifyUrl)
-				);
-			}
-		});
-	}, []);
 
 	return (
 		<PageContentBlock pageId={props.id}>
