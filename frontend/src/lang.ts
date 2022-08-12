@@ -57,4 +57,4 @@ const navigation = [
 	{ name: 'Launcher', href: '/settings/launcher', icon: AdjustmentsIcon },
 ];
 
-export { posts, incentives };
+export { posts, incentives, tabs, navigation };

@@ -1,11 +1,11 @@
-name: Build Application
+name: Release Application
 
-on: [push, pull_request]
+on: push
 
 jobs:
   build:
-    name: Build Application
-    if: "contains(github.event.head_commit.message, '[run build]')"
+    name: Release Application
+    if: "contains(github.event.head_commit.message, '[release')"
     strategy:
       fail-fast: false
       matrix:
@@ -24,4 +24,4 @@ jobs:
         with:
           build-name: ${{ matrix.build.name }}
           build-platform: ${{ matrix.build.platform }}
-          package: false
+          package: true
