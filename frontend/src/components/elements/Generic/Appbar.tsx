@@ -48,11 +48,10 @@ const Appbar = () => {
 				</button>
 				<NavLink to="/premium" name="Premium" />
 				<div tw="flex items-center justify-end md:flex-1 lg:w-0">
-					{UserData?.token ? (
+					{UserData?.username && (
 						<Menu as="div" className="relative inline-block text-left mr-3">
 							<Menu.Button className="inline-flex justify-center text-sm font-medium text-neutral-300 hover:text-neutral-200 mt-1 focus:outline-none">
-								<img className="h-5 w-5 rounded-full mr-2" src={UserData?.profile.avatar} alt="" />
-								{UserData?.profile.username}
+								{UserData?.username.split('#')[0]}
 								<ChevronDownIcon className="ml-1 h-5 w-5 mt-[1px]" aria-hidden="true" />
 							</Menu.Button>
 							<Transition
@@ -67,7 +66,7 @@ const Appbar = () => {
 								<Menu.Items className="origin-top-right absolute right-0 mt-0.5 w-56 rounded-md shadow-lg bg-neutral-700 backdrop-blur-lg backdrop-filter bg-opacity-80 ring-1 ring-black ring-opacity-5 divide-y divide-neutral-600 focus:outline-none z-50">
 									<div className="px-4 py-3">
 										<p className="text-sm text-neutral-300">Signed in as</p>
-										<p className="text-sm font-medium text-white truncate">{UserData?.email}</p>
+										<p className="text-sm font-medium text-white truncate">{UserData?.username}</p>
 									</div>
 									<div className="py-1">
 										<Menu.Item>
@@ -79,58 +78,14 @@ const Appbar = () => {
 														'block px-4 py-2 text-sm cursor-pointer'
 													)}
 												>
-													Account Settings
+													Account settings
 												</a>
-											)}
-										</Menu.Item>
-										<Menu.Item>
-											{({ active }) => (
-												<a
-													href="#"
-													className={classNames(
-														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',
-														'block px-4 py-2 text-sm'
-													)}
-												>
-													Sessions
-												</a>
-											)}
-										</Menu.Item>
-										<Menu.Item>
-											{({ active }) => (
-												<a
-													href="#"
-													className={classNames(
-														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',
-														'block px-4 py-2 text-sm'
-													)}
-												>
-													Discord
-												</a>
-											)}
-										</Menu.Item>
-									</div>
-									<div className="py-1">
-										<Menu.Item>
-											{({ active }) => (
-												<button
-													className={classNames(
-														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',
-														'block w-full text-left px-4 py-2 text-sm'
-													)}
-												>
-													Sign out
-												</button>
 											)}
 										</Menu.Item>
 									</div>
 								</Menu.Items>
 							</Transition>
 						</Menu>
-					) : (
-						<Link to="/login" tw="text-sm font-medium text-neutral-300 hover:text-neutral-200 mr-3 transition">
-							Sign in
-						</Link>
 					)}
 					<button
 						onClick={() => WindowMinimise()}

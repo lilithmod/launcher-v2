@@ -11,39 +11,41 @@ import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';
 import { LaunchLilith } from '@/wailsjs/go/main/App';
 import { ChevronDownIcon, ExclamationIcon, XIcon } from '@heroicons/react/solid';
 import { parseHtml } from 'ansi-color-parse';
+import { UpdateBanner, LauncherBanner } from '@/assets/images';
 
 const posts = [
 	{
-		title: 'Example Post',
+		uuid: 0,
+		title: 'Launcher Released',
 		href: 'https://google.com',
 		description:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
-		imageUrl: 'https://source.boringavatars.com/marble/512/?square',
+			'The new launcher is now released.<br>Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
+		imageUrl: LauncherBanner,
 		author: {
-			name: 'Some Author',
-			imageUrl: 'https://source.boringavatars.com/beam/512/?square',
+			name: 'theMackabu',
+			imageUrl: 'https://cdn.discordapp.com/avatars/721111497392128162/fe3fb11df486bf43853c8e2aaa1ac29a.webp?size=256',
 		},
 	},
 	{
-		title: 'Example Post',
-		href: 'https://google.com',
-		description:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
-		imageUrl: 'https://source.boringavatars.com/marble/512/?square',
+		uuid: 1,
+		title: 'Lilith 1.0.0 Alpha 15',
+		href: '#',
+		description: `- Autododge players (premium/booster required)<br>- Bedwars /sc command added<br>- Added OP Duels and Skywars Duels stats<br>- Minor queuestats improvements`,
+		imageUrl: UpdateBanner,
 		author: {
-			name: 'Some Author',
-			imageUrl: 'https://source.boringavatars.com/beam/512/?square',
+			name: 'Nea',
+			imageUrl: 'https://cdn.discordapp.com/avatars/941359439825477663/ecedbdb8d7d8c8c545b837398fbe24b1.webp?size=256',
 		},
 	},
 	{
-		title: 'Example Post',
-		href: 'https://google.com',
-		description:
-			'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
-		imageUrl: 'https://source.boringavatars.com/marble/512/?square',
+		uuid: 2,
+		title: 'Lilith 1.0.0 Alpha 14',
+		href: '#',
+		description: `- Fixed queuestats error<br>- Fixed Bedwars FKDR<br>- Tweaked Bedwars patterns<br>- Minor stability fixes`,
+		imageUrl: UpdateBanner,
 		author: {
-			name: 'Some Author',
-			imageUrl: 'https://source.boringavatars.com/beam/512/?square',
+			name: 'Nea',
+			imageUrl: 'https://cdn.discordapp.com/avatars/941359439825477663/ecedbdb8d7d8c8c545b837398fbe24b1.webp?size=256',
 		},
 	},
 ];
@@ -56,12 +58,18 @@ const Base = (props: { id: string }) => {
 
 	useEffect(() => {
 		EventsOn('launch_lilith', (messages) => {
-			console.log(messages);
 			store.getActions().button.setButtonData(messages);
 		});
 		EventsOn('lilith_log', (messages) => {
-			console.log(messages);
 			store.getActions().logs.pushLogs(messages);
+			if (messages.includes('Authorized')) {
+				store.getActions().user.setUserData({
+					username: messages
+						.split('>')[1]
+						.trim()
+						.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''),
+				});
+			}
 		});
 	}, []);
 
@@ -96,7 +104,7 @@ const Base = (props: { id: string }) => {
 							leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 						>
 							<div className="inline-block align-bottom bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 rounded-lg text-left overflow-hidden shadow-xl transform transition-all mt-12 sm:align-middle w-[50rem] sm:p-5">
-								<div className="absolute top-0 right-0 pt-4 pr-4">
+								<div className="absolute top-2 right-2">
 									<button
 										type="button"
 										className="text-neutral-400 hover:text-neutral-500 focus:outline-none transition"
@@ -119,7 +127,7 @@ const Base = (props: { id: string }) => {
 				</Dialog>
 			</Transition.Root>
 			<div tw="pt-12">
-				<div tw="py-20 grid place-items-center bg-[#A6344D] bg-opacity-30">
+				<div tw="py-20 grid place-items-center bg-rose-900 bg-opacity-[0.15]">
 					<button
 						disabled={ButtonStartStatus}
 						className="group relative z-0 inline-flex shadow-sm rounded-lg duration-500 transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:shadow-purple-500/80 disabled:bg-purple-500 border border-rose-400 disabled:border-purple-400 hover:disabled:scale-100 hover:bg-rose-500 hover:disabled:bg-purple-500"
@@ -155,8 +163,8 @@ const Base = (props: { id: string }) => {
 								leaveFrom="transform opacity-100 scale-100"
 								leaveTo="transform opacity-0 scale-95"
 							>
-								<Menu.Items className="origin-top-left absolute right-0 mt-2 -mr-1 w-56 rounded-md shadow-lg bg-neutral-700 backdrop-blur-lg backdrop-filter bg-opacity-80 ring-1 ring-black ring-opacity-5 divide-y divide-neutral-600 focus:outline-none z-50">
-									<div className="py-1">
+								<Menu.Items className="origin-top-left absolute right-0 mt-2 -mr-1 rounded-md shadow-lg bg-neutral-700 backdrop-blur-lg backdrop-filter bg-opacity-80 ring-1 ring-black ring-opacity-5 divide-y divide-neutral-600 focus:outline-none z-50">
+									<div className="py-1 w-24">
 										<Menu.Item>
 											{({ active }) => (
 												<a
@@ -198,17 +206,20 @@ const Base = (props: { id: string }) => {
 				</div>
 				<div className="mx-6 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
 					{posts.map((post) => (
-						<a onClick={() => BrowserOpenURL(post.href)} className="block hover:-translate-y-[3px] transition cursor-pointer">
-							<div key={post.title} className="flex flex-col rounded-lg shadow-lg hover:shadow-xl overflow-hidden transition">
+						<a key={post.uuid} onClick={() => BrowserOpenURL(post.href)} className="group block hover:-translate-y-[3px] transition cursor-pointer">
+							<div className="flex flex-col rounded-lg shadow-lg hover:shadow-xl overflow-hidden transition">
 								<div className="flex-shrink-0">
+									<span className="absolute bottom-2 right-3 hidden group-hover:block font-bold text-neutral-200 drop-shadow text-sm">
+										{post.title}
+									</span>
 									<img className="h-36 w-full object-cover" src={post.imageUrl} alt="" />
 								</div>
 								<div className="flex-1 bg-neutral-800 p-4 flex flex-col justify-between">
-									<p className="text-sm text-neutral-400 -mt-1">{post.description}</p>
+									<p className="text-sm text-neutral-400 -mt-1" dangerouslySetInnerHTML={{ __html: post.description }} />
 									<div className="mt-3 flex items-center">
 										<div className="flex-shrink-0">
 											<span className="sr-only">{post.author.name}</span>
-											<img className="h-5 w-5 rounded" src={post.author.imageUrl} alt="" />
+											<img className="h-5 w-5 rounded-full" src={post.author.imageUrl} alt="" />
 										</div>
 										<div className="ml-2">
 											<p className="text-sm font-medium text-neutral-500">{post.author.name}</p>

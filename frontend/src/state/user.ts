@@ -1,16 +1,9 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy';
 
-let initialState = { uuid: '', token: '', email: '', profile: { username: '', avatar: '', premium: false } };
+let initialState = { username: '' };
 
 export interface UserData {
-	uuid: string;
-	token: string;
-	email: string;
-	profile: {
-		username: string;
-		avatar: string;
-		premium: boolean;
-	};
+	username: string;
 }
 
 export interface UserStore {
