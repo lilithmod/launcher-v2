@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment } from 'react';
 
 import tw from 'twin.macro';
 import { classNames } from '@/helpers';
-import { Quit, BrowserOpenURL, WindowMinimise } from '@/wailsjs/runtime';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
 import { LilithLogo } from '@/assets/images';
@@ -10,6 +9,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { XIcon, MinusIcon } from '@heroicons/react/solid';
 import { Menu, Popover, Transition } from '@headlessui/react';
+import { Quit, BrowserOpenURL, WindowMinimise } from '@/wailsjs/runtime';
 
 const NavLink = (props: { to: string; name: string }) => {
 	const location = useLocation();

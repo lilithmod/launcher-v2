@@ -1,5 +1,5 @@
-import { Transition as HeadlessUiTransition, TransitionEvents } from '@headlessui/react';
 import { TwStyle } from 'twin.macro';
+import { Transition as HeadlessUiTransition, TransitionEvents } from '@headlessui/react';
 
 type TransitionProps = {
 	enter?: TwStyle;

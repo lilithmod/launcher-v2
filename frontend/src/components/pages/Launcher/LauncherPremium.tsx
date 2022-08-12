@@ -1,15 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
 import tw from 'twin.macro';
-import { PageContentBlock } from '@/components/elements/Generic';
+import { incentives } from '@/lang';
 import { BrowserOpenURL } from '@/wailsjs/runtime';
+import { PageContentBlock } from '@/components/elements/Generic';
 import { BadgeCheckIcon, CalendarIcon, FastForwardIcon } from '@heroicons/react/outline';
-
-const incentives = [
-	{ name: 'Autododge Players', icon: FastForwardIcon },
-	{ name: 'Role Icons (Discord)', icon: BadgeCheckIcon },
-	{ name: 'More coming soon in 1.0', icon: CalendarIcon },
-];
 
 const Premium = (props: { id: string }) => {
 	return (

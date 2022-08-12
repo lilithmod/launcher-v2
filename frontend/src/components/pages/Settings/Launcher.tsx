@@ -3,8 +3,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import tw from 'twin.macro';
 import { useStoreState } from 'easy-peasy';
 import { store, ApplicationStore } from '@/state';
-import { Dialog, Menu, Transition, Switch } from '@headlessui/react';
 import { Link, useParams } from 'react-router-dom';
+import { Dialog, Menu, Transition, Switch } from '@headlessui/react';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
 
 const Base = (props: { id: string }) => {

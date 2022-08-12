@@ -3,9 +3,9 @@ import React, { useState, useEffect, Fragment } from 'react';
 import tw from 'twin.macro';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
+import { useNavigate } from 'react-router-dom';
 import { Link, useParams } from 'react-router-dom';
 import { SaveConfig } from '@/wailsjs/go/main/App';
-import { useNavigate } from 'react-router-dom';
 import { Dialog, Menu, Transition, Switch } from '@headlessui/react';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
 

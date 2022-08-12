@@ -2,13 +2,13 @@ import React, { useEffect, useState, Fragment } from 'react';
 
 import ky from 'ky';
 import tw from 'twin.macro';
-import { BrowserOpenURL } from '@/wailsjs/runtime';
 import Page from '@/components/Page';
-import { classNames, tryParseJSONObject } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { ApplicationStore } from '@/state';
+import { BrowserOpenURL } from '@/wailsjs/runtime';
 import { LoadConfig } from '@/wailsjs/go/main/App';
 import { Spinner } from '@/components/elements/Generic';
+import { classNames, tryParseJSONObject } from '@/helpers';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
 import { CogIcon, LinkIcon, AdjustmentsIcon, ExternalLinkIcon } from '@heroicons/react/outline';
