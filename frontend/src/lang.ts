@@ -8,7 +8,7 @@ const posts = [
 		title: 'Launcher Released',
 		href: 'https://google.com',
 		description:
-			'The new launcher is now released.<br>Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
+			'The new launcher is now released.<br>Lilith has been packaged as launcher for your convenience. You can now change config values directly from the launcher too.',
 		imageUrl: LauncherBanner,
 		author: {
 			name: 'theMackabu',
