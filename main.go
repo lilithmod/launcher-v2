@@ -1,11 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"embed"
 	
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options/mac"
 	"github.com/wailsapp/wails/v2/pkg/options"
+	
+	"lilith/internal/update"
 )
 
 //go:embed frontend/dist
@@ -33,7 +36,7 @@ func main() {
 		},
 		Mac: &mac.Options{
 			About: &mac.AboutInfo{
-				Title:   "Lilith Launcher",
+				Title:    fmt.Sprintf("Lilith Launcher %v", update.Version),
 				Message: "© 2022 Lilith Development",
 				Icon:    icon,
 			},

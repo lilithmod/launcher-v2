@@ -18,12 +18,12 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	
-	runtime_os "runtime"
+	goruntime "runtime"
 	//"github.com/hugolgst/rich-go/client"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
+	
+	"lilith/internal/update"
 )
-
-var cmd *exec.Cmd
 
 type App struct {
 	ctx context.Context
@@ -48,17 +48,22 @@ type launcherConfig struct {
 	Debug bool `json:"debug"`
 }
 
-func handle(err error, ctx context.Context) {
-	if err != nil {
-		runtime.MessageDialog(ctx, runtime.MessageDialogOptions{
-			    Type:         "error",
-				 Title:        "Lilith has encountered an error.",
-				 Message:      err.Error(),
-				 Buttons:      []string{"Ok"},
-				 CancelButton:  "Ok",
-		})
-		log.Fatalln(err)
-	}
+var cmd *exec.Cmd
+
+func (a *App) domReady(ctx context.Context) {
+	a.ctx = ctx
+	
+	runtime.LogInfo(ctx, "Checking For Updates")
+	a.UpdateCheckUI()
+	
+	runtime.EventsOn(ctx, "stop", func(...interface{}) {
+		cmd.Process.Kill()
+		runtime.EventsEmit(ctx, "launch_lilith", "ready to launch")
+	})
+	
+	runtime.EventsOn(ctx, "lilith_err", func(...interface{}) {})
+	runtime.EventsOn(ctx, "launch_lilith", func(...interface{}) {})
+	runtime.EventsOn(ctx, "lilith_log", func(...interface{}) {})
 }
 
 func hasArg(str string) bool {
@@ -75,11 +80,8 @@ func isElementExist(s []string, str string) bool {
 }
 
 func DownloadFile(dest string, url string, ctx context.Context) error {
-
 	out, err := os.Create(dest)
-	
 	defer out.Close()
-
 	headResp, err := http.Head(url)
 
 	if err != nil {
@@ -95,7 +97,6 @@ func DownloadFile(dest string, url string, ctx context.Context) error {
 	}
 
 	done := make(chan int64)
-
 	go PrintDownloadPercent(done, dest, int64(size), ctx)
 
 	resp, err := http.Get(url)
@@ -105,9 +106,7 @@ func DownloadFile(dest string, url string, ctx context.Context) error {
 	}
 
 	defer resp.Body.Close()
-
 	n, err := io.Copy(out, resp.Body)
-
 	done <- n
 
 	return err
@@ -138,7 +137,7 @@ func PrintDownloadPercent(done chan int64, path string, total int64, ctx context
 			var percent float64 = float64(size) / float64(total) * 100
 			runtime.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("\r%.0f", percent) + "% Downloaded")
 			runtime.EventsEmit(ctx, "lilith_log", fmt.Sprintf("\r[Launcher] %.0f", percent) + "% Downloaded")
-			fmt.Printf("\r%.0f", percent)
+			log.Printf("\r%.0f", percent)
 			print("% Downloaded")
 		}
 
@@ -153,46 +152,17 @@ func NewApp() *App {
 	return &App{}
 }
 
-func (a *App) domReady(ctx context.Context) {
-	a.ctx = ctx
-	
-	// err := client.Login("1007151511370993694")
-	// if err != nil {
-	// 	handle(err, ctx)
-	// }
-	// 
-	// now := time.Now()
-	// err = client.SetActivity(client.Activity{
-	// 	Details:    "Lilith v1 on mc.hypixel.net",
-	// 	LargeImage: "lilithlogo",
-	// 	SmallImage: "hypixellogo",
-	// 	SmallText:  "mc.hypixel.net",
-	// 	Timestamps: &client.Timestamps{
-	// 		Start: &now,
-	// 	},
-	// 	Buttons: []*client.Button{
-	// 		&client.Button{
-	// 			Label: "Join the discord",
-	// 			Url:   "discord.gg/lilith",
-	// 		},
-	// 		&client.Button{
-	// 			Label: "Learn more",
-	// 			Url:   "https://lilithmod.xyz",
-	// 		},
-	// 	},
-	// })
-	// if err != nil {
-	// 	handle(err, ctx)
-	// }
-	
-	runtime.EventsOn(ctx, "stop", func(...interface{}) {
-		cmd.Process.Kill()
-		runtime.EventsEmit(ctx, "launch_lilith", "ready to launch")
-	})
-	
-	runtime.EventsOn(ctx, "lilith_err", func(...interface{}) {})
-	runtime.EventsOn(ctx, "launch_lilith", func(...interface{}) {})
-	runtime.EventsOn(ctx, "lilith_log", func(...interface{}) {})
+func (a *App) HandleError(err error) {
+	if err != nil {
+		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+				 Type:         "error",
+				 Title:        "Lilith has encountered an error.",
+				 Message:      err.Error(),
+				 Buttons:      []string{"Ok"},
+				 CancelButton:  "Ok",
+		})
+		runtime.LogError(a.ctx, err.Error())
+	}
 }
 
 func (a *App) LoadConfig() (string, error) {
@@ -224,7 +194,7 @@ func (a *App) LaunchLilith() (string, error) {
 	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Fetching lilith versions")
 	
 	homedir, err := os.UserHomeDir()
-	handle(err, a.ctx)
+	a.HandleError(err)
 	ldir := homedir + "/lilith"
 	bindir := homedir + "/lilith/bin"
 	ldirConfig := ldir + "/config.json"
@@ -234,16 +204,16 @@ func (a *App) LaunchLilith() (string, error) {
 		err = os.Mkdir(bindir, os.ModePerm)
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Creating directories")
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Creating directories")
-		handle(err, a.ctx)
+		a.HandleError(err)
 	} else {
 		_, err := os.Stat(ldirConfig)
 		if err == nil {
 			runtime.EventsEmit(a.ctx, "launch_lilith", "Reading config")
 			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Reading config")
 			data, err := os.ReadFile(ldirConfig)
-			handle(err, a.ctx)
+			a.HandleError(err)
 			err = json.Unmarshal(data, &config)
-			handle(err, a.ctx)
+			a.HandleError(err)
 		}
 	}
 	
@@ -255,19 +225,19 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 	
 	resp, err := http.Get(url)
-	handle(err, a.ctx)
+	a.HandleError(err)
 	body, err := ioutil.ReadAll(resp.Body)
-	handle(err, a.ctx)
+	a.HandleError(err)
 	
 	var f versionResponse
 	err = json.Unmarshal(body, &f)
-	handle(err, a.ctx)
+	a.HandleError(err)
 	
 	runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith " + f.Version)
 	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Launching lilith " + f.Version)
 	
 	var download string
-	switch runtime_os.GOOS {
+	switch goruntime.GOOS {
 	case "windows":
 		download = f.Download.Windows
 	case "darwin":
@@ -280,10 +250,9 @@ func (a *App) LaunchLilith() (string, error) {
 	
 	filename := download[strings.LastIndex(download, "/")+1:]
 	runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
-	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
 	
 	dir, err := os.ReadDir(bindir)
-	handle(err, a.ctx)
+	a.HandleError(err)
 	
 	path := ""
 	for _, v := range dir {
@@ -293,32 +262,32 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 	
 	if path == "" {
-		println("Couldn't find the latest Lilith version, downloading...")
+		runtime.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith " + f.Version)
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Downloading lilith " + f.Version)
 		err := DownloadFile(bindir + "/" + filename, download, a.ctx)
-		handle(err, a.ctx)
+		a.HandleError(err)
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith " + f.Version)
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
-		println("\r100% Downloaded")
+		runtime.LogInfo(a.ctx, "\r100% Downloaded")
 		path = bindir + "/" + filename
 	}
 	
-	if runtime_os.GOOS != "windows" {
+	if goruntime.GOOS != "windows" {
 		setPerm := exec.Command("chmod", "+x", path)
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Setting file permissions")
 		err := setPerm.Run()
-		handle(err, a.ctx)
+		a.HandleError(err)
 	}
 	
 	if config.Debug {
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Running Lilith in debug mode")
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Running Lilith in debug mode")
-		println("Launching Lilith in debug mode")
+		runtime.LogInfo(a.ctx, "Launching Lilith in debug mode")
 		cmd = exec.Command(path, "--dev", "--iknowwhatimdoing", "--color=always")
 	} else {
-		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Starting Lilith")
+		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
 		cmd = exec.Command(path, "--iknowwhatimdoing", "--color=always")
 	}
 	
@@ -340,15 +309,47 @@ func (a *App) LaunchLilith() (string, error) {
 		if strings.Contains(err.Error(), "valid Win32 application") || strings.Contains(err.Error(), "segmentation") {
 			runtime.EventsEmit(a.ctx, "launch_lilith", "Failed to launch Lilith")
 			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Failed to launch Lilith")
-			println("Failed to launch Lilith, deleting...")
+			runtime.LogError(a.ctx, "Failed to launch Lilith, deleting...")
 			err := os.Remove(path)
-			handle(err, a.ctx)
+			a.HandleError(err)
 			path, err := os.Executable()
-			handle(err, a.ctx)
+			a.HandleError(err)
 			err = syscall.Exec(path, []string{os.Args[0], "--headless"}, os.Environ())
-			handle(err, a.ctx)
+			a.HandleError(err)
 		}
 		
 	}
 	return "launch_complete_emit", err
+}
+
+func (a *App) UpdateCheckUI() {
+	shouldUpdate, latestVersion := update.CheckForUpdate()
+	if shouldUpdate {
+		updateMessage := fmt.Sprintf("New Version Available, would you like to update to v%s", latestVersion)
+		buttons := []string{"Yes", "No"}
+		dialogOpts := runtime.MessageDialogOptions{Title: "Update Available", Message: updateMessage, Type: runtime.QuestionDialog, Buttons: buttons, DefaultButton: "Yes", CancelButton: "No"}
+		action, err := runtime.MessageDialog(a.ctx, dialogOpts)
+		if err != nil {
+			runtime.LogError(a.ctx, "Error in update dialog. ")
+		}
+		runtime.LogInfo(a.ctx, action)
+		if action == "Yes" {
+			runtime.LogInfo(a.ctx, "Update clicked")
+			var updated bool
+			if goruntime.GOOS == "darwin" {
+				updated = update.DoSelfUpdateMac()
+			} else {
+				updated = update.DoSelfUpdate()
+			}
+			if updated {
+				buttons = []string{"Ok"}
+				dialogOpts = runtime.MessageDialogOptions{Title: "Update Succeeded", Message: "Update Successfull. Please restart this app to take effect. ", Type: runtime.InfoDialog, Buttons: buttons, DefaultButton: "Ok"}
+				runtime.MessageDialog(a.ctx, dialogOpts)
+			} else {
+				buttons = []string{"Ok"}
+				dialogOpts = runtime.MessageDialogOptions{Title: "Update Error", Message: "Update failed, please manually update from GitHub Releases. ", Type: runtime.InfoDialog, Buttons: buttons, DefaultButton: "Ok"}
+				runtime.MessageDialog(a.ctx, dialogOpts)
+			}
+		}
+	}
 }
