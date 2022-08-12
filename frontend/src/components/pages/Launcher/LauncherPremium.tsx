@@ -3,12 +3,12 @@ import React, { useState, useEffect, Fragment } from 'react';
 import tw from 'twin.macro';
 import { PageContentBlock } from '@/components/elements/Generic';
 import { BrowserOpenURL } from '@/wailsjs/runtime';
-import { BadgeCheckIcon, ClockIcon, FastForwardIcon } from '@heroicons/react/outline';
+import { BadgeCheckIcon, CalendarIcon, FastForwardIcon } from '@heroicons/react/outline';
 
 const incentives = [
-	{ name: 'Autododge', icon: FastForwardIcon },
-	{ name: 'Role Icons', icon: BadgeCheckIcon },
-	{ name: 'More in 1.0', icon: ClockIcon },
+	{ name: 'Autododge Players', icon: FastForwardIcon },
+	{ name: 'Role Icons (Discord)', icon: BadgeCheckIcon },
+	{ name: 'More coming soon in 1.0', icon: CalendarIcon },
 ];
 
 const Premium = (props: { id: string }) => {
@@ -30,7 +30,7 @@ const Premium = (props: { id: string }) => {
 					<button
 						onClick={() => BrowserOpenURL('https://discord.gg/lilith')}
 						type="button"
-						tw="mt-1 inline-flex items-center px-20 py-3 border border-transparent text-lg font-bold rounded-lg shadow-sm text-white bg-[#A6344D] hover:bg-[#84293D] focus:outline-none transition"
+						tw="mt-1 inline-flex items-center px-20 py-3 border border-transparent text-lg font-bold rounded-lg shadow-sm text-white bg-[#A6344D] hover:bg-[#84293D] focus:outline-none transition hover:text-rose-100"
 					>
 						Join our discord
 					</button>
