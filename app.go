@@ -1,27 +1,27 @@
 package main
 
 import (
-	"os"
-	"io"
-	"fmt"
-	"log"
-	"path"
-	"time"
 	"bufio"
-	"errors"
 	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
 	"os/exec"
+	"path"
 	"strconv"
 	"strings"
 	"syscall"
-	"net/http"
-	"io/ioutil"
-	"encoding/json"
-	
+	"time"
+
 	goruntime "runtime"
 	//"github.com/hugolgst/rich-go/client"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
-	
+
 	"lilith/internal/update"
 )
 
@@ -52,15 +52,15 @@ var cmd *exec.Cmd
 
 func (a *App) domReady(ctx context.Context) {
 	a.ctx = ctx
-	
+
 	runtime.LogInfo(ctx, "Checking For Updates")
 	a.UpdateCheckUI()
-	
+
 	runtime.EventsOn(ctx, "stop", func(...interface{}) {
 		cmd.Process.Kill()
 		runtime.EventsEmit(ctx, "launch_lilith", "ready to launch")
 	})
-	
+
 	runtime.EventsOn(ctx, "lilith_err", func(...interface{}) {})
 	runtime.EventsOn(ctx, "launch_lilith", func(...interface{}) {})
 	runtime.EventsOn(ctx, "lilith_log", func(...interface{}) {})
@@ -135,8 +135,8 @@ func PrintDownloadPercent(done chan int64, path string, total int64, ctx context
 			}
 
 			var percent float64 = float64(size) / float64(total) * 100
-			runtime.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("\r%.0f", percent) + "% Downloaded")
-			runtime.EventsEmit(ctx, "lilith_log", fmt.Sprintf("\r[Launcher] %.0f", percent) + "% Downloaded")
+			runtime.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("\r%.0f", percent)+"% Downloaded")
+			runtime.EventsEmit(ctx, "lilith_log", fmt.Sprintf("\r[Launcher] %.0f", percent)+"% Downloaded")
 			log.Printf("\r%.0f", percent)
 			print("% Downloaded")
 		}
@@ -155,27 +155,27 @@ func NewApp() *App {
 func (a *App) HandleError(err error) {
 	if err != nil {
 		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
-				 Type:         "error",
-				 Title:        "Lilith has encountered an error.",
-				 Message:      err.Error(),
-				 Buttons:      []string{"Ok"},
-				 CancelButton:  "Ok",
+			Type:         "error",
+			Title:        "Lilith has encountered an error.",
+			Message:      err.Error(),
+			Buttons:      []string{"Ok"},
+			CancelButton: "Ok",
 		})
 		runtime.LogError(a.ctx, err.Error())
 	}
 }
 
-func (a *App) ShowDialog(dialogTitle string, dialogMessage string, dialogButtons []string, dialogDefaultButton string, dialogCancelButton string, meta string,) string {
-		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
-				 Title:         dialogTitle,
-				 Message:       dialogMessage,
-				 Buttons:       dialogButtons,
-				 DefaultButton: dialogDefaultButton,
-				 CancelButton:  dialogCancelButton,
-		})
-		log.Println("[Dialog] Title:", dialogTitle, "Message:", dialogMessage)
-		
-		return meta
+func (a *App) ShowDialog(dialogTitle string, dialogMessage string, dialogButtons []string, dialogDefaultButton string, dialogCancelButton string, meta string) string {
+	runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+		Title:         dialogTitle,
+		Message:       dialogMessage,
+		Buttons:       dialogButtons,
+		DefaultButton: dialogDefaultButton,
+		CancelButton:  dialogCancelButton,
+	})
+	log.Println("[Dialog] Title:", dialogTitle, "Message:", dialogMessage)
+
+	return meta
 }
 
 func (a *App) LoadConfig() (string, error) {
@@ -188,7 +188,7 @@ func (a *App) LoadConfig() (string, error) {
 }
 
 func (a *App) SaveConfig(config string) error {
-	homeDir, err  := os.UserHomeDir()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return err
 	}
@@ -196,22 +196,22 @@ func (a *App) SaveConfig(config string) error {
 	return ioutil.WriteFile(filename, []byte(config), 0600)
 }
 
-func (a *App) LaunchLilith() (string, error) {	
+func (a *App) LaunchLilith() (string, error) {
 	config := launcherConfig{
 		Alpha: false,
 		Debug: false,
 	}
-	
+
 	// update button status early
 	runtime.EventsEmit(a.ctx, "launch_lilith", "Fetching lilith versions")
 	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Fetching lilith versions")
-	
+
 	homedir, err := os.UserHomeDir()
 	a.HandleError(err)
 	ldir := homedir + "/lilith"
 	bindir := homedir + "/lilith/bin"
 	ldirConfig := ldir + "/config.json"
-	
+
 	if _, err := os.Stat(bindir); errors.Is(err, os.ErrNotExist) {
 		err := os.Mkdir(ldir, os.ModePerm)
 		err = os.Mkdir(bindir, os.ModePerm)
@@ -229,26 +229,26 @@ func (a *App) LaunchLilith() (string, error) {
 			a.HandleError(err)
 		}
 	}
-	
+
 	var url string
 	if config.Alpha {
 		url = "https://api.lilithmod.xyz/versions/alpha"
 	} else {
 		url = "https://api.lilithmod.xyz/versions/latest"
 	}
-	
+
 	resp, err := http.Get(url)
 	a.HandleError(err)
 	body, err := ioutil.ReadAll(resp.Body)
 	a.HandleError(err)
-	
+
 	var f versionResponse
 	err = json.Unmarshal(body, &f)
 	a.HandleError(err)
-	
-	runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith " + f.Version)
-	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Launching lilith " + f.Version)
-	
+
+	runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Launching lilith "+f.Version)
+
 	var download string
 	switch goruntime.GOOS {
 	case "windows":
@@ -260,40 +260,40 @@ func (a *App) LaunchLilith() (string, error) {
 	default:
 		download = f.Download.Linux
 	}
-	
+
 	filename := download[strings.LastIndex(download, "/")+1:]
 	runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
-	
+
 	dir, err := os.ReadDir(bindir)
 	a.HandleError(err)
-	
+
 	path := ""
 	for _, v := range dir {
 		if v.Name() == filename {
 			path = bindir + "/" + v.Name()
 		}
 	}
-	
+
 	if path == "" {
 		runtime.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith " + f.Version)
-		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Downloading lilith " + f.Version)
-		err := DownloadFile(bindir + "/" + filename, download, a.ctx)
+		runtime.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith "+f.Version)
+		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Downloading lilith "+f.Version)
+		err := DownloadFile(bindir+"/"+filename, download, a.ctx)
 		a.HandleError(err)
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith " + f.Version)
+		runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
 		runtime.LogInfo(a.ctx, "\r100% Downloaded")
 		path = bindir + "/" + filename
 	}
-	
+
 	if goruntime.GOOS != "windows" {
 		setPerm := exec.Command("chmod", "+x", path)
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Setting file permissions")
 		err := setPerm.Run()
 		a.HandleError(err)
 	}
-	
+
 	if config.Debug {
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Running Lilith in debug mode")
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Running Lilith in debug mode")
@@ -303,21 +303,25 @@ func (a *App) LaunchLilith() (string, error) {
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
 		cmd = exec.Command(path, "--iknowwhatimdoing", "--color=always")
 	}
-	
+
+	if goruntime.GOOS == "windows" {
+		cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000} // CREATE_NO_WINDOW
+	}
+
 	var logArr []string
 	stdout, _ := cmd.StdoutPipe()
 	cmd.Dir = ldir
 	err = cmd.Start()
 	scanner := bufio.NewScanner(stdout)
-		
+
 	for scanner.Scan() {
 		log.Println(scanner.Text())
 		logArr = append(logArr, scanner.Text())
 		runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
 	}
-		
+
 	cmd.Wait()
-		
+
 	if err != nil {
 		if strings.Contains(err.Error(), "valid Win32 application") || strings.Contains(err.Error(), "segmentation") {
 			runtime.EventsEmit(a.ctx, "launch_lilith", "Failed to launch Lilith")
@@ -330,7 +334,7 @@ func (a *App) LaunchLilith() (string, error) {
 			err = syscall.Exec(path, []string{os.Args[0], "--headless"}, os.Environ())
 			a.HandleError(err)
 		}
-		
+
 	}
 	return "launch_complete_emit", err
 }
