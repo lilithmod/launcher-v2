@@ -212,7 +212,7 @@ func (a *App) LaunchLilith() (string, error) {
 	bindir := homedir + "/lilith/bin"
 	ldirConfig := ldir + "/config.json"
 	
-	if _, err := os.Stat(ldir); errors.Is(err, os.ErrNotExist) {
+	if _, err := os.Stat(bindir); errors.Is(err, os.ErrNotExist) {
 		err := os.Mkdir(ldir, os.ModePerm)
 		err = os.Mkdir(bindir, os.ModePerm)
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Creating directories")

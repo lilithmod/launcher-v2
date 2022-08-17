@@ -146,7 +146,7 @@ const Base = (props: { id: string }) => {
 					</button>
 				</div>
 			</div>
-			<div className="relative max-w-7xl mx-auto mb-5">
+			<div className="relative max-w-7xl mx-auto">
 				<div className="text-center">
 					<h2 className="py-2.5 text-neutral-200 text-lg font-semibold">Recent News</h2>
 				</div>
