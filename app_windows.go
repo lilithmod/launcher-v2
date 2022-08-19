@@ -1,4 +1,4 @@
-// +build !windows
+// +build windows
 
 package main
 
@@ -305,7 +305,11 @@ func (a *App) LaunchLilith() (string, error) {
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
 		cmd = exec.Command(path, "--iknowwhatimdoing", "--color=always")
 	}
-	
+
+	if goruntime.GOOS == "windows" {
+		cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000} // CREATE_NO_WINDOW
+	}
+
 	var logArr []string
 	stdout, _ := cmd.StdoutPipe()
 	cmd.Dir = ldir

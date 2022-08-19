@@ -1,4 +1,4 @@
-// +build !windows
+// +build windows
 
 package update
 
@@ -7,7 +7,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	goruntime "runtime"
 	"strings"
+	"syscall"
 
 	"github.com/blang/semver"
 	"github.com/rhysd/go-github-selfupdate/selfupdate"
@@ -38,6 +40,9 @@ func DoSelfUpdateMac() bool {
 		homeDir, _ := os.UserHomeDir()
 		downloadPath := filepath.Join(homeDir, "Downloads", "LilithLauncher.zip")
 		curl := exec.Command("curl", "-L", latest.AssetURL, "-o", downloadPath)
+		if goruntime.GOOS == "windows" {
+			curl.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
+		}
 		err := curl.Run()
 		if err != nil {
 			log.Println("curl error:", err)
@@ -50,12 +55,18 @@ func DoSelfUpdateMac() bool {
 			appPath = "/Applications/"
 		}
 		ditto := exec.Command("ditto", "-xk", downloadPath, appPath)
+		if goruntime.GOOS == "windows" {
+			ditto.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
+		}
 		err = ditto.Run()
 		if err != nil {
 			log.Println("ditto error:", err)
 			return false
 		}
 		rmDir := exec.Command("rm", downloadPath)
+		if goruntime.GOOS == "windows" {
+			rmDir.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
+		}
 		err = rmDir.Run()
 		if err != nil {
 			log.Println("removing error:", err)
