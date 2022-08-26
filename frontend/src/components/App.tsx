@@ -7,7 +7,7 @@ import { useStoreState } from 'easy-peasy';
 import { SettingsRouter } from '@/routers';
 import { Offline } from 'react-detect-offline';
 import { store, ApplicationStore } from '@/state';
-import { ShowDialog, HandleErrorFrontend } from '@/wailsjs/go/main/App';
+import { ShowDialog, HandleErrorFrontend, GetVersion } from '@/wailsjs/go/main/App';
 import GlobalStyles from '@/assets/styles/GlobalStyles';
 import { BrowserOpenURL, EventsOn } from '@/wailsjs/runtime';
 import { Spinner, Appbar } from '@/components/elements/Generic';
@@ -15,6 +15,12 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LauncherHome, LauncherPremium } from '@/components/pages/Launcher';
 
 const App = () => {
+	const [version, setVersion] = useState('0.0.0');
+
+	GetVersion().then((data: string) => {
+		setVersion(data);
+	});
+
 	useEffect(() => {
 		EventsOn('launch_lilith', (messages) => {
 			store.getActions().button.setButtonData(messages);
@@ -56,6 +62,7 @@ const App = () => {
 		<HashRouter>
 			<GlobalStyles />
 			<Appbar />
+			<div tw="absolute bottom-1 right-1 text-[9px] text-neutral-500 opacity-30 z-20">v{version}</div>
 			<Routes>
 				<Route path="/" element={<Navigate to="/launch" replace />} />
 				<Route path="/launch" element={<Page component={LauncherHome} id="homepage-launcher" />} />

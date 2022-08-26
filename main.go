@@ -37,7 +37,7 @@ func main() {
 			},
 			Mac: &mac.Options{
 				About: &mac.AboutInfo{
-					Title:    fmt.Sprintf("Lilith Launcher %v", update.Version),
+					Title:    fmt.Sprintf("Lilith Launcher v%v", update.Version),
 					Message: "© 2022 Lilith Development",
 					Icon:    icon,
 				},
@@ -62,7 +62,7 @@ func main() {
 			},
 			Mac: &mac.Options{
 				About: &mac.AboutInfo{
-					Title:    fmt.Sprintf("Lilith Launcher %v", update.Version),
+					Title:    fmt.Sprintf("Lilith Launcher v%v", update.Version),
 					Message: "© 2022 Lilith Development",
 					Icon:    icon,
 				},

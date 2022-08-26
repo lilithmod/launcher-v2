@@ -43,6 +43,11 @@ type versionResponse struct {
 		Linux   string `json:"linux"`
 		Macos   string `json:"macos"`
 	}
+	Sizes struct {
+		Windows int64 `json:"windows"`
+		Linux   int64 `json:"linux"`
+		Macos   int64 `json:"macos"`
+	}
 }
 
 type launcherConfig struct {
@@ -70,6 +75,7 @@ func (a *App) domReady(ctx context.Context) {
 
 func (a *App) shutdown(ctx context.Context) {
 	cmd.Process.Kill()
+	os.Exit(1)
 }
 
 func hasArg(str string) bool {
@@ -141,10 +147,9 @@ func PrintDownloadPercent(done chan int64, path string, total int64, ctx context
 			}
 
 			var percent float64 = float64(size) / float64(total) * 100
-			runtime.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("\r%.0f", percent)+"% Downloaded")
-			runtime.EventsEmit(ctx, "lilith_log", fmt.Sprintf("\r[Launcher] %.0f", percent)+"% Downloaded")
-			log.Printf("\r%.0f", percent)
-			print("% Downloaded")
+			runtime.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("%.0f%% Downloaded", percent))
+			runtime.EventsEmit(ctx, "lilith_log", fmt.Sprintf("[Launcher] %.0f%% Downloaded", percent))
+			runtime.LogInfo(ctx, fmt.Sprintf("\r%.0f", percent))
 		}
 
 		if stop {
@@ -179,6 +184,10 @@ func (a *App) HandleErrorFrontend(err string) {
 			Buttons:      []string{"Ok"},
 			CancelButton: "Ok",
 		})
+}
+
+func (a *App) GetVersion() string {
+	return update.Version
 }
 
 func (a *App) HTTPGetRequest(url string) (string, error) {
@@ -291,6 +300,18 @@ func (a *App) LaunchLilith() (string, error) {
 	default:
 		download = f.Download.Linux
 	}
+	
+	var size int64
+	switch goruntime.GOOS {
+	case "windows":
+		size = f.Sizes.Windows
+	case "darwin":
+		size = f.Sizes.Macos
+	case "linux":
+		size = f.Sizes.Linux
+	default:
+		size = f.Sizes.Linux
+	}
 
 	filename := download[strings.LastIndex(download, "/")+1:]
 	runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
@@ -314,8 +335,24 @@ func (a *App) LaunchLilith() (string, error) {
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
-		runtime.LogInfo(a.ctx, "\r100% Downloaded")
+		runtime.LogInfo(a.ctx, "\rDownload Complete")
 		path = bindir + "/" + filename
+	} else {
+		fi, _ := os.Stat(path)
+		if (fi.Size() != size) {
+			err := os.Remove(path)
+			a.HandleError(err)
+			runtime.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")
+			runtime.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith "+f.Version)
+			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Downloading lilith "+f.Version)
+			err = DownloadFile(bindir+"/"+filename, download, a.ctx)
+			a.HandleError(err)
+			runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+			runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+			runtime.LogInfo(a.ctx, "\rDownload Complete")
+			path = bindir + "/" + filename
+		}
 	}
 
 	if goruntime.GOOS != "windows" {
