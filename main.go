@@ -19,28 +19,52 @@ var icon []byte
 
 func main() {
 	app := NewApp()
-
-	err := wails.Run(&options.App{
-		Title:            "Lilith Launcher",
-		Width:            1160,
-		DisableResize:    true,
-		Height:           646,
-		Frameless:        true,
-		Assets:           assets,
-		BackgroundColour: &options.RGBA{R: 23, G: 23, B: 23, A: 1},
-		OnDomReady: 		app.domReady,
-		OnShutdown:       app.shutdown,
-		Bind: []interface{}{
-			app,
-		},
-		Mac: &mac.Options{
-			About: &mac.AboutInfo{
-				Title:    fmt.Sprintf("Lilith Launcher %v", update.Version),
-				Message: "© 2022 Lilith Development",
-				Icon:    icon,
+	
+	if goruntime.GOOS == "linux" {
+		err := wails.Run(&options.App{
+			Title:            "Lilith Launcher",
+			Width:            1160,
+			DisableResize:    false,
+			Height:           646,
+			Frameless:        true,
+			Assets:           assets,
+			BackgroundColour: &options.RGBA{R: 23, G: 23, B: 23, A: 1},
+			OnDomReady: 		app.domReady,
+			OnShutdown:       app.shutdown,
+			Bind: []interface{}{
+				app,
 			},
-		},
-	})
+			Mac: &mac.Options{
+				About: &mac.AboutInfo{
+					Title:    fmt.Sprintf("Lilith Launcher %v", update.Version),
+					Message: "© 2022 Lilith Development",
+					Icon:    icon,
+				},
+			},
+		})
+	} else {
+		err := wails.Run(&options.App{
+			Title:            "Lilith Launcher",
+			Width:            1160,
+			DisableResize:    true,
+			Height:           646,
+			Frameless:        true,
+			Assets:           assets,
+			BackgroundColour: &options.RGBA{R: 23, G: 23, B: 23, A: 1},
+			OnDomReady: 		app.domReady,
+			OnShutdown:       app.shutdown,
+			Bind: []interface{}{
+				app,
+			},
+			Mac: &mac.Options{
+				About: &mac.AboutInfo{
+					Title:    fmt.Sprintf("Lilith Launcher %v", update.Version),
+					Message: "© 2022 Lilith Development",
+					Icon:    icon,
+				},
+			},
+		})
+	}
 
 	if err != nil {
 		println("Error:", err.Error())

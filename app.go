@@ -1,4 +1,4 @@
-// +build !windows
+//go:build !windows
 
 package main
 
@@ -319,13 +319,13 @@ func (a *App) LaunchLilith() (string, error) {
 		runtime.EventsEmit(a.ctx, "launch_lilith", "Running Lilith in debug mode")
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Running Lilith in debug mode")
 		runtime.LogInfo(a.ctx, "Launching Lilith in debug mode")
-		cmd = exec.Command(path, "--dev", "--iknowwhatimdoing", "--color=always")
+		cmd = exec.Command(path, "--dev", "--iknowwhatimdoing", "--ireallyknowwhatimdoing", "--color=always")
 	} else {
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
 		if config.Alpha {
 			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith Beta has started")
 		}
-		cmd = exec.Command(path, "--iknowwhatimdoing", "--color=always")
+		cmd = exec.Command(path, "--iknowwhatimdoing", "--ireallyknowwhatimdoing", "--color=always")
 	}
 	
 	var logArr []string

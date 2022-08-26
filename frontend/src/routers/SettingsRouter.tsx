@@ -114,10 +114,12 @@ const SettingsRouter = () => {
 				tryParseJSONObject(data) ? setValidJson(true) : setValidJson(false);
 				console.log(JSON.parse(data));
 				setLilithConfig(JSON.parse(data));
-				store.getActions().settings.setSettings({
-					sidebar: JSON.parse(data).launcher.sidebar,
-					blur: JSON.parse(data).launcher.blur,
-				});
+				if ('launcher' in JSON.parse(data)) {
+					store.getActions().settings.setSettings({
+						sidebar: JSON.parse(data).launcher.sidebar,
+						blur: JSON.parse(data).launcher.blur,
+					});
+				}
 				setLoaded(true);
 			})
 			.catch((err) => {
