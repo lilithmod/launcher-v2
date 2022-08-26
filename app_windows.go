@@ -68,6 +68,10 @@ func (a *App) domReady(ctx context.Context) {
 	runtime.EventsOn(ctx, "lilith_log", func(...interface{}) {})
 }
 
+func (a *App) shutdown(ctx context.Context) {
+	cmd.Process.Kill()
+}
+
 func hasArg(str string) bool {
 	return isElementExist(os.Args, str)
 }
@@ -167,6 +171,20 @@ func (a *App) HandleError(err error) {
 	}
 }
 
+func (a *App) HTTPGetRequest(url string) (string, error) {
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+	
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	
+	return string(body), err
+}
+
 func (a *App) ShowDialog(dialogTitle string, dialogMessage string, dialogButtons []string, dialogDefaultButton string, dialogCancelButton string, meta string) string {
 	runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
 		Title:         dialogTitle,
@@ -212,7 +230,7 @@ func (a *App) LaunchLilith() (string, error) {
 	a.HandleError(err)
 	ldir := homedir + "/lilith"
 	bindir := homedir + "/lilith/bin"
-	ldirConfig := ldir + "/config.json"
+	ldirConfig := ldir + "/store.json"
 
 	if _, err := os.Stat(bindir); errors.Is(err, os.ErrNotExist) {
 		err := os.Mkdir(ldir, os.ModePerm)
@@ -221,7 +239,8 @@ func (a *App) LaunchLilith() (string, error) {
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Creating directories")
 		a.HandleError(err)
 	} else {
-		_, err := os.Stat(ldirConfig)
+		msg, err := os.Stat(ldirConfig)
+		log.Println(msg)
 		if err == nil {
 			runtime.EventsEmit(a.ctx, "launch_lilith", "Reading config")
 			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Reading config")
@@ -303,6 +322,9 @@ func (a *App) LaunchLilith() (string, error) {
 		cmd = exec.Command(path, "--dev", "--iknowwhatimdoing", "--color=always")
 	} else {
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+		if config.Alpha {
+			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith Beta has started")
+		}
 		cmd = exec.Command(path, "--iknowwhatimdoing", "--color=always")
 	}
 

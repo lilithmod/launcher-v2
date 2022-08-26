@@ -39,12 +39,6 @@ const posts = [
 	},
 ];
 
-const incentives = [
-	{ name: 'Autododge Players', icon: FastForwardIcon },
-	{ name: 'Role Icons (Discord)', icon: BadgeCheckIcon },
-	{ name: 'More coming soon in 1.0', icon: CalendarIcon },
-];
-
 const tabs = [
 	{ name: 'General', href: '/settings/general' },
 	{ name: 'Aliases', href: '/settings/aliases' },
@@ -57,4 +51,4 @@ const navigation = [
 	{ name: 'Launcher', href: '/settings/launcher', icon: AdjustmentsIcon },
 ];
 
-export { posts, incentives, tabs, navigation };
+export { posts, tabs, navigation };

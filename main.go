@@ -18,10 +18,8 @@ var assets embed.FS
 var icon []byte
 
 func main() {
-	// Create an instance of the app structure
 	app := NewApp()
 
-	// Create application with options
 	err := wails.Run(&options.App{
 		Title:            "Lilith Launcher",
 		Width:            1160,
@@ -31,6 +29,7 @@ func main() {
 		Assets:           assets,
 		BackgroundColour: &options.RGBA{R: 23, G: 23, B: 23, A: 1},
 		OnDomReady: 		app.domReady,
+		OnShutdown:       app.shutdown,
 		Bind: []interface{}{
 			app,
 		},

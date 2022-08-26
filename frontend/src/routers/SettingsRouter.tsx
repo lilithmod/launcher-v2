@@ -5,7 +5,7 @@ import tw from 'twin.macro';
 import Page from '@/components/Page';
 import { tabs, navigation } from '@/lang';
 import { useStoreState } from 'easy-peasy';
-import { ApplicationStore } from '@/state';
+import { store, ApplicationStore } from '@/state';
 import { BrowserOpenURL } from '@/wailsjs/runtime';
 import { LoadConfig } from '@/wailsjs/go/main/App';
 import { Spinner } from '@/components/elements/Generic';
@@ -114,6 +114,10 @@ const SettingsRouter = () => {
 				tryParseJSONObject(data) ? setValidJson(true) : setValidJson(false);
 				console.log(JSON.parse(data));
 				setLilithConfig(JSON.parse(data));
+				store.getActions().settings.setSettings({
+					sidebar: JSON.parse(data).launcher.sidebar,
+					blur: JSON.parse(data).launcher.blur,
+				});
 				setLoaded(true);
 			})
 			.catch((err) => {
