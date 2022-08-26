@@ -7,7 +7,7 @@ import { useStoreState } from 'easy-peasy';
 import { SettingsRouter } from '@/routers';
 import { Offline } from 'react-detect-offline';
 import { store, ApplicationStore } from '@/state';
-import { ShowDialog } from '@/wailsjs/go/main/App';
+import { ShowDialog, HandleError } from '@/wailsjs/go/main/App';
 import GlobalStyles from '@/assets/styles/GlobalStyles';
 import { BrowserOpenURL, EventsOn } from '@/wailsjs/runtime';
 import { Spinner, Appbar } from '@/components/elements/Generic';
@@ -28,6 +28,16 @@ const App = () => {
 						.trim()
 						.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''),
 				});
+			}
+			if (messages.includes('Startup Complete')) {
+				ShowDialog('Startup Complete', ` You can join Hypixel using Lilith by connecting to the IP "localhost" in any client.`, ['Ok'], 'Ok', '', '');
+			}
+			if (messages.includes('Uncaught Exception')) {
+				const errorMsg = messages
+					.split('||')[1]
+					.trim()
+					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+				HandleError(errorMsg);
 			}
 			if (messages.includes('Verify hardware')) {
 				const verifyUrl = messages

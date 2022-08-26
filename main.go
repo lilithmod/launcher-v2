@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"embed"
+	"runtime"
 	
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options/mac"
@@ -20,7 +21,7 @@ var icon []byte
 func main() {
 	app := NewApp()
 	
-	if goruntime.GOOS == "linux" {
+	if runtime.GOOS == "linux" {
 		err := wails.Run(&options.App{
 			Title:            "Lilith Launcher",
 			Width:            1160,
@@ -42,6 +43,9 @@ func main() {
 				},
 			},
 		})
+		if err != nil {
+			println("Error:", err.Error())
+		}
 	} else {
 		err := wails.Run(&options.App{
 			Title:            "Lilith Launcher",
@@ -64,9 +68,8 @@ func main() {
 				},
 			},
 		})
-	}
-
-	if err != nil {
-		println("Error:", err.Error())
+		if err != nil {
+			println("Error:", err.Error())
+		}
 	}
 }

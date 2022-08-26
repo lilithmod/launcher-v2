@@ -10,6 +10,10 @@ export function HandleError(arg1) {
   return window['go']['main']['App']['HandleError'](arg1);
 }
 
+export function HandleErrorFrontend(arg1) {
+  return window['go']['main']['App']['HandleErrorFrontend'](arg1);
+}
+
 export function LaunchLilith() {
   return window['go']['main']['App']['LaunchLilith']();
 }

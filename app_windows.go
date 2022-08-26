@@ -171,6 +171,18 @@ func (a *App) HandleError(err error) {
 	}
 }
 
+func (a *App) HandleErrorFrontend(err error) {
+	if err != nil {
+		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+			Type:         "error",
+			Title:        "Lilith has encountered an error.",
+			Message:      err.Error(),
+			Buttons:      []string{"Ok"},
+			CancelButton: "Ok",
+		})
+	}
+}
+
 func (a *App) HTTPGetRequest(url string) (string, error) {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -360,6 +372,7 @@ func (a *App) LaunchLilith() (string, error) {
 		}
 
 	}
+	runtime.EventsEmit(a.ctx, "launch_lilith", "ready to launch")
 	return "launch_complete_emit", err
 }
 
