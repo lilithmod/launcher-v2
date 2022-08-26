@@ -171,16 +171,14 @@ func (a *App) HandleError(err error) {
 	}
 }
 
-func (a *App) HandleErrorFrontend(err error) {
-	if err != nil {
+func (a *App) HandleErrorFrontend(err string) {
 		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
 			Type:         "error",
 			Title:        "Lilith has encountered an error.",
-			Message:      err.Error(),
+			Message:      err,
 			Buttons:      []string{"Ok"},
 			CancelButton: "Ok",
 		})
-	}
 }
 
 func (a *App) HTTPGetRequest(url string) (string, error) {

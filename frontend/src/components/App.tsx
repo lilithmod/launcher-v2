@@ -7,7 +7,7 @@ import { useStoreState } from 'easy-peasy';
 import { SettingsRouter } from '@/routers';
 import { Offline } from 'react-detect-offline';
 import { store, ApplicationStore } from '@/state';
-import { ShowDialog, HandleError } from '@/wailsjs/go/main/App';
+import { ShowDialog, HandleErrorFrontend } from '@/wailsjs/go/main/App';
 import GlobalStyles from '@/assets/styles/GlobalStyles';
 import { BrowserOpenURL, EventsOn } from '@/wailsjs/runtime';
 import { Spinner, Appbar } from '@/components/elements/Generic';
@@ -37,7 +37,7 @@ const App = () => {
 					.split('||')[1]
 					.trim()
 					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
-				HandleError(errorMsg);
+				HandleErrorFrontend(errorMsg);
 			}
 			if (messages.includes('Verify hardware')) {
 				const verifyUrl = messages

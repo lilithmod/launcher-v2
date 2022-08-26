@@ -5,7 +5,7 @@ export function HTTPGetRequest(arg1:string):Promise<string>;
 
 export function HandleError(arg1:Error):void;
 
-export function HandleErrorFrontend(arg1:Error):void;
+export function HandleErrorFrontend(arg1:string):void;
 
 export function LaunchLilith():Promise<string>;
 
