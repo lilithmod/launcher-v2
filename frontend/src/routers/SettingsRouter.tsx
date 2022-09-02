@@ -116,7 +116,7 @@ const SettingsRouter = () => {
 						blur: JSON.parse(data).launcher.blur,
 					});
 				}
-				setLoaded(true);
+				if ('commandAliases' in JSON.parse(data) && 'gamemodeAliases' in JSON.parse(data)) setLoaded(true);
 			})
 			.catch((err) => {
 				console.log(err);
