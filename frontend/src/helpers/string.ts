@@ -7,8 +7,8 @@ function toHex(str: string) {
 }
 
 function getRandomString(length: number) {
-	var randomChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
-	var result = '';
+	const randomChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
+	let result = '';
 	for (let i = 0; i < length; i++) {
 		result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
 	}
@@ -21,11 +21,13 @@ const classNames = (...classes: Array<any>) => {
 
 const tryParseJSONObject = (jsonString: string) => {
 	try {
-		var o = JSON.parse(jsonString);
+		const o = JSON.parse(jsonString);
 		if (o && typeof o === 'object') {
 			return o;
 		}
-	} catch (e) {}
+	} catch (e) {
+		console.log(e);
+	}
 
 	return false;
 };

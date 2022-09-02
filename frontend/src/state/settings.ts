@@ -1,6 +1,6 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy';
 
-let initialState = { blur: false, sidebar: false };
+const initialState = { blur: false, sidebar: false };
 
 export interface AppSettings {
 	blur: boolean;

@@ -30,8 +30,7 @@ const Base = (props: { id: string; config: any }) => {
 											<div tw="relative border border-neutral-600 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-rose-500 focus-within:border-rose-500 transition">
 												<label
 													htmlFor="name"
-													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300"
-												>
+													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300">
 													{key}
 												</label>
 												<input
@@ -74,8 +73,7 @@ const Base = (props: { id: string; config: any }) => {
 											<div tw="relative border border-neutral-600 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-rose-500 focus-within:border-rose-500 transition">
 												<label
 													htmlFor="name"
-													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300"
-												>
+													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300">
 													{key}
 												</label>
 												<input

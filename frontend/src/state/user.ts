@@ -1,6 +1,6 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy';
 
-let initialState = { username: '' };
+const initialState = { username: '' };
 
 export interface UserData {
 	username: string;

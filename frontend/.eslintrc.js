@@ -20,6 +20,7 @@ module.exports = {
 		'@typescript-eslint/no-unused-vars': 0,
 		'prettier/prettier': 2,
 		'react/jsx-key': 0,
+		'@typescript-eslint/no-non-null-assertion': 0,
 	},
 	settings: {
 		react: {

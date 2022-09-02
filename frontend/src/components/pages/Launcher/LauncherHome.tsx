@@ -31,8 +31,7 @@ const Base = (props: { id: string }) => {
 							enterTo="opacity-100"
 							leave="ease-in duration-200"
 							leaveFrom="opacity-100"
-							leaveTo="opacity-0"
-						>
+							leaveTo="opacity-0">
 							<Dialog.Overlay className="fixed inset-0 bg-neutral-900 backdrop-blur-lg backdrop-filter bg-opacity-75 transition-opacity" />
 						</Transition.Child>
 
@@ -47,15 +46,13 @@ const Base = (props: { id: string }) => {
 							enterTo="opacity-100 translate-y-0 sm:scale-100"
 							leave="ease-in duration-200"
 							leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-							leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-						>
+							leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
 							<div className="inline-block align-bottom bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 rounded-lg text-left overflow-hidden shadow-xl transform transition-all mt-12 sm:align-middle w-[50rem] sm:p-5">
 								<div className="absolute top-2 right-2">
 									<button
 										type="button"
 										className="text-neutral-400 hover:text-neutral-500 focus:outline-none transition"
-										onClick={() => setOpen(false)}
-									>
+										onClick={() => setOpen(false)}>
 										<span className="sr-only">Close</span>
 										<XIcon className="h-5 w-5" aria-hidden="true" />
 									</button>
@@ -76,16 +73,14 @@ const Base = (props: { id: string }) => {
 				<div tw="py-20 grid place-items-center bg-rose-900 bg-opacity-[0.15]">
 					<button
 						disabled={ButtonStartStatus}
-						className="group relative z-0 inline-flex shadow-sm rounded-lg duration-500 transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:shadow-purple-500/80 disabled:bg-purple-500 border border-rose-400 disabled:border-purple-400 hover:disabled:scale-100 hover:bg-rose-500 hover:disabled:bg-purple-500"
-					>
+						className="group relative z-0 inline-flex shadow-sm rounded-lg duration-500 transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:shadow-purple-500/80 disabled:bg-purple-500 border border-rose-400 disabled:border-purple-400 hover:disabled:scale-100 hover:bg-rose-500 hover:disabled:bg-purple-500">
 						<button
 							disabled={ButtonStartStatus}
 							onClick={() => {
 								store.getActions().logs.reset();
 								LaunchLilith().then((data) => console.log(data));
 							}}
-							tw="transition rounded-l-lg py-4 pl-24 pr-20 disabled:pointer-events-none"
-						>
+							tw="transition rounded-l-lg py-4 pl-24 pr-20 disabled:pointer-events-none">
 							<p tw="duration-500 transition font-black text-2xl text-white group-hover:drop-shadow">LAUNCH v1</p>
 							<p tw="duration-500 transition text-sm font-bold text-rose-200 uppercase -mx-20" css={ButtonStartStatus && tw`text-purple-200`}>
 								{ButtonData}
@@ -95,8 +90,7 @@ const Base = (props: { id: string }) => {
 							<Menu.Button
 								disabled={!ButtonStartStatus}
 								className="transition border-l border-rose-400 relative inline-flex items-center px-2 py-8 rounded-r-md focus:outline-none hover:bg-rose-400/60 text-white disabled:pointer-events-none disabled:text-rose-200"
-								css={ButtonStartStatus && tw`border-purple-400 hover:bg-purple-400/60`}
-							>
+								css={ButtonStartStatus && tw`border-purple-400 hover:bg-purple-400/60`}>
 								<span className="sr-only">Open options</span>
 								<ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
 							</Menu.Button>
@@ -107,8 +101,7 @@ const Base = (props: { id: string }) => {
 								enterTo="transform opacity-100 scale-100"
 								leave="transition ease-in duration-75"
 								leaveFrom="transform opacity-100 scale-100"
-								leaveTo="transform opacity-0 scale-95"
-							>
+								leaveTo="transform opacity-0 scale-95">
 								<Menu.Items className="origin-top-left absolute right-0 mt-2 -mr-1 rounded-md shadow-lg bg-neutral-700 backdrop-blur-lg backdrop-filter bg-opacity-80 ring-1 ring-black ring-opacity-5 divide-y divide-neutral-600 focus:outline-none z-50">
 									<div className="py-1 w-24">
 										<Menu.Item>
@@ -118,8 +111,7 @@ const Base = (props: { id: string }) => {
 													className={classNames(
 														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',
 														'block px-4 py-2 text-sm hover:cursor-pointer focus:outline-none'
-													)}
-												>
+													)}>
 													View logs
 												</a>
 											)}
@@ -133,8 +125,7 @@ const Base = (props: { id: string }) => {
 													className={classNames(
 														active ? 'bg-neutral-600 backdrop-blur-lg backdrop-filter bg-opacity-80 text-neutral-300' : 'text-neutral-400',
 														'block px-4 py-2 text-sm hover:cursor-pointer focus:outline-none'
-													)}
-												>
+													)}>
 													Stop lilith
 												</a>
 											)}
