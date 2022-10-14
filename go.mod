@@ -1,11 +1,11 @@
 module lilith
 
-go 1.17
+go 1.19
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/rhysd/go-github-selfupdate v1.2.3
-	github.com/wailsapp/wails/v2 v2.0.0-beta.43
+	github.com/wailsapp/wails/v2 v2.0.0
 )
 
 require (
