@@ -30,7 +30,7 @@ const App = () => {
 			if (messages.includes('Authorized')) {
 				store.getActions().user.setUserData({
 					username: messages
-						.split('>')[1]
+						.split('»')[1]
 						.trim()
 						.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''),
 				});
@@ -45,9 +45,9 @@ const App = () => {
 					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 				HandleErrorFrontend(errorMsg);
 			}
-			if (messages.includes('Verify hardware')) {
+			if (messages.includes('Verify')) {
 				const verifyUrl = messages
-					.split('>')[1]
+					.split('»')[1]
 					.trim()
 					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 
