@@ -9,15 +9,17 @@ import { PageContentBlock, Heroicons } from '@/components/elements/Generic';
 const Premium = (props: { id: string }) => {
 	const [PremiumData, setPremiumData] = useState<IPremiumData>();
 
-	http.get('https://api.lilith.rip/launcher/premium').then((data: any) => {
-		setPremiumData(JSON.parse(data));
-	});
+	useEffect(() => {
+		http.get('https://api.lilith.rip/launcher/premium').then((data: any) => {
+			setPremiumData(JSON.parse(data));
+		});
+	}, []);
 
 	return (
 		<PageContentBlock pageId={props.id}>
 			<div tw="w-full h-screen flex justify-center items-center">
 				<div tw="rounded-lg bg-neutral-800 p-6">
-					<h1 tw="ml-1 text-rose-200 font-black text-3xl">Lilith Premium</h1>
+					<h1 tw="ml-1 text-rose-200 font-black text-3xl">Lilith Pro</h1>
 					<h2 tw="ml-1 text-rose-300 font-black text-xl">${PremiumData?.price.toFixed(2)}</h2>
 					<div className="my-3 space-y-3">
 						{PremiumData?.features.map((incentive: IFeaturesData) => (
@@ -29,15 +31,12 @@ const Premium = (props: { id: string }) => {
 					</div>
 
 					<button
-						onClick={() => BrowserOpenURL('https://discord.gg/lilith')}
+						onClick={() => BrowserOpenURL('https://www.patreon.com/lilithmod')}
 						type="button"
 						tw="mt-1 inline-flex items-center px-20 py-3 border border-transparent text-lg font-bold rounded-lg shadow-sm text-white bg-[#A6344D] hover:bg-[#84293D] focus:outline-none transition hover:text-rose-100"
 					>
-						Join our discord
+						Upgrade Now!
 					</button>
-					<p className="ml-2 mt-2 -mb-1 text-base text-neutral-400">
-						Visit the <pre tw="inline">#store</pre> channel to purchase
-					</p>
 				</div>
 			</div>
 		</PageContentBlock>

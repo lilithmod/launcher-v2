@@ -76,7 +76,7 @@ const App = () => {
 					<Route path="/" element={<Navigate to="/launch" replace />} />
 					<Route path="/launch" element={<Page component={LauncherHome} id="homepage-launcher" />} />
 					<Route path="/settings/*" element={<SettingsRouter />} />
-					<Route path="/premium" element={<Page component={LauncherPremium} id="buy-premium" />} />
+					<Route path="/pro" element={<Page component={LauncherPremium} id="buy-premium" />} />
 				</Routes>
 			</SnowFlakes>
 		</HashRouter>

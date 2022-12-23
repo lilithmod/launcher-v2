@@ -81,7 +81,7 @@ const Base = (props: { id: string; config: any }) => {
 												</Switch>
 												<span tw="ml-3 mb-1" id="headlessui-label-104">
 													<span tw="text-sm font-medium text-neutral-300">
-														Enable graphical effects <span tw="text-xs text-neutral-400 font-bold">BETA</span>
+														Enable glass effects <span tw="text-xs text-neutral-400 font-bold">BETA</span>
 													</span>
 												</span>
 											</div>

@@ -11,7 +11,7 @@ import { XIcon, MinusIcon } from '@heroicons/react/solid';
 import { Menu, Popover, Transition } from '@headlessui/react';
 import { Quit, BrowserOpenURL, WindowMinimise } from '@/wailsjs/runtime';
 
-const NavLink = (props: { to: string; name: string }) => {
+const NavLink = (props: { to: string; name: any }) => {
 	const location = useLocation();
 
 	return (
@@ -41,12 +41,19 @@ const Appbar = () => {
 				<NavLink to="/launch" name="Home" />
 				<NavLink to="/settings/general" name="Settings" />
 				<button
-					onClick={() => BrowserOpenURL('https://lilithmod.xyz/docs/documentation/features/')}
+					onClick={() => BrowserOpenURL('https://docs.lilith.rip')}
 					tw="text-base font-medium text-neutral-500 rounded hover:(bg-neutral-700 bg-opacity-30 text-rose-100) -my-2 px-2.5 py-1 transition border-2 border-transparent"
 				>
 					Docs
 				</button>
-				<NavLink to="/premium" name="Premium" />
+				<NavLink
+					to="/pro"
+					name={
+						<span tw="font-bold" className="pro">
+							Pro
+						</span>
+					}
+				/>
 				<div tw="flex items-center justify-end md:flex-1 lg:w-0">
 					{UserData?.username && (
 						<Menu as="div" className="relative inline-block text-left mr-3">

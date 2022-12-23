@@ -9,3 +9,17 @@ body {
 .draggable {
 	--wails-draggable: drag;
 }
+@-webkit-keyframes hueRotate {
+	from {
+		-webkit-filter: hue-rotate(0deg);
+	}
+	to {
+		-webkit-filter: hue-rotate(-360deg);
+	}
+}
+
+.pro {
+	color: #f47594;
+	animation: hueRotate 15s ease-in-out infinite;
+	-webkit-animation: hueRotate 15s ease-in-out infinite;
+}
