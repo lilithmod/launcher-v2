@@ -272,9 +272,9 @@ func (a *App) LaunchLilith() (string, error) {
 
 	var url string
 	if config.Alpha {
-		url = "https://api.lilithmod.xyz/versions/alpha"
+		url = "https://api.lilith.rip/versions/alpha"
 	} else {
-		url = "https://api.lilithmod.xyz/versions/latest"
+		url = "https://api.lilith.rip/versions/latest"
 	}
 
 	resp, err := http.Get(url)
@@ -377,15 +377,27 @@ func (a *App) LaunchLilith() (string, error) {
 
 	var logArr []string
 	stdout, _ := cmd.StdoutPipe()
+	stderr, _ := cmd.StderrPipe()
 	cmd.Dir = ldir
 	err = cmd.Start()
-	scanner := bufio.NewScanner(stdout)
+	scannerOut := bufio.NewScanner(stdout)
+	scannerErr := bufio.NewScanner(stderr)
 
-	for scanner.Scan() {
-		log.Println(scanner.Text())
-		logArr = append(logArr, scanner.Text())
-		runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
-	}
+	go func() {
+		for scannerOut.Scan() {
+			log.Println(scannerOut.Text())
+			logArr = append(logArr, scannerOut.Text())
+			runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
+		}
+	}()
+
+	go func() {
+		for scannerErr.Scan() {
+			log.Println(scannerErr.Text())
+			logArr = append(logArr, scannerErr.Text())
+			runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
+		}
+	}()
 
 	cmd.Wait()
 

@@ -35,7 +35,7 @@ const App = () => {
 						.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''),
 				});
 			}
-			if (messages.includes('Startup Complete')) {
+			if (messages.includes('Join Lilith using the address below:')) {
 				ShowDialog('Startup Complete', ` You can join Hypixel using Lilith by connecting to the IP "localhost" in any client.`, ['Ok'], 'Ok', '', '');
 			}
 			if (messages.includes('Uncaught Exception')) {
@@ -45,7 +45,7 @@ const App = () => {
 					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 				HandleErrorFrontend(errorMsg);
 			}
-			if (messages.includes('Verify')) {
+			if (messages.includes('Verify »')) {
 				const verifyUrl = messages
 					.split('»')[1]
 					.trim()
