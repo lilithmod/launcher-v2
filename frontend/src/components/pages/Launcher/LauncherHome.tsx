@@ -2,9 +2,9 @@ import React, { useState, useEffect, Fragment } from 'react';
 
 import tw from 'twin.macro';
 import { posts } from '@/lang';
+import Convert from 'ansi-to-html';
 import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
-import { parseHtml, parseAnsi } from 'ansi-color-parse';
 import { store, ApplicationStore } from '@/state';
 import { LaunchLilith } from '@/wailsjs/go/main/App';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -18,8 +18,7 @@ const Base = (props: { id: string }) => {
 	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);
 	const ButtonStartStatus = ButtonData !== 'ready to launch';
 	const [open, setOpen] = useState(false);
-
-	Logs.map((item: string) => console.log(parseAnsi(item)));
+	const parser = new Convert();
 
 	return (
 		<PageContentBlock pageId={props.id}>
@@ -65,7 +64,7 @@ const Base = (props: { id: string }) => {
 								<div className="sm:flex sm:items-start h-[28rem] overflow-y-scroll">
 									<pre tw="text-neutral-200 text-sm font-medium">
 										{Logs.map((item: string) => (
-											<div tw="drop-shadow-md" dangerouslySetInnerHTML={{ __html: parseHtml(item) }} />
+											<div tw="drop-shadow-md" dangerouslySetInnerHTML={{ __html: parser.toHtml(item) }} />
 										))}
 									</pre>
 								</div>

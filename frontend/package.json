@@ -29,6 +29,7 @@
 		"@types/date-fns": "^2.6.0",
 		"@types/react-detect-offline": "^2.4.1",
 		"ansi-color-parse": "^0.1.5",
+		"ansi-to-html": "^0.7.2",
 		"autoprefixer": "^10.4.4",
 		"axios": "^0.27.2",
 		"base-64": "^1.0.0",
