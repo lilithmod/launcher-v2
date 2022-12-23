@@ -74,7 +74,7 @@ const Base = (props: { id: string }) => {
 				</Dialog>
 			</Transition.Root>
 			<div tw="pt-12">
-				<div tw="py-20 grid place-items-center bg-rose-900 bg-opacity-[0.15]">
+				<div tw="py-20 grid place-items-center bg-rose-900 bg-opacity-[0.20] shadow-lg">
 					<button
 						disabled={ButtonStartStatus}
 						className="group relative z-0 inline-flex shadow-sm rounded-lg duration-500 transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:shadow-purple-500/80 disabled:bg-purple-500 border border-rose-400 disabled:border-purple-400 hover:disabled:scale-100 hover:bg-rose-500 hover:disabled:bg-purple-500"
@@ -148,33 +148,35 @@ const Base = (props: { id: string }) => {
 				</div>
 			</div>
 			<div className="relative max-w-7xl mx-auto">
-				<div className="text-center">
-					<h2 className="py-2.5 text-neutral-200 text-lg font-semibold">Recent News</h2>
+				<div className="text-center bg-neutral-800/20 mb-3">
+					<h2 className="py-2.5 text-neutral-200 text-xl font-semibold">Recent News</h2>
 				</div>
 				<div className="mx-6 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
 					{posts.map((post) => (
-						<a key={post.uuid} onClick={() => BrowserOpenURL(post.href)} className="group block hover:-translate-y-[3px] transition cursor-pointer">
-							<div className="flex flex-col rounded-lg shadow-lg hover:shadow-xl overflow-hidden transition">
-								<div className="flex-shrink-0">
-									<span className="absolute bottom-2 right-3 hidden group-hover:block font-bold text-neutral-200 drop-shadow text-sm">
-										{post.title}
-									</span>
-									<img className="h-36 w-full object-cover" src={post.imageUrl} alt="" />
-								</div>
-								<div className="flex-1 bg-neutral-800 p-4 flex flex-col justify-between">
-									<p className="text-sm text-neutral-400 -mt-1" dangerouslySetInnerHTML={{ __html: post.description }} />
-									<div className="mt-3 flex items-center">
-										<div className="flex-shrink-0">
-											<span className="sr-only">{post.author.name}</span>
-											<img className="h-5 w-5 rounded-full" src={post.author.imageUrl} alt="" />
-										</div>
-										<div className="ml-2">
-											<p className="text-sm font-medium text-neutral-500">{post.author.name}</p>
+						<div key={post.uuid} className="">
+							<a onClick={() => BrowserOpenURL(post.href)} className="group block hover:-translate-y-[3px] transition cursor-pointer">
+								<div className="flex flex-col rounded-lg shadow-lg hover:shadow-xl overflow-hidden transition h-[16.7rem]">
+									<div className="flex-shrink-0">
+										<span className="absolute bottom-2 right-3 hidden group-hover:block font-bold text-neutral-200 drop-shadow text-sm">
+											{post.title}
+										</span>
+										<img className="h-36 w-full object-cover" src={post.imageUrl} alt="" />
+									</div>
+									<div className="flex-1 bg-neutral-800 p-4 flex flex-col justify-between">
+										<p className="text-sm text-neutral-400 -mt-1" dangerouslySetInnerHTML={{ __html: post.description }} />
+										<div className="mt-3 flex items-center">
+											<div className="flex-shrink-0">
+												<span className="sr-only">{post.author.name}</span>
+												<img className="h-5 w-5 rounded-full" src={post.author.imageUrl} alt="" />
+											</div>
+											<div className="ml-2">
+												<p className="text-sm font-medium text-neutral-500">{post.author.name}</p>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</a>
+							</a>
+						</div>
 					))}
 				</div>
 			</div>

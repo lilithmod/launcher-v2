@@ -1,14 +1,15 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
 import tw from 'twin.macro';
+import confetti from 'canvas-confetti';
 import { useStoreState } from 'easy-peasy';
+import { useNavigate } from 'react-router-dom';
 import { store, ApplicationStore } from '@/state';
 import { Link, useParams } from 'react-router-dom';
+import { BrowserOpenURL } from '@/wailsjs/runtime';
 import { Dialog, Menu, Transition, Switch } from '@headlessui/react';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
-import { useNavigate } from 'react-router-dom';
 import { SaveConfig, GetVersion, ShowDialog } from '@/wailsjs/go/main/App';
-import { BrowserOpenURL } from '@/wailsjs/runtime';
 
 const Base = (props: { id: string; config: any }) => {
 	const AppSettings = useStoreState((state: ApplicationStore) => state.settings.data);
@@ -23,8 +24,17 @@ const Base = (props: { id: string; config: any }) => {
 	return (
 		<PageContentBlock pageId={props.id}>
 			<div
-				onClick={() => ShowDialog(`Lilith Launcher v${version}`, `© 2022 Lilith Development`, ['Ok'], 'Ok', '', '')}
-				tw="absolute bottom-3 right-3 text-sm text-neutral-500 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 font-bold z-40 hover:cursor-pointer">
+				onClick={() => {
+					confetti({
+						particleCount: 100,
+						spread: 70,
+						angle: 135,
+						origin: { y: 1, x: 1.1 },
+					});
+					ShowDialog(`Lilith Launcher v${version}`, `© 2022 Lilith Development`, ['Ok'], 'Ok', '', '');
+				}}
+				tw="absolute bottom-3 right-3 text-sm text-neutral-500 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 font-bold z-40 hover:cursor-pointer"
+			>
 				v{version}
 			</div>
 			<div tw="absolute bottom-1 right-1 text-[9px] bg-neutral-900 py-2 px-8 z-30" />
@@ -59,7 +69,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														AppSettings!.blur ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[
@@ -97,7 +108,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														AppSettings!.sidebar ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[
@@ -140,7 +152,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														config.alpha ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[
@@ -172,7 +185,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														config.debug ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[

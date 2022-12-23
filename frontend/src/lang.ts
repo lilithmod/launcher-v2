@@ -6,9 +6,8 @@ const posts = [
 	{
 		uuid: 0,
 		title: 'Launcher Released',
-		href: 'https://google.com',
-		description:
-			'The new launcher is now released.<br>Lilith has been packaged as launcher for your convenience. You can now change config values directly from the launcher too.',
+		href: 'https://github.com/lilithmod/launcher-v2',
+		description: 'Lilith has been packaged as launcher for your convenience. You can now change config values directly from the launcher.',
 		imageUrl: LauncherBanner,
 		author: {
 			name: 'theMackabu',
@@ -17,24 +16,24 @@ const posts = [
 	},
 	{
 		uuid: 1,
-		title: 'Lilith 1.0.0 Alpha 15',
-		href: '#',
-		description: `- Autododge players (premium/booster required)<br>- Bedwars /sc command added<br>- Added OP Duels and Skywars Duels stats<br>- Minor queuestats improvements`,
+		title: 'Lilith 1.0.5',
+		href: 'https://lilith.rip/',
+		description: `- Attempted to fix ping display with the proxy<br>- Fixed the Requeueing... title not clearing`,
 		imageUrl: UpdateBanner,
 		author: {
 			name: 'Nea',
-			imageUrl: 'https://cdn.discordapp.com/avatars/941359439825477663/ecedbdb8d7d8c8c545b837398fbe24b1.webp?size=256',
+			imageUrl: 'https://cdn.discordapp.com/avatars/941359439825477663/c1a3a0d90a168499dfa83bc058590cf2.webp?size=160',
 		},
 	},
 	{
 		uuid: 2,
-		title: 'Lilith 1.0.0 Alpha 14',
-		href: '#',
-		description: `- Fixed queuestats error<br>- Fixed Bedwars FKDR<br>- Tweaked Bedwars patterns<br>- Minor stability fixes`,
+		title: 'Lilith 1.0.4',
+		href: 'https://lilith.rip/',
+		description: `- Fixed the logging of an unconcerning bug with autodeletion`,
 		imageUrl: UpdateBanner,
 		author: {
 			name: 'Nea',
-			imageUrl: 'https://cdn.discordapp.com/avatars/941359439825477663/ecedbdb8d7d8c8c545b837398fbe24b1.webp?size=256',
+			imageUrl: 'https://cdn.discordapp.com/avatars/941359439825477663/c1a3a0d90a168499dfa83bc058590cf2.webp?size=160',
 		},
 	},
 ];

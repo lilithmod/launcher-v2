@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 
 import tw from 'twin.macro';
 import Page from '@/components/Page';
+import Snowfall from 'react-snowfall';
 import { debounce } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { SettingsRouter } from '@/routers';
@@ -13,6 +14,13 @@ import { BrowserOpenURL, EventsOn } from '@/wailsjs/runtime';
 import { Spinner, Appbar } from '@/components/elements/Generic';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LauncherHome, LauncherPremium } from '@/components/pages/Launcher';
+
+const SnowFlakes = (props: { season: Boolean; children: any }) => (
+	<Fragment>
+		{props.season && <Snowfall style={{ zIndex: 100 }} color="#fff" />}
+		{props.children}
+	</Fragment>
+);
 
 const App = () => {
 	const [version, setVersion] = useState('0.0.0');
@@ -61,14 +69,16 @@ const App = () => {
 	return (
 		<HashRouter>
 			<GlobalStyles />
-			<Appbar />
-			<div tw="absolute bottom-1 right-1 text-[9px] text-neutral-500 opacity-30 z-20">v{version}</div>
-			<Routes>
-				<Route path="/" element={<Navigate to="/launch" replace />} />
-				<Route path="/launch" element={<Page component={LauncherHome} id="homepage-launcher" />} />
-				<Route path="/settings/*" element={<SettingsRouter />} />
-				<Route path="/premium" element={<Page component={LauncherPremium} id="buy-premium" />} />
-			</Routes>
+			<SnowFlakes season={new Date().getMonth() == 11}>
+				<Appbar />
+				<div tw="absolute bottom-1 right-1 text-[9px] text-neutral-500 opacity-30 z-20">v{version}</div>
+				<Routes>
+					<Route path="/" element={<Navigate to="/launch" replace />} />
+					<Route path="/launch" element={<Page component={LauncherHome} id="homepage-launcher" />} />
+					<Route path="/settings/*" element={<SettingsRouter />} />
+					<Route path="/premium" element={<Page component={LauncherPremium} id="buy-premium" />} />
+				</Routes>
+			</SnowFlakes>
 		</HashRouter>
 	);
 };
