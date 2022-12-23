@@ -9,7 +9,7 @@ import { PageContentBlock, Heroicons } from '@/components/elements/Generic';
 const Premium = (props: { id: string }) => {
 	const [PremiumData, setPremiumData] = useState<IPremiumData>();
 
-	http.get('https://api.lilithmod.xyz/launcher/premium').then((data: any) => {
+	http.get('https://api.lilith.rip/launcher/premium').then((data: any) => {
 		setPremiumData(JSON.parse(data));
 	});
 
@@ -31,7 +31,8 @@ const Premium = (props: { id: string }) => {
 					<button
 						onClick={() => BrowserOpenURL('https://discord.gg/lilith')}
 						type="button"
-						tw="mt-1 inline-flex items-center px-20 py-3 border border-transparent text-lg font-bold rounded-lg shadow-sm text-white bg-[#A6344D] hover:bg-[#84293D] focus:outline-none transition hover:text-rose-100">
+						tw="mt-1 inline-flex items-center px-20 py-3 border border-transparent text-lg font-bold rounded-lg shadow-sm text-white bg-[#A6344D] hover:bg-[#84293D] focus:outline-none transition hover:text-rose-100"
+					>
 						Join our discord
 					</button>
 					<p className="ml-2 mt-2 -mb-1 text-base text-neutral-400">

@@ -177,13 +177,13 @@ func (a *App) HandleError(err error) {
 }
 
 func (a *App) HandleErrorFrontend(err string) {
-		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
-			Type:         "error",
-			Title:        "Lilith has encountered an error.",
-			Message:      err,
-			Buttons:      []string{"Ok"},
-			CancelButton: "Ok",
-		})
+	runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+		Type:         "error",
+		Title:        "Lilith has encountered an error.",
+		Message:      err,
+		Buttons:      []string{"Ok"},
+		CancelButton: "Ok",
+	})
 }
 
 func (a *App) GetVersion() string {
@@ -195,12 +195,12 @@ func (a *App) HTTPGetRequest(url string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
-	
+
 	return string(body), err
 }
 
@@ -300,7 +300,7 @@ func (a *App) LaunchLilith() (string, error) {
 	default:
 		download = f.Download.Linux
 	}
-	
+
 	var size int64
 	switch goruntime.GOOS {
 	case "windows":
@@ -339,7 +339,7 @@ func (a *App) LaunchLilith() (string, error) {
 		path = bindir + "/" + filename
 	} else {
 		fi, _ := os.Stat(path)
-		if (fi.Size() != size) {
+		if fi.Size() != size {
 			err := os.Remove(path)
 			a.HandleError(err)
 			runtime.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")

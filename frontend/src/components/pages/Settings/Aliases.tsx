@@ -24,14 +24,15 @@ const Base = (props: { id: string; config: any }) => {
 						</div>
 						<div tw="mt-5 md:mt-0 md:col-span-3">
 							<div tw="space-y-6">
-								{Object.entries(config.commandAliases).map(([key, value]: any, idx: number) => (
-									<div tw="grid grid-cols-3 gap-6" key={idx}>
+								{Object.entries(config.commandAliases).map(([key, value]: any) => (
+									<ol tw="grid grid-cols-3 gap-6">
 										<div tw="col-span-3 sm:col-span-2">
 											<div tw="relative border border-neutral-600 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-rose-500 focus-within:border-rose-500 transition">
 												<label
 													htmlFor="name"
-													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300">
-													{key}
+													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300"
+												>
+													{value}
 												</label>
 												<input
 													type="text"
@@ -39,19 +40,18 @@ const Base = (props: { id: string; config: any }) => {
 													spellCheck={false}
 													id="name"
 													tw="bg-neutral-800 block w-full border-0 p-0 text-neutral-300 placeholder-neutral-400 focus:ring-0 sm:text-sm"
-													defaultValue={value}
+													defaultValue={key}
 													onBlur={(event) => {
-														config.commandAliases[key] = event.target.value.replace(/\s/g, '-');
-														console.log(`[updated] config.commandAliases.${key}: ${event.target.value.replace(/\s/g, '-')}`);
-														SaveConfig(JSON.stringify(config))
-															.then(() => navigate('.'))
-															.catch((err) => console.log(err));
+														config.commandAliases[event.target.value.replace(/\s/g, '-')] = config.commandAliases[key];
+														delete config.commandAliases[key];
+
+														SaveConfig(JSON.stringify(config)).catch((err) => console.log(err));
 													}}
 													placeholder={key}
 												/>
 											</div>
 										</div>
-									</div>
+									</ol>
 								))}
 							</div>
 						</div>
@@ -67,14 +67,15 @@ const Base = (props: { id: string; config: any }) => {
 						</div>
 						<div tw="mt-5 md:mt-0 md:col-span-3">
 							<div tw="space-y-6">
-								{Object.entries(config.gamemodeAliases).map(([key, value]: any, idx: number) => (
-									<div tw="grid grid-cols-3 gap-6" key={idx}>
+								{Object.entries(config.gamemodeAliases).map(([key, value]: any) => (
+									<ol tw="grid grid-cols-3 gap-6">
 										<div tw="col-span-3 sm:col-span-2">
 											<div tw="relative border border-neutral-600 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-rose-500 focus-within:border-rose-500 transition">
 												<label
 													htmlFor="name"
-													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300">
-													{key}
+													tw="absolute -top-2 left-2 -mt-px inline-block px-1 bg-neutral-800 text-xs font-medium text-neutral-300"
+												>
+													{value}
 												</label>
 												<input
 													type="text"
@@ -82,19 +83,18 @@ const Base = (props: { id: string; config: any }) => {
 													spellCheck={false}
 													id="name"
 													tw="bg-neutral-800 block w-full border-0 p-0 text-neutral-300 placeholder-neutral-400 focus:ring-0 sm:text-sm"
-													defaultValue={value}
+													defaultValue={key}
 													onBlur={(event) => {
-														config.gamemodeAliases[key] = event.target.value.replace(/\s/g, '-');
-														console.log(`[updated] config.gamemodeAliases.${key}: ${event.target.value.replace(/\s/g, '-')}`);
-														SaveConfig(JSON.stringify(config))
-															.then(() => navigate('.'))
-															.catch((err) => console.log(err));
+														config.gamemodeAliases[event.target.value.replace(/\s/g, '-')] = config.gamemodeAliases[key];
+														delete config.gamemodeAliases[key];
+
+														SaveConfig(JSON.stringify(config)).catch((err) => console.log(err));
 													}}
 													placeholder={key}
 												/>
 											</div>
 										</div>
-									</div>
+									</ol>
 								))}
 							</div>
 						</div>

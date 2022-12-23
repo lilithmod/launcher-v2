@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/rhysd/go-github-selfupdate v1.2.3
-	github.com/wailsapp/wails/v2 v2.0.0
+	github.com/wailsapp/wails/v2 v2.1.0
 )
 
 require (
@@ -18,7 +18,7 @@ require (
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/inconshreveable/go-update v0.0.0-20160112193335-8152e7eb6ccf // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
-	github.com/labstack/echo/v4 v4.7.2 // indirect
+	github.com/labstack/echo/v4 v4.9.0 // indirect
 	github.com/labstack/gommon v0.3.1 // indirect
 	github.com/leaanthony/go-ansi-parser v1.4.0 // indirect
 	github.com/leaanthony/gosod v1.0.3 // indirect
@@ -35,9 +35,9 @@ require (
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/wailsapp/mimetype v1.4.1 // indirect
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
-	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4 // indirect
+	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
 	golang.org/x/oauth2 v0.0.0-20181106182150-f42d05182288 // indirect
-	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150 // indirect
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/appengine v1.3.0 // indirect
 )
