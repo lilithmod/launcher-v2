@@ -65,6 +65,7 @@ func (a *App) domReady(ctx context.Context) {
 
 	runtime.EventsOn(ctx, "stop", func(...interface{}) {
 		cmd.Process.Kill()
+		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has been shutdown")
 		runtime.EventsEmit(ctx, "launch_lilith", "ready to launch")
 	})
 
@@ -437,15 +438,19 @@ func (a *App) LaunchLilith(silent bool) (string, error) {
 		}
 
 	}
-	runtime.EventsEmit(a.ctx, "launch_lilith", "ready to launch")
-	return "launch_complete_emit", err
+	if !silent {
+		runtime.EventsEmit(a.ctx, "launch_lilith", "ready to launch")
+		return "launch_complete_emit", err
+	} else {
+		return "silent_complete_emit", err
+	}
 }
 
 func (a *App) CheckStatus() (string, error) {
 	homeDir, _ := os.UserHomeDir()
 	vFile := homeDir + "/lilith/.verified"
-   runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Checking integrity")
-   runtime.EventsEmit(a.ctx, "launch_lilith", "checking integrity")
+	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Checking integrity")
+	runtime.EventsEmit(a.ctx, "launch_lilith", "checking integrity")
 
 	go a.LaunchLilith(true)
 	time.Sleep(3 * time.Second)
