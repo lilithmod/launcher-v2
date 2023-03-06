@@ -2,18 +2,18 @@ import React, { useEffect, useState, Fragment } from 'react';
 
 import tw from 'twin.macro';
 import Page from '@/components/Page';
-import Snowfall from 'react-snowfall';
 import { debounce } from '@/helpers';
+import Snowfall from 'react-snowfall';
 import { useStoreState } from 'easy-peasy';
 import { SettingsRouter } from '@/routers';
 import { Offline } from 'react-detect-offline';
 import { store, ApplicationStore } from '@/state';
-import { ShowDialog, HandleErrorFrontend, GetVersion } from '@/wailsjs/go/main/App';
 import GlobalStyles from '@/assets/styles/GlobalStyles';
+import { LauncherHome } from '@/components/pages/Launcher';
 import { BrowserOpenURL, EventsOn } from '@/wailsjs/runtime';
 import { Spinner, Appbar } from '@/components/elements/Generic';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { LauncherHome, LauncherPremium } from '@/components/pages/Launcher';
+import { ShowDialog, HandleErrorFrontend, GetVersion } from '@/wailsjs/go/main/App';
 
 const SnowFlakes = (props: { season: Boolean; children: any }) => (
 	<Fragment>
@@ -76,7 +76,6 @@ const App = () => {
 					<Route path="/" element={<Navigate to="/launch" replace />} />
 					<Route path="/launch" element={<Page component={LauncherHome} id="homepage-launcher" />} />
 					<Route path="/settings/*" element={<SettingsRouter />} />
-					<Route path="/pro" element={<Page component={LauncherPremium} id="buy-premium" />} />
 				</Routes>
 			</SnowFlakes>
 		</HashRouter>
