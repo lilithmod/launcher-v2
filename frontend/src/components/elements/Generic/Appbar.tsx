@@ -38,7 +38,12 @@ const Appbar = () => {
 				</div>
 				<NavLink to="/launch" name="Home" />
 				<NavLink to="/settings/general" name="Settings" />
-				{/* https://lilith.rip/pricing */}
+				<button
+					onClick={() => BrowserOpenURL('https://lilith.rip/pricing')}
+					tw="text-sm font-light border-b-2 text-neutral-300 -my-2 px-2.5 py-1 transition border-transparent hover:border-rose-500 hover:bg-opacity-50"
+				>
+					Plans
+				</button>
 				<div tw="flex items-center justify-end md:flex-1 lg:w-0">
 					<button onClick={() => WindowMinimise()} tw="whitespace-nowrap text-base font-medium text-neutral-500 hover:text-white transition">
 						<MinusIcon tw="w-6 h-6 stroke-1" />

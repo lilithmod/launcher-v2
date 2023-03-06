@@ -53,7 +53,7 @@ const App = () => {
 					.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 				HandleErrorFrontend(errorMsg);
 			}
-			if (messages.includes('Verify »')) {
+			if (messages.includes('[22m[39m[38;5;240m[[39m[38;5;250m...[39m[38;5;240m][39m[38;5;227m Verify[39m[38;5;240m » [39m[38;5;87m[4m')) {
 				const verifyUrl = messages
 					.split('»')[1]
 					.trim()

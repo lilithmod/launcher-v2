@@ -235,15 +235,17 @@ func (a *App) SaveConfig(config string) error {
 	return ioutil.WriteFile(filename, []byte(config), 0600)
 }
 
-func (a *App) LaunchLilith() (string, error) {
+func (a *App) LaunchLilith(silent bool) (string, error) {
 	config := launcherConfig{
 		Alpha: false,
 		Debug: false,
 	}
 
 	// update button status early
-	runtime.EventsEmit(a.ctx, "launch_lilith", "Fetching lilith versions")
-	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Fetching lilith versions")
+	if !silent {
+		runtime.EventsEmit(a.ctx, "launch_lilith", "Fetching lilith versions")
+		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Fetching lilith versions")
+	}
 
 	homedir, err := os.UserHomeDir()
 	a.HandleError(err)
@@ -254,15 +256,19 @@ func (a *App) LaunchLilith() (string, error) {
 	if _, err := os.Stat(bindir); errors.Is(err, os.ErrNotExist) {
 		err := os.Mkdir(ldir, os.ModePerm)
 		err = os.Mkdir(bindir, os.ModePerm)
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Creating directories")
-		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Creating directories")
+		if !silent {
+			runtime.EventsEmit(a.ctx, "launch_lilith", "Creating directories")
+			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Creating directories")
+		}
 		a.HandleError(err)
 	} else {
 		msg, err := os.Stat(ldirConfig)
 		log.Println(msg)
 		if err == nil {
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Reading config")
-			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Reading config")
+			if !silent {
+				runtime.EventsEmit(a.ctx, "launch_lilith", "Reading config")
+				runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Reading config")
+			}
 			data, err := os.ReadFile(ldirConfig)
 			a.HandleError(err)
 			err = json.Unmarshal(data, &config)
@@ -286,8 +292,10 @@ func (a *App) LaunchLilith() (string, error) {
 	err = json.Unmarshal(body, &f)
 	a.HandleError(err)
 
-	runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
-	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Launching lilith "+f.Version)
+	if !silent {
+		runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Launching lilith "+f.Version)
+	}
 
 	var download string
 	switch goruntime.GOOS {
@@ -314,7 +322,9 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 
 	filename := download[strings.LastIndex(download, "/")+1:]
-	runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+	if !silent {
+		runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+	}
 
 	dir, err := os.ReadDir(bindir)
 	a.HandleError(err)
@@ -332,9 +342,11 @@ func (a *App) LaunchLilith() (string, error) {
 		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Downloading lilith "+f.Version)
 		err := DownloadFile(bindir+"/"+filename, download, a.ctx)
 		a.HandleError(err)
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
-		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+		if !silent {
+			runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+			runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+		}
 		runtime.LogInfo(a.ctx, "\rDownload Complete")
 		path = bindir + "/" + filename
 	} else {
@@ -347,9 +359,11 @@ func (a *App) LaunchLilith() (string, error) {
 			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Downloading lilith "+f.Version)
 			err = DownloadFile(bindir+"/"+filename, download, a.ctx)
 			a.HandleError(err)
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
-			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+			if !silent {
+				runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+				runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+				runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+			}
 			runtime.LogInfo(a.ctx, "\rDownload Complete")
 			path = bindir + "/" + filename
 		}
@@ -357,7 +371,9 @@ func (a *App) LaunchLilith() (string, error) {
 
 	if goruntime.GOOS != "windows" {
 		setPerm := exec.Command("chmod", "+x", path)
-		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Setting file permissions")
+		if !silent {
+			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Setting file permissions")
+		}
 		err := setPerm.Run()
 		a.HandleError(err)
 	}
@@ -368,7 +384,9 @@ func (a *App) LaunchLilith() (string, error) {
 		runtime.LogInfo(a.ctx, "Launching Lilith in debug mode")
 		cmd = exec.Command(path, "--dev", "--iknowwhatimdoing", "--ireallyknowwhatimdoing", "--color=always")
 	} else {
-		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+		if !silent {
+			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has started")
+		}
 		if config.Alpha {
 			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith Beta has started")
 		}
@@ -383,29 +401,33 @@ func (a *App) LaunchLilith() (string, error) {
 	scannerOut := bufio.NewScanner(stdout)
 	scannerErr := bufio.NewScanner(stderr)
 
-	go func() {
-		for scannerOut.Scan() {
-			log.Println(scannerOut.Text())
-			logArr = append(logArr, scannerOut.Text())
-			runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
-		}
-	}()
+	if !silent {
+		go func() {
+			for scannerOut.Scan() {
+				log.Println(scannerOut.Text())
+				logArr = append(logArr, scannerOut.Text())
+				runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
+			}
+		}()
 
-	go func() {
-		for scannerErr.Scan() {
-			log.Println(scannerErr.Text())
-			logArr = append(logArr, scannerErr.Text())
-			runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
-		}
-	}()
+		go func() {
+			for scannerErr.Scan() {
+				log.Println(scannerErr.Text())
+				logArr = append(logArr, scannerErr.Text())
+				runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
+			}
+		}()
+	}
 
 	cmd.Wait()
 
 	if err != nil {
 		if strings.Contains(err.Error(), "valid Win32 application") || strings.Contains(err.Error(), "segmentation") {
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Failed to launch Lilith")
-			runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Failed to launch Lilith")
-			runtime.LogError(a.ctx, "Failed to launch Lilith, deleting...")
+			if !silent {
+				runtime.EventsEmit(a.ctx, "launch_lilith", "Failed to launch Lilith")
+				runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Failed to launch Lilith")
+				runtime.LogError(a.ctx, "Failed to launch Lilith, deleting...")
+			}
 			err := os.Remove(path)
 			a.HandleError(err)
 			path, err := os.Executable()
@@ -417,6 +439,33 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 	runtime.EventsEmit(a.ctx, "launch_lilith", "ready to launch")
 	return "launch_complete_emit", err
+}
+
+func (a *App) CheckStatus() (string, error) {
+	homeDir, _ := os.UserHomeDir()
+	vFile := homeDir + "/lilith/.verified"
+   runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Checking integrity")
+   runtime.EventsEmit(a.ctx, "launch_lilith", "checking integrity")
+
+	go a.LaunchLilith(true)
+	time.Sleep(3 * time.Second)
+	ioutil.WriteFile(vFile, []byte(""), 0600)
+
+	for {
+		if _, err := os.Stat(path.Join(homeDir, "/lilith/.verified")); errors.Is(err, os.ErrNotExist) {
+			log.Println("not verified...")
+		} else {
+			cmd.Process.Kill()
+			break
+		}
+		time.Sleep(time.Second * 1)
+	}
+
+	return a.LaunchLilith(false)
+}
+
+func (a *App) LauncherWrapper() (string, error) {
+	return a.CheckStatus()
 }
 
 func (a *App) UpdateCheckUI() {

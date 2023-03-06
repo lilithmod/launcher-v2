@@ -1,0 +1,16 @@
+PLATFORM = 'macos'
+
+[tasks.dev]
+path = ""
+info = "run lilith"
+script = ["wails dev"]
+
+[tasks.clean]
+path = ""
+info = "remove files"
+script = ["rm {{HOME}}/lilith/.verified"]
+
+[tasks.kill]
+path = ""
+info = "kill lilith"
+script = ["killall lilith-{{PLATFORM}}-1-0-22"]
