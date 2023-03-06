@@ -18,7 +18,7 @@ const NavLink = (props: { to: string; name: any }) => {
 		<Link
 			to={props.to}
 			css={[
-				tw`text-sm font-light border-b-2 text-neutral-300 -my-2 px-2.5 py-1 transition border-transparent hover:border-rose-500 hover:bg-opacity-50`,
+				tw`text-sm font-light border-b-2 text-neutral-300 -my-2 px-2.5 py-1 transition border-transparent hover:border-rose-500`,
 				location.pathname.startsWith(`/${props.to.split('/')[1]}`) && tw`font-medium border-rose-500 pointer-events-none`,
 			]}
 		>

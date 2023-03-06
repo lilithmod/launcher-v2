@@ -31,7 +31,7 @@ const Base = (props: { id: string; config: any }) => {
 						angle: 135,
 						origin: { y: 1, x: 1.1 },
 					});
-					ShowDialog(`Lilith Launcher v${version}`, `© 2022 Lilith Development`, ['Ok'], 'Ok', '', '');
+					ShowDialog(`Lilith Launcher v${version}`, `© 2021-2023 theMackabu@(Lilith Development)`, ['Ok'], 'Ok', '', '');
 				}}
 				tw="absolute bottom-3 right-3 text-sm text-neutral-500 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 font-bold z-40 hover:cursor-pointer"
 			>
