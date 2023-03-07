@@ -272,9 +272,9 @@ func (a *App) LaunchLilith() (string, error) {
 
 	var url string
 	if config.Alpha {
-		url = "https://api.lilithmod.xyz/versions/alpha"
+		url = "https://api.lilith.rip/versions/alpha"
 	} else {
-		url = "https://api.lilithmod.xyz/versions/latest"
+		url = "https://api.lilith.rip/versions/latest"
 	}
 
 	resp, err := http.Get(url)
