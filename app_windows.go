@@ -360,7 +360,7 @@ func (a *App) LaunchLilith() (string, error) {
       cmd = exec.Command(path, "--launcher-cursor-control", "--iknowwhatimdoing", "--ireallyknowwhatimdoing", "--color=always")
    }
    
-   if goruntime.GOOS == "windows" {
+   if go_runtime.GOOS == "windows" {
       cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000} // CREATE_NO_WINDOW
    }
 
