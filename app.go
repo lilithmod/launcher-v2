@@ -65,7 +65,6 @@ func (a *App) domReady(ctx context.Context) {
 
 	runtime.EventsOn(ctx, "stop", func(...interface{}) {
 		cmd.Process.Kill()
-		runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Lilith has been shutdown")
 		runtime.EventsEmit(ctx, "launch_lilith", "ready to launch")
 	})
 
