@@ -449,7 +449,7 @@ func (a *App) CheckStatus() (string, error) {
 	homeDir, _ := os.UserHomeDir()
 	vFile := homeDir + "/lilith/.verified"
 	runtime.EventsEmit(a.ctx, "lilith_log", "[Launcher] Checking integrity")
-	runtime.EventsEmit(a.ctx, "launch_lilith", "checking integrity")
+	runtime.EventsEmit(a.ctx, "launch_lilith", "Checking integrity")
 
 	go a.LaunchLilith(true)
 	time.Sleep(3 * time.Second)

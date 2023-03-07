@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 
 import tw from 'twin.macro';
+import http from '@/api/http';
 import Page from '@/components/Page';
 import { debounce } from '@/helpers';
 import Snowfall from 'react-snowfall';
@@ -25,6 +26,12 @@ const SnowFlakes = (props: { season: Boolean; children: any }) => (
 const App = () => {
 	const [version, setVersion] = useState('0.0.0');
 
+	useEffect(() => {
+		http
+			.get('https://api.lilith.rip/versions/latest')
+			.then((data: any) => store.getActions().user.setUserData({ version: JSON.parse(data).version }));
+	}, []);
+
 	GetVersion().then((data: string) => {
 		setVersion(data);
 	});
@@ -35,14 +42,6 @@ const App = () => {
 		});
 		EventsOn('lilith_log', (messages) => {
 			store.getActions().logs.pushLogs(messages);
-			if (messages.includes('Authorized')) {
-				store.getActions().user.setUserData({
-					username: messages
-						.split('»')[1]
-						.trim()
-						.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, ''),
-				});
-			}
 			if (messages.includes('Join Lilith using the address below:')) {
 				ShowDialog('Startup Complete', ` You can join Hypixel using Lilith by connecting to the IP "localhost" in any client.`, ['Ok'], 'Ok', '', '');
 			}

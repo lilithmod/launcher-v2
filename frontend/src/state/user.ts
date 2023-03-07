@@ -1,9 +1,9 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy';
 
-const initialState = { username: '' };
+const initialState = { version: '0.0.0' };
 
 export interface UserData {
-	username: string;
+	version: string;
 }
 
 export interface UserStore {
@@ -13,7 +13,7 @@ export interface UserStore {
 }
 
 const user: UserStore = {
-	data: undefined,
+	data: initialState,
 	setUserData: action((state, payload) => {
 		state.data = payload;
 	}),

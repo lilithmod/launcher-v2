@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
 import tw from 'twin.macro';
-import http from '@/api/http';
 import Convert from 'ansi-to-html';
 import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
@@ -17,16 +16,9 @@ import { ChevronDownIcon, ExclamationIcon, XIcon } from '@heroicons/react/solid'
 const Base = (props: { id: string }) => {
 	const ButtonData = useStoreState((state: ApplicationStore) => state.button.data);
 	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);
+	const UserStore = useStoreState((state: ApplicationStore) => state.user.data);
 	const ButtonStartStatus = ButtonData !== 'ready to launch';
 	const parser = new Convert();
-
-	const [version, setVersion] = useState('0.0.0');
-
-	useEffect(() => {
-		http.get('https://api.lilith.rip/versions/latest').then((data: any) => {
-			setVersion(JSON.parse(data).version);
-		});
-	}, []);
 
 	return (
 		<PageContentBlock pageId={props.id}>
@@ -34,10 +26,10 @@ const Base = (props: { id: string }) => {
 				<Transition
 					show={ButtonStartStatus}
 					className="transition-all fixed overflow-hidden"
-					enter="transition ease-out duration-300 transform"
+					enter="transition ease-in-out duration-[400ms] transform"
 					enterFrom="translate-y-full"
 					enterTo="-translate-y-0"
-					leave="transition ease-out duration-300 transform"
+					leave="transition ease-in-out duration-[400ms] transform"
 					leaveFrom="-translate-y-0"
 					leaveTo="translate-y-full"
 				>
@@ -55,14 +47,17 @@ const Base = (props: { id: string }) => {
 
 			<div tw="bg-[url('/assets/images/BackgroundImage.png')] h-screen bg-cover">
 				<div tw="pt-52 pl-20">
-					<h1 tw="text-5xl text-white font-bold duration-300 transition">Lilith Launcher</h1>
-					<p tw="text-neutral-500 text-lg" css={ButtonStartStatus && tw`-translate-y-36 mt-1 -translate-x-12 text-lg font-bold text-neutral-200`}>
-						{ButtonStartStatus ? ButtonData : `v${version}`}
+					<h1 tw="text-5xl text-white font-bold duration-[400ms] transition">Lilith Launcher</h1>
+					<p
+						tw="text-neutral-500 text-lg"
+						css={ButtonStartStatus && tw`-translate-y-36 mt-1 -translate-x-12 text-lg font-bold text-neutral-200 duration-[400ms] transition`}
+					>
+						{ButtonStartStatus ? ButtonData : `v${UserStore!.version}`}
 					</p>
 					<div tw="pt-8">
 						<button
 							disabled={ButtonStartStatus}
-							className="z-50 disabled:-translate-y-[13.7rem] disabled:translate-x-[59.2rem] group relative z-0 inline-flex shadow-sm rounded-lg duration-300 transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:hover:shadow-purple-500/80 disabled:bg-purple-500 border border-rose-400 disabled:border-purple-400 disabled:scale-[0.80] hover:disabled:scale-[0.82] hover:bg-rose-500 hover:disabled:bg-purple-500"
+							className="z-50 disabled:-translate-y-[13.7rem] disabled:translate-x-[59.2rem] group relative z-0 inline-flex shadow-sm rounded-lg duration-[400ms] transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:hover:shadow-purple-500/80 disabled:bg-purple-500 border border-rose-400 disabled:border-purple-400 disabled:scale-[0.80] hover:disabled:scale-[0.82] hover:bg-rose-500 hover:disabled:bg-purple-500"
 						>
 							<button
 								onClick={() => {
@@ -75,7 +70,7 @@ const Base = (props: { id: string }) => {
 								}}
 								tw="transition rounded-l-lg py-2 px-8 disabled:pointer-events-none"
 							>
-								<p tw="duration-300 transition font-black text-2xl text-white group-hover:drop-shadow">
+								<p tw="duration-[400ms] transition font-black text-2xl text-white group-hover:drop-shadow">
 									{!ButtonStartStatus && (
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 inline mr-2 -mt-0.5">
 											<path

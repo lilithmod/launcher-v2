@@ -28,13 +28,18 @@ const NavLink = (props: { to: string; name: any }) => {
 };
 
 const Appbar = () => {
+	const location = useLocation();
 	const AppSettings = useStoreState((state: ApplicationStore) => state.settings.data);
 
 	return (
-		<div tw="max-w-7xl mx-auto px-6 fixed w-full z-50 mt-2" css={AppSettings?.sidebar && tw`shadow-xl`} className="draggable">
+		<div
+			tw="max-w-7xl mx-auto px-6 fixed w-full z-50 pt-2"
+			css={[location.pathname != '/launch' ? tw`bg-neutral-800` : tw`pt-2.5`, AppSettings?.sidebar && tw`shadow-xl`]}
+			className="draggable"
+		>
 			<div tw="flex justify-between items-center py-2 space-x-4">
 				<div tw="flex justify-start lg:w-0 lg:flex-1 font-bold text-white text-xl">
-					<img src={LilithLogo} tw="h-16 -mb-10 ml-5 mt-2" alt="Lilith" />
+					<img src={LilithLogo} css={location.pathname == '/launch' ? tw`h-16 -mb-10 ml-5 mt-2` : tw`h-9`} alt="Lilith" />
 				</div>
 				<NavLink to="/launch" name="Home" />
 				<NavLink to="/settings/general" name="Settings" />
