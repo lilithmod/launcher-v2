@@ -55,6 +55,7 @@ type launcherConfig struct {
 }
 
 var cmd *exec.Cmd
+var percent float64
 
 func (a *App) domReady(ctx context.Context) {
 	a.ctx = ctx
@@ -145,7 +146,7 @@ func PrintDownloadPercent(done chan int64, path string, total int64, ctx context
 				size = 1
 			}
 
-			var percent float64 = float64(size) / float64(total) * 100
+			percent = float64(size) / float64(total) * 100
 			runtime.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("%.0f%% Downloaded", percent))
 			runtime.EventsEmit(ctx, "lilith_log", fmt.Sprintf("[Launcher] %.0f%% Downloaded", percent))
 			runtime.LogInfo(ctx, fmt.Sprintf("\r%.0f", percent))
@@ -417,7 +418,8 @@ func (a *App) LaunchLilith(silent bool) (string, error) {
 			}
 		}()
 	}
-
+   
+   percent = float64(200)
 	cmd.Wait()
 
 	if err != nil {
@@ -451,8 +453,19 @@ func (a *App) CheckStatus() (string, error) {
 	runtime.EventsEmit(a.ctx, "launch_lilith", "Checking integrity")
 
 	go a.LaunchLilith(true)
-	time.Sleep(3 * time.Second)
-	ioutil.WriteFile(vFile, []byte(""), 0600)
+   for {      
+      if percent == float64(100) {
+         cmd.Process.Kill()
+         break;
+      }
+      
+      if percent == float64(200) {
+         time.Sleep(time.Second * 3)
+         ioutil.WriteFile(vFile, []byte(""), 0600)
+         cmd.Process.Kill()
+         break;
+      }
+   }
 
 	for {
 		if _, err := os.Stat(path.Join(homeDir, "/lilith/.verified")); errors.Is(err, os.ErrNotExist) {
