@@ -9,12 +9,13 @@ import Snowfall from 'react-snowfall';
 import { useStoreState } from 'easy-peasy';
 import { SettingsRouter } from '@/routers';
 import { Offline } from 'react-detect-offline';
+import { LocalhostModal } from '@/assets/images';
 import { store, ApplicationStore } from '@/state';
-import { CheckIcon, ChipIcon } from '@heroicons/react/outline';
 import { Dialog, Transition } from '@headlessui/react';
 import GlobalStyles from '@/assets/styles/GlobalStyles';
 import { LauncherHome } from '@/components/pages/Launcher';
 import { BrowserOpenURL, EventsOn } from '@/wailsjs/runtime';
+import { CheckIcon, ChipIcon } from '@heroicons/react/outline';
 import { Spinner, Appbar } from '@/components/elements/Generic';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ShowDialog, HandleErrorFrontend, GetVersion } from '@/wailsjs/go/main/App';
@@ -49,8 +50,8 @@ const Modal = (props: { open: any; setOpen: any; content: any }) => {
 					>
 						<div className="inline-block align-bottom bg-neutral-800 border border-neutral-700 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
 							<div>
-								<div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-${props.content.background}`}>
-									<props.content.icon className={`h-6 w-6 text-${props.content.color}`} aria-hidden="true" />
+								<div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-600`}>
+									<props.content.icon className={`h-6 w-6 text-green-50`} aria-hidden="true" />
 								</div>
 								<div className="mt-3 text-center sm:mt-5">
 									<Dialog.Title as="h3" className="text-lg leading-6 font-semibold text-white">
@@ -107,9 +108,6 @@ const App = () => {
 				case 'lilith_auth_link':
 					setOpen(true);
 					setModalContent({
-						color: 'white',
-						accent: 'green-700',
-						background: 'green-600',
 						icon: ChipIcon,
 						title: 'Verify your hardware',
 						description: `You will be redirected to ${msg.split('{*')[0]}. This will be linked to your discord account.`,
@@ -117,6 +115,26 @@ const App = () => {
 						function: () => {
 							setOpen(false);
 							BrowserOpenURL(msg.split('{*')[0]);
+						},
+					});
+					break;
+				case 'lilith_discord_id':
+					console.log(msg.split('{*')[0]);
+					break;
+				case 'lilith_server_address':
+					store.getActions().logs.pushLogs(
+						//@ts-expect-error
+						`<img style='border-hidden; border-2; border-radius: 0.375rem; margin-top: 0.5rem; margin-bottom: 0.5rem; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);' src='${LocalhostModal}' />`
+					);
+					setOpen(true);
+					setModalContent({
+						icon: CheckIcon,
+						title: 'Lilith is ready',
+						description: `You can connect to the address ${msg.split('{*')[0]}.`,
+						button: 'Copy to clipboard',
+						function: () => {
+							setOpen(false);
+							navigator.clipboard.writeText(msg.split('{*')[0]);
 						},
 					});
 					break;

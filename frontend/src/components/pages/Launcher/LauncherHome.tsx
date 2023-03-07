@@ -4,11 +4,11 @@ import tw from 'twin.macro';
 import Convert from 'ansi-to-html';
 import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
-import { BackgroundImage } from '@/assets/images';
 import { store, ApplicationStore } from '@/state';
 import { LaunchLilith } from '@/wailsjs/go/main/App';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { Dialog, Menu, Transition } from '@headlessui/react';
+import { BackgroundImage, LilithLogo } from '@/assets/images';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
@@ -18,14 +18,17 @@ const Console = () => {
 	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);
 	const parser = new Convert();
 
+	Logs.map((item: string, index: number) => {
+		if (Logs[index].endsWith('{*lilith_redraw_line*}')) {
+			Logs.splice(index, 1);
+			Logs[index - 1] = item.replace('{*lilith_redraw_line*}', '');
+		}
+	});
+
 	return (
 		<div tw="sm:flex sm:items-start h-[30.3rem] overflow-y-scroll p-4 pb-4 z-40 border-t border-l border-r border-neutral-700 bg-neutral-800 h-[30.4rem] mt-40 w-[70rem] shadow-xl rounded-t-2xl mx-5">
 			<pre tw="drop-shadow-md text-neutral-200 text-sm font-medium">
-				{Logs.map((item: string, index: number) => {
-					if (Logs[index].endsWith('{*lilith_redraw_line*}')) {
-						Logs.splice(index - 1, 1);
-					}
-
+				{Logs.map((item: string) => {
 					return <div dangerouslySetInnerHTML={{ __html: parser.toHtml(item.replace('{*lilith_redraw_line*}', '')) }} />;
 				})}
 			</pre>
@@ -56,18 +59,25 @@ const Base = (props: { id: string }) => {
 			</div>
 
 			<div tw="h-screen bg-cover" style={{ backgroundImage: `url(${BackgroundImage})` }}>
-				<div tw="pt-52 pl-20">
-					<h1 tw="text-5xl text-white font-bold duration-[400ms] transition">Lilith Launcher</h1>
+				<div tw="pt-36 pl-20">
+					<h1 tw="text-5xl text-white font-bold duration-[400ms] transition">
+						<img
+							src={LilithLogo}
+							tw="h-28 -ml-5 -mb-6 duration-[400ms] transition"
+							alt="Lilith"
+							css={ButtonStartStatus && tw`-translate-y-[8rem] -translate-x-[2rem] h-16`}
+						/>
+					</h1>
 					<p
 						tw="text-neutral-500 text-lg"
-						css={ButtonStartStatus && tw`-translate-y-36 mt-1 -translate-x-12 text-lg font-bold text-neutral-200 duration-[400ms] transition`}
+						css={ButtonStartStatus && tw`-translate-y-16 mt-1 -translate-x-12 text-lg font-bold text-neutral-200 duration-[400ms] transition`}
 					>
 						{ButtonStartStatus ? ButtonData : `v${UserStore!.version}`}
 					</p>
 					<div tw="pt-8">
 						<button
 							disabled={ButtonStartStatus}
-							className="z-50 disabled:-translate-y-[13.7rem] disabled:translate-x-[59.2rem] group relative z-0 inline-flex shadow-sm rounded-lg duration-[400ms] transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:hover:shadow-purple-500/80 disabled:bg-purple-500 border border-rose-400 disabled:border-purple-400 disabled:scale-[0.80] hover:disabled:scale-[0.82] hover:bg-rose-500 hover:disabled:bg-purple-500"
+							className="z-50 disabled:-translate-y-[7.1rem] disabled:translate-x-[58.4rem] group relative z-0 inline-flex shadow-sm rounded-lg duration-[400ms] transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 disabled:shadow-neutral-600/10 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:hover:shadow-neutral-500/80 disabled:bg-neutral-500 border border-rose-400 disabled:border-neutral-400 disabled:scale-[0.80] hover:disabled:scale-[0.82] hover:bg-rose-500 hover:disabled:bg-neutral-500"
 						>
 							<button
 								onClick={() => {

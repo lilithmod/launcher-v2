@@ -33,7 +33,8 @@ const Base = (props: { id: string; config: any }) => {
 					});
 					ShowDialog(`Lilith Launcher v${version}`, `© 2021-2023 theMackabu@(Lilith Development)`, ['Ok'], 'Ok', '', '');
 				}}
-				tw="absolute bottom-3 right-3 text-sm text-neutral-500 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 font-bold z-40 hover:cursor-pointer">
+				tw="absolute bottom-3 right-3 text-sm text-neutral-500 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 font-bold z-40 hover:cursor-pointer"
+			>
 				v{version}
 			</div>
 			<div tw="absolute bottom-1 right-1 text-[9px] bg-neutral-900 py-2 px-8 z-30" />
@@ -68,7 +69,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														AppSettings!.blur ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[
@@ -78,9 +80,7 @@ const Base = (props: { id: string; config: any }) => {
 													/>
 												</Switch>
 												<span tw="ml-3 mb-1" id="headlessui-label-104">
-													<span tw="text-sm font-medium text-neutral-300">
-														Enable glass effects <span tw="text-xs text-neutral-400 font-bold">BETA</span>
-													</span>
+													<span tw="text-sm font-medium text-neutral-300">Enable glass effects</span>
 												</span>
 											</div>
 										</div>
@@ -106,7 +106,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														AppSettings!.sidebar ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[
@@ -149,7 +150,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														config.alpha ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[
@@ -163,7 +165,7 @@ const Base = (props: { id: string; config: any }) => {
 												</span>
 											</div>
 											<p className="-mt-1 -mb-2 ml-14 text-sm text-neutral-400" id="key-description">
-												Restart of launcher required.
+												Lilith Beta builds may not be available for all users.
 											</p>
 										</div>
 									</div>
@@ -181,7 +183,8 @@ const Base = (props: { id: string; config: any }) => {
 													css={[
 														config.debug ? tw`bg-rose-500` : tw`bg-neutral-700`,
 														tw`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`,
-													]}>
+													]}
+												>
 													<span
 														aria-hidden="true"
 														css={[
