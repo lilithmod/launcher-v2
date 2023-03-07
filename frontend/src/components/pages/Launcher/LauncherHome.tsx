@@ -6,7 +6,7 @@ import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
 import { BackgroundImage } from '@/assets/images';
 import { store, ApplicationStore } from '@/state';
-import { LauncherWrapper } from '@/wailsjs/go/main/App';
+import { LaunchLilith } from '@/wailsjs/go/main/App';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -14,12 +14,29 @@ import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';
 import { PageContentBlock, Spinner } from '@/components/elements/Generic';
 import { ChevronDownIcon, ExclamationIcon, XIcon } from '@heroicons/react/solid';
 
+const Console = () => {
+	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);
+	const parser = new Convert();
+
+	return (
+		<div tw="sm:flex sm:items-start h-[30.3rem] overflow-y-scroll p-4 pb-4 z-40 border-t border-l border-r border-neutral-700 bg-neutral-800 h-[30.4rem] mt-40 w-[70rem] shadow-xl rounded-t-2xl mx-5">
+			<pre tw="drop-shadow-md text-neutral-200 text-sm font-medium">
+				{Logs.map((item: string, index: number) => {
+					if (Logs[index].endsWith('{*lilith_redraw_line*}')) {
+						Logs.splice(index - 1, 1);
+					}
+
+					return <div dangerouslySetInnerHTML={{ __html: parser.toHtml(item.replace('{*lilith_redraw_line*}', '')) }} />;
+				})}
+			</pre>
+		</div>
+	);
+};
+
 const Base = (props: { id: string }) => {
 	const ButtonData = useStoreState((state: ApplicationStore) => state.button.data);
-	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);
 	const UserStore = useStoreState((state: ApplicationStore) => state.user.data);
 	const ButtonStartStatus = ButtonData !== 'ready to launch';
-	const parser = new Convert();
 
 	return (
 		<PageContentBlock pageId={props.id}>
@@ -34,15 +51,7 @@ const Base = (props: { id: string }) => {
 					leaveFrom="-translate-y-0"
 					leaveTo="translate-y-full"
 				>
-					<div tw="z-40 border-t border-l border-r border-neutral-700 bg-neutral-800 h-[30.4rem] mt-40 w-[70rem] shadow-xl rounded-t-2xl mx-5">
-						<div className="sm:flex sm:items-start h-[30.3rem] overflow-y-scroll p-4 pb-4">
-							<pre tw="text-neutral-200 text-sm font-medium">
-								{Logs.map((item: string) => (
-									<div tw="drop-shadow-md" dangerouslySetInnerHTML={{ __html: parser.toHtml(item) }} />
-								))}
-							</pre>
-						</div>
-					</div>
+					<Console />
 				</Transition>
 			</div>
 
@@ -66,7 +75,7 @@ const Base = (props: { id: string }) => {
 										EventsEmit('stop');
 									} else {
 										store.getActions().logs.reset();
-										LauncherWrapper().then((data) => console.log(data));
+										LaunchLilith().then((data) => console.log(data));
 									}
 								}}
 								tw="transition rounded-l-lg py-2 px-8 disabled:pointer-events-none"

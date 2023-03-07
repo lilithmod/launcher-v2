@@ -1,5 +1,4 @@
-#PLATFORM = 'macos'
-PLATFORM = 'os_name_here'
+PLATFORM = 'macos'
 
 [tasks.install]
 path = ""
@@ -24,4 +23,4 @@ script = ["rm -rf {{HOME}}/lilith", "rm -rf bin"]
 [tasks.kill]
 path = ""
 info = "kill lilith backend"
-script = ["killall lilith-{{PLATFORM}}-1-0-22"]
+script = ["killall lilith-{{PLATFORM}}-1-0-24"]
