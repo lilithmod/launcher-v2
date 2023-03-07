@@ -16,7 +16,7 @@ import { Spinner, Appbar } from '@/components/elements/Generic';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ShowDialog, HandleErrorFrontend, GetVersion } from '@/wailsjs/go/main/App';
 
-const SnowFlakes = (props: { season: Boolean; children: any }) => (
+const SnowFlakes = (props: { season: boolean; children: any }) => (
 	<Fragment>
 		{props.season && <Snowfall style={{ zIndex: 100 }} color="#fff" />}
 		{props.children}
