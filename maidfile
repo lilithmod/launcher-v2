@@ -1,16 +1,27 @@
-PLATFORM = 'macos'
+#PLATFORM = 'macos'
+PLATFORM = 'os_name_here'
+
+[tasks.install]
+path = ""
+info = "install deps"
+script = ["go install github.com/wailsapp/wails/v2/cmd/wails@latest"]
+
+[tasks.build]
+path = ""
+info = "build lilith launcher binary (for platform)"
+script = ["wails build"]
 
 [tasks.dev]
 path = ""
-info = "run lilith"
+info = "run lilith launcher"
 script = ["wails dev"]
 
 [tasks.clean]
-path = ""
-info = "remove files"
-script = ["rm {{HOME}}/lilith/.verified"]
+path = "build"
+info = "remove lilith files"
+script = ["rm -rf {{HOME}}/lilith", "rm -rf bin"]
 
 [tasks.kill]
 path = ""
-info = "kill lilith"
+info = "kill lilith backend"
 script = ["killall lilith-{{PLATFORM}}-1-0-22"]
