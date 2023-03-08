@@ -17,8 +17,7 @@ const NavLink = (props: { to: string; name: any }) => {
 			css={[
 				tw`text-sm font-light border-b-2 text-neutral-300 -my-2 px-2.5 py-1 transition border-transparent hover:border-rose-500`,
 				location.pathname.startsWith(`/${props.to.split('/')[1]}`) && tw`font-medium border-rose-500 pointer-events-none`,
-			]}
-		>
+			]}>
 			{props.name}
 		</Link>
 	);
@@ -32,8 +31,7 @@ const Appbar = () => {
 		<div
 			tw="max-w-7xl mx-auto px-6 fixed w-full z-50 pt-2"
 			css={[location.pathname != '/launch' ? tw`bg-neutral-800` : tw`pt-3.5`, AppSettings?.sidebar && tw`shadow-xl`]}
-			className="draggable"
-		>
+			className="draggable">
 			<div tw="flex justify-between items-center py-2 space-x-4">
 				<div tw="flex justify-start lg:w-0 lg:flex-1 font-bold text-white text-xl">
 					<img src={LilithLogo} css={location.pathname == '/launch' ? tw`hidden` : tw`h-9`} alt="Lilith" />
@@ -42,8 +40,7 @@ const Appbar = () => {
 				<NavLink to="/settings/general" name="Settings" />
 				<button
 					onClick={() => BrowserOpenURL('https://lilith.rip/pricing')}
-					tw="text-sm font-light border-b-2 text-neutral-300 -my-2 px-2.5 py-1 transition border-transparent hover:border-rose-500 hover:bg-opacity-50"
-				>
+					tw="text-sm font-light border-b-2 text-neutral-300 -my-2 px-2.5 py-1 transition border-transparent hover:border-rose-500 hover:bg-opacity-50">
 					Plans
 				</button>
 				<div tw="flex items-center justify-end md:flex-1 lg:w-0">

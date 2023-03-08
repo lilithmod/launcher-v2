@@ -15,8 +15,7 @@ const Error = (props: { open: any; setOpen: any; content: any }) => {
 						enterTo="opacity-100"
 						leave="ease-in duration-200"
 						leaveFrom="opacity-100"
-						leaveTo="opacity-0"
-					>
+						leaveTo="opacity-0">
 						<Dialog.Overlay className="fixed inset-0 bg-neutral-900 backdrop-blur-sm bg-opacity-75 transition-opacity" />
 					</Transition.Child>
 					<span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -29,8 +28,7 @@ const Error = (props: { open: any; setOpen: any; content: any }) => {
 						enterTo="opacity-100 translate-y-0 sm:scale-100"
 						leave="ease-in duration-200"
 						leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-						leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-					>
+						leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
 						<div className="inline-block align-bottom bg-neutral-800 border border-neutral-700 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
 							<div>
 								<div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-600`}>
@@ -55,8 +53,7 @@ const Error = (props: { open: any; setOpen: any; content: any }) => {
 								<button
 									type="button"
 									tw="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium ring-0 outline-none text-white sm:text-sm bg-rose-500 hover:bg-rose-600 transition"
-									onClick={props.content.function}
-								>
+									onClick={props.content.function}>
 									{props.content.button}
 								</button>
 							</div>

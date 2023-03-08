@@ -44,7 +44,7 @@ const App = () => {
 		EventsOn('launch_lilith', (msg) => store.getActions().button.setButtonData(msg));
 		EventsOn('lilith_log', (msg) => {
 			let escaped = msg;
-			let parsed = msg.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+			const parsed = msg.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 
 			if (msg.includes('{*') && msg.includes('*}')) {
 				escaped = msg.split('{*')[1].slice(0, -2);

@@ -64,8 +64,7 @@ const Base = (props: { id: string; config: any }) => {
 												? Object.entries(config.nicknames).map(([key, value]: any, idx: number) => (
 														<span
 															className="inline-flex items-center py-0.5 pl-2 pr-0.5 rounded-full text-xs font-medium bg-rose-800 text-rose-100 inline mr-1.5 mb-1"
-															key={idx}
-														>
+															key={idx}>
 															<span>
 																<span tw="font-semibold">{key}</span> is nicked as <span tw="font-semibold"> {value}</span>
 															</span>
@@ -77,8 +76,7 @@ const Base = (props: { id: string; config: any }) => {
 																		.then(() => navigate('.'))
 																		.catch((err) => console.log(err));
 																}}
-																className="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-rose-300 hover:bg-rose-700 hover:text-rose-100 focus:outline-none"
-															>
+																className="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-rose-300 hover:bg-rose-700 hover:text-rose-100 focus:outline-none">
 																<svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
 																	<path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
 																</svg>
