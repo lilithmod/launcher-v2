@@ -1,4 +1,4 @@
-import { Action, action, Thunk, thunk } from 'easy-peasy';
+import { Action, action } from 'easy-peasy';
 
 const initialState = { blur: false, sidebar: false };
 

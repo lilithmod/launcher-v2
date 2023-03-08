@@ -1,18 +1,15 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React from 'react';
 
 import tw from 'twin.macro';
 import Convert from 'ansi-to-html';
-import { classNames } from '@/helpers';
 import { useStoreState } from 'easy-peasy';
+import { Transition } from '@headlessui/react';
 import { store, ApplicationStore } from '@/state';
 import { LaunchLilith } from '@/wailsjs/go/main/App';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
-import { Dialog, Menu, Transition } from '@headlessui/react';
 import { BackgroundImage, LilithLogo } from '@/assets/images';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import { BrowserOpenURL, EventsOn, EventsEmit } from '@/wailsjs/runtime';
-import { PageContentBlock, Spinner } from '@/components/elements/Generic';
-import { ChevronDownIcon, ExclamationIcon, XIcon } from '@heroicons/react/solid';
+import { BrowserOpenURL, EventsEmit } from '@/wailsjs/runtime';
+import { PageContentBlock } from '@/components/elements/Generic';
 
 const Console = () => {
 	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);

@@ -1,13 +1,9 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React from 'react';
 
 import tw from 'twin.macro';
-import { useStoreState } from 'easy-peasy';
-import { ApplicationStore } from '@/state';
 import { useNavigate } from 'react-router-dom';
-import { Link, useParams } from 'react-router-dom';
 import { SaveConfig } from '@/wailsjs/go/main/App';
-import { Dialog, Menu, Transition, Switch } from '@headlessui/react';
-import { PageContentBlock, Spinner } from '@/components/elements/Generic';
+import { PageContentBlock } from '@/components/elements/Generic';
 
 const Base = (props: { id: string; config: any }) => {
 	const navigate = useNavigate();

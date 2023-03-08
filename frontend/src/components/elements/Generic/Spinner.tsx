@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import tw from 'twin.macro';
 import styled from '@emotion/styled';

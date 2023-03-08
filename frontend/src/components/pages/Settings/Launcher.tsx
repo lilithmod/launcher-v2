@@ -1,14 +1,12 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState } from 'react';
 
 import tw from 'twin.macro';
 import confetti from 'canvas-confetti';
 import { useStoreState } from 'easy-peasy';
+import { Switch } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 import { store, ApplicationStore } from '@/state';
-import { Link, useParams } from 'react-router-dom';
-import { BrowserOpenURL } from '@/wailsjs/runtime';
-import { Dialog, Menu, Transition, Switch } from '@headlessui/react';
-import { PageContentBlock, Spinner } from '@/components/elements/Generic';
+import { PageContentBlock } from '@/components/elements/Generic';
 import { SaveConfig, GetVersion, ShowDialog } from '@/wailsjs/go/main/App';
 
 const Base = (props: { id: string; config: any }) => {
