@@ -13,6 +13,7 @@
 		"lint": "eslint src",
 		"preview": "vite preview"
 	},
+	"dependencies": {},
 	"devDependencies": {
 		"@babel/plugin-syntax-jsx": "^7.16.7",
 		"@babel/plugin-transform-react-jsx": "^7.17.3",
