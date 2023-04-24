@@ -2,3 +2,5 @@ build/bin
 store.json
 lilith.log
 .DS_Store
+.fleet
+.nova

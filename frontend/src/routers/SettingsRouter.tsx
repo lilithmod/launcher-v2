@@ -22,7 +22,7 @@ const TabSwitcher = () => {
 	return (
 		<div tw="pt-12">
 			<div
-				tw="relative p-5 sm:pb-0 fixed w-full z-10 shadow-xl"
+				tw="p-5 sm:pb-0 fixed w-full z-10 shadow-xl"
 				css={AppSettings!.blur ? tw`bg-neutral-700 backdrop-blur-lg backdrop-filter bg-opacity-[0.34]` : tw`bg-neutral-800`}>
 				<nav tw="-mb-px flex space-x-8">
 					{tabs.map((tab) => (

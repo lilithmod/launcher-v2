@@ -1,36 +1,30 @@
 [tasks.build_macos_arm]
-path = ""
 info = "build lilith launcher binary macos/arm64"
 script = ["wails build --clean --platform darwin/arm64"]
 
 [tasks.build_macos_intel]
-path = ""
 info = "build lilith launcher binary macos"
 script = ["wails build --clean --platform darwin"]
 
 [tasks.build_macos]
-path = ""
 info = "build lilith launcher binary darwin/universal"
 script = ["wails build --clean --platform darwin/universal"]
 
 [tasks.build_windows]
-path = ""
 info = "build lilith launcher binary windows/amd64"
 script = ["wails build --clean --platform windows/amd64"]
 
 [tasks.build_linux]
-path = ""
 info = "build lilith launcher binary linux/amd64"
 script = ["wails build --clean --platform linux/amd64"]
 
 [tasks.build_all]
-path = ""
 info = "build lilith launcher binary for all platforms"
 script = ["maid build_macos_arm", "maid build_macos_intel", "maid build_macos", "maid build_windows", "maid build_linux"]
 
 [tasks]
-clean = { info = "remove lilith files", path = "build", script = ["rm -rf {{HOME}}/lilith", "rm -rf bin"] }
-kill = { info = "kill lilith backend", path = "", script = "killall 'lilith-*'" }
-dev = { info = "run lilith launcher", path = "", script = "wails dev" }
-install = { info = "install wails", path = "", script = "go install github.com/wailsapp/wails/v2/cmd/wails@latest" }
-build = { info = "build lilith launcher binary (for platform)", path = "", script = "wails build --clean" }
+clean = { info = "remove lilith files", path = "build", script = ["rm -rf %{dir.home}/lilith", "rm -rf bin"] }
+kill = { info = "kill lilith backend", script = "killall 'lilith-*'" }
+dev = { info = "run lilith launcher", script = "wails dev" }
+install = { info = "install wails", script = "go install github.com/wailsapp/wails/v2/cmd/wails@latest" }
+build = { info = "build lilith launcher binary (for platform)", script = "wails build --clean" }

@@ -30,7 +30,14 @@ const Appbar = () => {
 	return (
 		<div
 			tw="max-w-7xl mx-auto px-6 fixed w-full z-50 pt-2"
-			css={[location.pathname != '/launch' ? tw`bg-neutral-800` : tw`pt-3.5`, AppSettings?.sidebar && tw`shadow-xl`]}
+			css={[
+				location.pathname != '/launch'
+					? AppSettings!.blur
+						? tw`bg-neutral-700 backdrop-blur-lg backdrop-filter bg-opacity-[0.34]`
+						: tw`bg-neutral-800`
+					: tw`pt-3.5`,
+				AppSettings?.sidebar && tw`shadow-xl`,
+			]}
 			className="draggable">
 			<div tw="flex justify-between items-center py-2 space-x-4">
 				<div tw="flex justify-start lg:w-0 lg:flex-1 font-bold text-white text-xl">
