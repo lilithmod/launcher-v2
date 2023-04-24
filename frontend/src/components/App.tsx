@@ -7,7 +7,7 @@ import Page from '@/components/Page';
 import Snowfall from 'react-snowfall';
 import { useStoreState } from 'easy-peasy';
 import { SettingsRouter } from '@/routers';
-import { LocalhostModal } from '@/assets/images';
+import { LocalhostModal, LilithLogo } from '@/assets/images';
 import { store, ApplicationStore } from '@/state';
 import { GetVersion } from '@/wailsjs/go/main/App';
 import { Appbar } from '@/components/elements/Generic';
@@ -31,9 +31,16 @@ const App = () => {
 	const [errorOpen, setErrorOpen] = useState(false);
 	const [modalContent, setModalContent] = useState({});
 	const [errorModalContent, setErrorModalContent] = useState({});
+	const [loading, setLoading] = useState(true);
 	const Logs = useStoreState((state: ApplicationStore) => state.logs.data);
 
 	let local: string[] = [];
+
+	useEffect(() => {
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
+	}, []);
 
 	useEffect(() => {
 		GetVersion().then((data: string) => setVersion(data));
@@ -110,17 +117,29 @@ const App = () => {
 	return (
 		<HashRouter>
 			<GlobalStyles />
-			<SnowFlakes season={new Date().getMonth() == 11}>
-				<Appbar />
-				<Modal open={open} setOpen={setOpen} content={modalContent} />
-				<Error open={errorOpen} setOpen={setErrorOpen} content={errorModalContent} />
-				<div tw="absolute bottom-1 right-1 text-[9px] text-neutral-500 opacity-30 z-20">v{version}</div>
-				<Routes>
-					<Route path="/" element={<Navigate to="/launch" replace />} />
-					<Route path="/launch" element={<Page component={LauncherHome} id="homepage-launcher" />} />
-					<Route path="/settings/*" element={<SettingsRouter />} />
-				</Routes>
-			</SnowFlakes>
+			{loading ? (
+				<div className="bg-lgray-900">
+					<div className="text-xl">
+						<div className="w-full h-screen flex justify-center items-center bg-lgray-900">
+							<div aria-label="Loading..." role="status">
+								<img className="animate-bounce max-w-[300px]" src={LilithLogo} />
+							</div>
+						</div>
+					</div>
+				</div>
+			) : (
+				<SnowFlakes season={new Date().getMonth() == 11}>
+					<Appbar />
+					<Modal open={open} setOpen={setOpen} content={modalContent} />
+					<Error open={errorOpen} setOpen={setErrorOpen} content={errorModalContent} />
+					<div tw="absolute bottom-1 right-1 text-[9px] text-neutral-500 opacity-30 z-20">v{version}</div>
+					<Routes>
+						<Route path="/" element={<Navigate to="/launch" replace />} />
+						<Route path="/launch" element={<Page component={LauncherHome} id="homepage-launcher" />} />
+						<Route path="/settings/*" element={<SettingsRouter />} />
+					</Routes>
+				</SnowFlakes>
+			)}
 		</HashRouter>
 	);
 };
