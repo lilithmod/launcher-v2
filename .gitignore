@@ -4,3 +4,5 @@ lilith.log
 .DS_Store
 .fleet
 .nova
+.yarn
+yarn.lock
