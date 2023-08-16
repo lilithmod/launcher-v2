@@ -23,3 +23,12 @@ body {
 	animation: hueRotate 15s ease-in-out infinite;
 	-webkit-animation: hueRotate 15s ease-in-out infinite;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}

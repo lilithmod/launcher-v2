@@ -23,8 +23,8 @@ const Console = () => {
 	});
 
 	return (
-		<div tw="sm:flex sm:items-start h-[30.3rem] overflow-y-scroll p-4 pb-4 z-40 border-t border-l border-r border-neutral-700 bg-neutral-800 h-[30.4rem] mt-40 w-[70rem] shadow-xl rounded-t-2xl mx-5">
-			<pre tw="drop-shadow-md text-neutral-200 text-sm font-medium">
+		<div className="no-scrollbar" tw="sm:flex sm:items-start h-[30.3rem] overflow-y-scroll p-4 pb-4 z-40 border-t border-l border-r border-neutral-700 bg-neutral-800 h-[30.4rem] mt-40 w-[70rem] shadow-xl rounded-t-2xl mx-5">
+			<pre tw="drop-shadow-md text-neutral-200 text-sm font-medium font-mono">
 				{Logs.map((item: string) => {
 					return <div dangerouslySetInnerHTML={{ __html: parser.toHtml(item.replace('{*lilith_redraw_line*}', '')) }} />;
 				})}
