@@ -7,6 +7,7 @@ const config: Config = {
 	theme: {
 		fontFamily: {
 			sans: ['Inter var', ...fontFamily.sans],
+			mono: [...fontFamily.mono]
 		},
 		extend: {
 			boxShadow: {
