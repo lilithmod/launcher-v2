@@ -71,8 +71,8 @@ const Base = (props: { id: string }) => {
 					</p>
 					<div tw="pt-8">
 						<button
-							disabled={ButtonStartStatus}
-							className="z-50 disabled:-translate-y-[7.1rem] disabled:translate-x-[58.4rem] group relative z-0 inline-flex shadow-sm rounded-lg duration-[400ms] transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 disabled:shadow-neutral-600/10 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 disabled:hover:shadow-neutral-500/80 disabled:bg-neutral-500 border border-rose-400 disabled:border-neutral-400 disabled:scale-[0.80] hover:disabled:scale-[0.82] hover:bg-rose-500 hover:disabled:bg-neutral-500">
+							css={ButtonStartStatus && tw`translate-x-[58.4rem] -translate-y-[7.1rem] hover:bg-neutral-500 shadow-neutral-600/10 hover:shadow-neutral-500/80 bg-neutral-500 border-neutral-400 scale-[0.80] hover:scale-[0.82]`}
+							className="group relative z-0 inline-flex shadow-sm rounded-lg duration-[400ms] transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 border border-rose-400 hover:bg-rose-500">
 							<button
 								onClick={() => {
 									if (ButtonStartStatus) {
