@@ -39,7 +39,7 @@ const TabSwitcher = () => {
 						</Link>
 					))}
 					<button
-						onClick={() => BrowserOpenURL('https://me.lilithmod.xyz')}
+						onClick={() => BrowserOpenURL('https://me.lilith.rip')}
 						className="group border-transparent text-neutral-500 hover:text-neutral-300 hover:border-neutral-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm transition">
 						Global Config
 					</button>
@@ -57,7 +57,7 @@ const Sidebar = () => {
 	const location = useLocation();
 
 	return (
-		<div tw="flex w-64 flex-col fixed inset-y-0 mt-[3.2rem]">
+		<div tw="flex w-64 flex-col fixed inset-y-0 mt-[3.8rem]">
 			<div tw="flex-1 flex flex-col min-h-0 bg-neutral-800">
 				<div tw="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
 					<nav tw="-mt-3 flex-1 px-2 space-y-1 transition">

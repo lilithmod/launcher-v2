@@ -1,6 +1,6 @@
 import { Action, action } from 'easy-peasy';
 
-const initialState = { blur: false, sidebar: false };
+const initialState = { blur: false, sidebar: true };
 
 export interface AppSettings {
 	blur: boolean;

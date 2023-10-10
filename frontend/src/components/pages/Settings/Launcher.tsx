@@ -112,7 +112,7 @@ const Base = (props: { id: string; config: any }) => {
 													/>
 												</Switch>
 												<span tw="ml-3 mb-1" id="headlessui-label-104">
-													<span tw="text-sm font-medium text-neutral-300">Enable sidebar layout</span>
+													<span tw="text-sm font-medium text-neutral-300">{AppSettings!.sidebar ? 'Disable' : 'Enable'} sidebar layout</span>
 												</span>
 											</div>
 										</div>

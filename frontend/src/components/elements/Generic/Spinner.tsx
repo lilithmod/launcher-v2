@@ -2,7 +2,7 @@ import React from 'react';
 
 import tw from 'twin.macro';
 import styled from '@emotion/styled';
-import { jsx, css, keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 export type SpinnerSize = 'small' | 'base' | 'large' | 'xsmall';
 
