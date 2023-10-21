@@ -23,7 +23,9 @@ const Console = () => {
 	});
 
 	return (
-		<div className="no-scrollbar" tw="sm:flex sm:items-start h-[30.3rem] overflow-y-scroll p-4 pb-4 z-40 border-t border-l border-r border-neutral-700 bg-neutral-800 h-[30.4rem] mt-40 w-[70rem] shadow-xl rounded-t-2xl mx-5">
+		<div
+			className="no-scrollbar"
+			tw="sm:flex sm:items-start h-[30.3rem] overflow-y-scroll p-4 pb-4 z-40 border-t border-l border-r border-neutral-700 bg-neutral-800 h-[30.4rem] mt-40 w-[70rem] shadow-xl rounded-t-2xl mx-5">
 			<pre tw="drop-shadow-md text-neutral-200 text-sm font-medium font-mono">
 				{Logs.map((item: string) => {
 					return <div dangerouslySetInnerHTML={{ __html: parser.toHtml(item.replace('{*lilith_redraw_line*}', '')) }} />;
@@ -71,7 +73,10 @@ const Base = (props: { id: string }) => {
 					</p>
 					<div tw="pt-8">
 						<button
-							css={ButtonStartStatus && tw`translate-x-[58.4rem] -translate-y-[7.1rem] hover:bg-neutral-500 shadow-neutral-600/10 hover:shadow-neutral-500/80 bg-neutral-500 border-neutral-400 scale-[0.80] hover:scale-[0.82]`}
+							css={
+								ButtonStartStatus &&
+								tw`translate-x-[58.4rem] -translate-y-[7.1rem] hover:bg-neutral-500 shadow-neutral-600/10 hover:shadow-neutral-500/80 bg-neutral-500 border-neutral-400 scale-[0.80] hover:scale-[0.82]`
+							}
 							className="group relative z-0 inline-flex shadow-sm rounded-lg duration-[400ms] transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 border border-rose-400 hover:bg-rose-500">
 							<button
 								onClick={() => {

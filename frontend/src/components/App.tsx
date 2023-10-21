@@ -95,7 +95,7 @@ const App = () => {
 			if (parsed.startsWith('Error »')) {
 				setErrorOpen(true);
 				setErrorModalContent({
-					icon: ExclamationIcon,
+					icon: <ExclamationIcon className={`h-6 w-6 text-red-50`} aria-hidden="true" />,
 					title: 'Lilith has encountered an error',
 					description: parsed.replace('Error »', ''),
 					button: 'Copy full error to clipboard',
@@ -112,7 +112,7 @@ const App = () => {
 				case 'lilith_auth_link':
 					setOpen(true);
 					setModalContent({
-						icon: ChipIcon,
+						icon: <ChipIcon className={`h-6 w-6 text-green-50`} aria-hidden="true" />,
 						title: 'Verify your hardware',
 						description: `You will be redirected to ${msg.split('{*')[0]}. This will be linked to your discord account.`,
 						button: 'Verify',
@@ -132,7 +132,7 @@ const App = () => {
 					);
 					setOpen(true);
 					setModalContent({
-						icon: CheckIcon,
+						icon: <CheckIcon className={`h-6 w-6 text-green-50`} aria-hidden="true" />,
 						title: 'Lilith is ready',
 						description: `You can connect to the address ${msg.split('{*')[0]}.`,
 						button: 'Copy to clipboard',
