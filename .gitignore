@@ -4,3 +4,4 @@ lilith.log
 .DS_Store
 .fleet
 .nova
+__debug_bin
