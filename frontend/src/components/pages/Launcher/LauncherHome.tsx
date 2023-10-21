@@ -56,7 +56,7 @@ const Base = (props: { id: string }) => {
 				</Transition>
 			</div>
 
-			<div tw="h-screen bg-cover" style={{ backgroundImage: `url(${BackgroundImage})` }}>
+			<div tw="h-screen bg-cover" style={{ backgroundImage: `url(data:image/jpeg;base64,${BackgroundImage})` }}>
 				<div tw="pt-36 pl-20">
 					<h1 tw="text-5xl text-white font-bold duration-[400ms] transition">
 						<img
