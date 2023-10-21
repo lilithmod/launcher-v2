@@ -17,14 +17,11 @@ const StyledTransition = styled(Transition)`
 /* rewrite to use routes */
 const TransitionWrapper = (props: { render: React.ReactNode }) => {
 	return (
-		<StyledTransition in appear unmountOnExit timeout={150}>
-			{(state) => (
-				<section>
-					<Fade in={state === 'entered'} timeout={150}>
-						{props.render}
-					</Fade>
-				</section>
-			)}
+		//@ts-ignore
+		<StyledTransition>
+			<Fade timeout={150} in appear unmountOnExit>
+				<section>{props.render}</section>
+			</Fade>
 		</StyledTransition>
 	);
 };
