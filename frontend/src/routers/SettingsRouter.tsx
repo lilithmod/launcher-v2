@@ -8,10 +8,10 @@ import { useStoreState } from 'easy-peasy';
 import { store, ApplicationStore } from '@/state';
 import { BrowserOpenURL } from '@/wailsjs/runtime';
 import { LoadConfig } from '@/wailsjs/go/main/App';
-import { Spinner } from '@/components/elements/Generic';
 import { classNames, tryParseJSONObject } from '@/helpers';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Spinner, TransitionWrapper } from '@/components/elements/Generic';
 import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
 
 const TabSwitcher = () => {
@@ -140,24 +140,40 @@ const SettingsRouter = () => {
 				<div css={AppSettings!.sidebar && tw`ml-64`}>
 					{loaded ? (
 						<Routes>
-							<Route path="/general" element={<Page component={Settings} id="settings-general" config={lilithConfig} />} />
-							<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />
-							<Route path="/aliases" element={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />
+							<Route
+								path="/general"
+								element={<TransitionWrapper render={<Page component={Settings} id="settings-general" config={lilithConfig} />} />}
+							/>
+							<Route
+								path="/launcher"
+								element={<TransitionWrapper render={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />}
+							/>
+							<Route
+								path="/aliases"
+								element={<TransitionWrapper render={<Page component={Aliases} id="settings-aliases" config={lilithConfig} />} />}
+							/>
 						</Routes>
 					) : (
 						<Routes>
-							<Route path="/launcher" element={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />
+							<Route
+								path="/launcher"
+								element={<TransitionWrapper render={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />}
+							/>
 							<Route
 								path="/*"
 								element={
-									<div>
-										<div tw="w-full pt-[17rem] flex justify-center items-center">
-											<Spinner size="large" />
-										</div>
-										<p tw="flex justify-center items-center mt-3 text-neutral-200 font-medium text-lg">
-											Please start lilith to generate a config file.
-										</p>
-									</div>
+									<TransitionWrapper
+										render={
+											<div>
+												<div tw="w-full pt-[17rem] flex justify-center items-center">
+													<Spinner size="large" />
+												</div>
+												<p tw="flex justify-center items-center mt-3 text-neutral-200 font-medium text-lg">
+													Please start lilith to generate a config file.
+												</p>
+											</div>
+										}
+									/>
 								}
 							/>
 						</Routes>
