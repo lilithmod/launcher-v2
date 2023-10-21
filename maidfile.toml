@@ -1,22 +1,22 @@
 [tasks.build_macos_arm]
-info = "build lilith launcher binary macos/arm64"
-script = ["wails build --clean --platform darwin/arm64"]
+info = "aarch64 binary"
+script = "wails build --clean --platform darwin/arm64"
 
 [tasks.build_macos_intel]
-info = "build lilith launcher binary macos"
-script = ["wails build --clean --platform darwin"]
+info = "x86_64 binary"
+script = "wails build --clean --platform darwin"
 
 [tasks.build_macos]
-info = "build lilith launcher binary darwin/universal"
-script = ["wails build --clean --platform darwin/universal"]
+info = "universal2 binary"
+script = "wails build --clean --platform darwin/universal"
 
 [tasks.build_windows]
-info = "build lilith launcher binary windows/amd64"
-script = ["wails build --clean --platform windows/amd64"]
+info = "x86_64 binary"
+script = "wails build --clean --platform windows/amd64"
 
 [tasks.build_linux]
-info = "build lilith launcher binary linux/amd64"
-script = ["wails build --clean --platform linux/amd64"]
+info = "x86_64 binary"
+script = "wails build --clean --platform linux/amd64"
 
 [tasks.build_all]
 info = "build lilith launcher binary for all platforms"
