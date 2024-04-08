@@ -1,11 +1,9 @@
 name: Build Application
-
-on: [push, pull_request]
+on: [workflow_dispatch]
 
 jobs:
   build:
     name: Build Application
-    if: "contains(github.event.head_commit.message, '[run build]')"
     strategy:
       fail-fast: false
       matrix:
@@ -17,11 +15,17 @@ jobs:
           ]
     runs-on: ${{ matrix.build.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
       - uses: theMackabu/wails-build-action@main
         with:
+          package: true
+          go-version: '1.22'
+          node-version: '20.x'
           build-name: ${{ matrix.build.name }}
           build-platform: ${{ matrix.build.platform }}
-          package: false

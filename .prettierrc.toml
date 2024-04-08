@@ -1,4 +1,4 @@
-trailingComma = "es5"
+trailingComma = "es6"
 printWidth = 150
 tabWidth = 2
 useTabs = true
