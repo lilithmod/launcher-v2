@@ -16,7 +16,7 @@ const Base = (props: { id: string; config: any }) => {
 					<div tw="md:grid md:grid-cols-4 md:gap-6">
 						<div tw="md:col-span-1">
 							<h3 tw="text-lg font-medium leading-6 text-neutral-300">Command Aliases</h3>
-							<p tw="mt-1.5 text-sm text-neutral-400">Change how you involke a command. Use comma as separator for each command alias.</p>
+							<p tw="mt-1.5 text-sm text-neutral-400">Change how you invoke a command. Use comma as separator for each command alias.</p>
 						</div>
 						<div tw="mt-5 md:mt-0 md:col-span-3">
 							<div tw="space-y-6">
