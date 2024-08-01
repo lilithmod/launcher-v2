@@ -9,22 +9,19 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"path"
+	"runtime"
 	"strconv"
 	"strings"
 	"syscall"
 	"time"
 
-	go_runtime "runtime"
-	//"github.com/hugolgst/rich-go/client"
-	"github.com/wailsapp/wails/v2/pkg/runtime"
-
-	"lilith/internal/update"
+	wails_rt "github.com/wailsapp/wails/v2/pkg/runtime"
+	lilith_update "lilith/internal/update"
 )
 
 type App struct {
@@ -39,14 +36,12 @@ type versionResponse struct {
 		Fixes    []string `json:"fixes"`
 	}
 	Download struct {
-		Windows string `json:"windows"`
-		Linux   string `json:"linux"`
-		Macos   string `json:"macos"`
+		Linux string `json:"linux"`
+		Macos string `json:"macos"`
 	}
 	Sizes struct {
-		Windows int64 `json:"windows"`
-		Linux   int64 `json:"linux"`
-		Macos   int64 `json:"macos"`
+		Linux int64 `json:"linux"`
+		Macos int64 `json:"macos"`
 	}
 }
 
@@ -60,17 +55,17 @@ var cmd *exec.Cmd
 func (a *App) domReady(ctx context.Context) {
 	a.ctx = ctx
 
-	runtime.LogInfo(ctx, "Checking For Updates")
+	wails_rt.LogInfo(ctx, "Checking For Updates")
 	a.UpdateCheckUI()
 
-	runtime.EventsOn(ctx, "stop", func(...interface{}) {
+	wails_rt.EventsOn(ctx, "stop", func(...interface{}) {
 		cmd.Process.Kill()
-		runtime.EventsEmit(ctx, "launch_lilith", "ready to launch")
+		wails_rt.EventsEmit(ctx, "launch_lilith", "ready to launch")
 	})
 
-	runtime.EventsOn(ctx, "lilith_err", func(...interface{}) {})
-	runtime.EventsOn(ctx, "launch_lilith", func(...interface{}) {})
-	runtime.EventsOn(ctx, "lilith_log", func(...interface{}) {})
+	wails_rt.EventsOn(ctx, "lilith_err", func(...interface{}) {})
+	wails_rt.EventsOn(ctx, "launch_lilith", func(...interface{}) {})
+	wails_rt.EventsOn(ctx, "lilith_log", func(...interface{}) {})
 }
 
 func (a *App) shutdown(ctx context.Context) {
@@ -147,8 +142,8 @@ func PrintDownloadPercent(done chan int64, path string, total int64, ctx context
 			}
 
 			var percent float64 = float64(size) / float64(total) * 100
-			runtime.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("%.0f%% Downloaded", percent))
-			runtime.LogInfo(ctx, fmt.Sprintf("\r%.0f", percent))
+			wails_rt.EventsEmit(ctx, "launch_lilith", fmt.Sprintf("%.0f%% Downloaded", percent))
+			wails_rt.LogInfo(ctx, fmt.Sprintf("\r%.0f", percent))
 		}
 
 		if stop {
@@ -164,19 +159,19 @@ func NewApp() *App {
 
 func (a *App) HandleError(err error) {
 	if err != nil {
-		runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+		wails_rt.MessageDialog(a.ctx, wails_rt.MessageDialogOptions{
 			Type:         "error",
 			Title:        "Lilith has encountered an error.",
 			Message:      err.Error(),
 			Buttons:      []string{"Ok"},
 			CancelButton: "Ok",
 		})
-		runtime.LogError(a.ctx, err.Error())
+		wails_rt.LogError(a.ctx, err.Error())
 	}
 }
 
 func (a *App) HandleErrorFrontend(err string) {
-	runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+	wails_rt.MessageDialog(a.ctx, wails_rt.MessageDialogOptions{
 		Type:         "error",
 		Title:        "Lilith has encountered an error.",
 		Message:      err,
@@ -186,7 +181,7 @@ func (a *App) HandleErrorFrontend(err string) {
 }
 
 func (a *App) GetVersion() string {
-	return update.Version
+	return lilith_update.Version
 }
 
 func (a *App) HTTPGetRequest(url string) (string, error) {
@@ -195,7 +190,7 @@ func (a *App) HTTPGetRequest(url string) (string, error) {
 		return "", err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
@@ -204,7 +199,7 @@ func (a *App) HTTPGetRequest(url string) (string, error) {
 }
 
 func (a *App) ShowDialog(dialogTitle string, dialogMessage string, dialogButtons []string, dialogDefaultButton string, dialogCancelButton string, meta string) string {
-	runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+	wails_rt.MessageDialog(a.ctx, wails_rt.MessageDialogOptions{
 		Title:         dialogTitle,
 		Message:       dialogMessage,
 		Buttons:       dialogButtons,
@@ -231,7 +226,7 @@ func (a *App) SaveConfig(config string) error {
 		return err
 	}
 	filename := path.Join(homeDir, "/lilith/store.json")
-	return ioutil.WriteFile(filename, []byte(config), 0600)
+	return os.WriteFile(filename, []byte(config), 0600)
 }
 
 func (a *App) LaunchLilith() (string, error) {
@@ -241,7 +236,7 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 
 	// update button status early
-	runtime.EventsEmit(a.ctx, "launch_lilith", "Fetching lilith versions")
+	wails_rt.EventsEmit(a.ctx, "launch_lilith", "Fetching lilith versions")
 
 	homedir, err := os.UserHomeDir()
 	a.HandleError(err)
@@ -252,13 +247,13 @@ func (a *App) LaunchLilith() (string, error) {
 	if _, err := os.Stat(bindir); errors.Is(err, os.ErrNotExist) {
 		err := os.Mkdir(ldir, os.ModePerm)
 		err = os.Mkdir(bindir, os.ModePerm)
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Creating directories")
+		wails_rt.EventsEmit(a.ctx, "launch_lilith", "Creating directories")
 		a.HandleError(err)
 	} else {
 		msg, err := os.Stat(ldirConfig)
 		log.Println(msg)
 		if err == nil {
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Reading config")
+			wails_rt.EventsEmit(a.ctx, "launch_lilith", "Reading config")
 			data, err := os.ReadFile(ldirConfig)
 			a.HandleError(err)
 			err = json.Unmarshal(data, &config)
@@ -275,19 +270,17 @@ func (a *App) LaunchLilith() (string, error) {
 
 	resp, err := http.Get(url)
 	a.HandleError(err)
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	a.HandleError(err)
 
 	var f versionResponse
 	err = json.Unmarshal(body, &f)
 	a.HandleError(err)
 
-	runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+	wails_rt.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
 
 	var download string
-	switch go_runtime.GOOS {
-	case "windows":
-		download = f.Download.Windows
+	switch runtime.GOOS {
 	case "darwin":
 		download = f.Download.Macos
 	case "linux":
@@ -297,9 +290,7 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 
 	var size int64
-	switch go_runtime.GOOS {
-	case "windows":
-		size = f.Sizes.Windows
+	switch runtime.GOOS {
 	case "darwin":
 		size = f.Sizes.Macos
 	case "linux":
@@ -309,7 +300,7 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 
 	filename := download[strings.LastIndex(download, "/")+1:]
-	runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+	wails_rt.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
 
 	dir, err := os.ReadDir(bindir)
 	a.HandleError(err)
@@ -322,39 +313,37 @@ func (a *App) LaunchLilith() (string, error) {
 	}
 
 	if path == "" {
-		runtime.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith "+f.Version)
+		wails_rt.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")
+		wails_rt.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith "+f.Version)
 		err := DownloadFile(bindir+"/"+filename, download, a.ctx)
 		a.HandleError(err)
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
-		runtime.LogInfo(a.ctx, "\rDownload Complete")
+		wails_rt.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+		wails_rt.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+		wails_rt.LogInfo(a.ctx, "\rDownload Complete")
 		path = bindir + "/" + filename
 	} else {
 		fi, _ := os.Stat(path)
 		if fi.Size() != size {
 			err := os.Remove(path)
 			a.HandleError(err)
-			runtime.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith "+f.Version)
+			wails_rt.LogInfo(a.ctx, "Couldn't find the latest Lilith version, downloading...")
+			wails_rt.EventsEmit(a.ctx, "launch_lilith", "Downloading lilith "+f.Version)
 			err = DownloadFile(bindir+"/"+filename, download, a.ctx)
 			a.HandleError(err)
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
-			runtime.LogInfo(a.ctx, "\rDownload Complete")
+			wails_rt.EventsEmit(a.ctx, "launch_lilith", "Launching lilith "+f.Version)
+			wails_rt.EventsEmit(a.ctx, "launch_lilith", "Lilith is now running")
+			wails_rt.LogInfo(a.ctx, "\rDownload Complete")
 			path = bindir + "/" + filename
 		}
 	}
 
-	if go_runtime.GOOS != "windows" {
-		setPerm := exec.Command("chmod", "+x", path)
-		err := setPerm.Run()
-		a.HandleError(err)
-	}
+	setPerm := exec.Command("chmod", "+x", path)
+	err = setPerm.Run()
+	a.HandleError(err)
 
 	if config.Debug {
-		runtime.EventsEmit(a.ctx, "launch_lilith", "Running Lilith in debug mode")
-		runtime.LogInfo(a.ctx, "Launching Lilith in debug mode")
+		wails_rt.EventsEmit(a.ctx, "launch_lilith", "Running Lilith in debug mode")
+		wails_rt.LogInfo(a.ctx, "Launching Lilith in debug mode")
 		cmd = exec.Command(path, "--dev", "--iknowwhatimdoing", "--ireallyknowwhatimdoing", "--color=always")
 	} else {
 		cmd = exec.Command(path, "--launcher-cursor-control", "--iknowwhatimdoing", "--ireallyknowwhatimdoing", "--color=always")
@@ -372,7 +361,7 @@ func (a *App) LaunchLilith() (string, error) {
 		for scannerOut.Scan() {
 			log.Println(scannerOut.Text())
 			logArr = append(logArr, scannerOut.Text())
-			runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
+			wails_rt.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
 		}
 	}()
 
@@ -380,7 +369,7 @@ func (a *App) LaunchLilith() (string, error) {
 		for scannerErr.Scan() {
 			log.Println(scannerErr.Text())
 			logArr = append(logArr, scannerErr.Text())
-			runtime.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
+			wails_rt.EventsEmit(a.ctx, "lilith_log", logArr[len(logArr)-1])
 		}
 	}()
 
@@ -388,8 +377,8 @@ func (a *App) LaunchLilith() (string, error) {
 
 	if err != nil {
 		if strings.Contains(err.Error(), "valid Win32 application") || strings.Contains(err.Error(), "segmentation") {
-			runtime.EventsEmit(a.ctx, "launch_lilith", "Failed to launch Lilith")
-			runtime.LogError(a.ctx, "Failed to launch Lilith, deleting...")
+			wails_rt.EventsEmit(a.ctx, "launch_lilith", "Failed to launch Lilith")
+			wails_rt.LogError(a.ctx, "Failed to launch Lilith, deleting...")
 			err := os.Remove(path)
 			a.HandleError(err)
 			path, err := os.Executable()
@@ -399,37 +388,37 @@ func (a *App) LaunchLilith() (string, error) {
 		}
 
 	}
-	runtime.EventsEmit(a.ctx, "launch_lilith", "ready to launch")
+	wails_rt.EventsEmit(a.ctx, "launch_lilith", "ready to launch")
 	return "launch_complete_emit", err
 }
 
 func (a *App) UpdateCheckUI() {
-	shouldUpdate, latestVersion := update.CheckForUpdate()
+	shouldUpdate, latestVersion := lilith_update.CheckForUpdate()
 	if shouldUpdate {
 		updateMessage := fmt.Sprintf("New Version Available, would you like to update to v%s", latestVersion)
 		buttons := []string{"Yes", "No"}
-		dialogOpts := runtime.MessageDialogOptions{Title: "Update Available", Message: updateMessage, Type: runtime.QuestionDialog, Buttons: buttons, DefaultButton: "Yes", CancelButton: "No"}
-		action, err := runtime.MessageDialog(a.ctx, dialogOpts)
+		dialogOpts := wails_rt.MessageDialogOptions{Title: "Update Available", Message: updateMessage, Type: wails_rt.QuestionDialog, Buttons: buttons, DefaultButton: "Yes", CancelButton: "No"}
+		action, err := wails_rt.MessageDialog(a.ctx, dialogOpts)
 		if err != nil {
-			runtime.LogError(a.ctx, "Error in update dialog. ")
+			wails_rt.LogError(a.ctx, "Error in update dialog. ")
 		}
-		runtime.LogInfo(a.ctx, action)
+		wails_rt.LogInfo(a.ctx, action)
 		if action == "Yes" {
-			runtime.LogInfo(a.ctx, "Update clicked")
+			wails_rt.LogInfo(a.ctx, "Update clicked")
 			var updated bool
-			if go_runtime.GOOS == "darwin" {
-				updated = update.DoSelfUpdateMac()
+			if runtime.GOOS == "darwin" {
+				updated = lilith_update.DoSelfUpdateMac()
 			} else {
-				updated = update.DoSelfUpdate()
+				updated = lilith_update.DoSelfUpdate()
 			}
 			if updated {
 				buttons = []string{"Ok"}
-				dialogOpts = runtime.MessageDialogOptions{Title: "Update Succeeded", Message: "Update Successfull. Please restart this app to take effect. ", Type: runtime.InfoDialog, Buttons: buttons, DefaultButton: "Ok"}
-				runtime.MessageDialog(a.ctx, dialogOpts)
+				dialogOpts = wails_rt.MessageDialogOptions{Title: "Update Succeeded", Message: "Update Successfull. Please restart this app to take effect. ", Type: wails_rt.InfoDialog, Buttons: buttons, DefaultButton: "Ok"}
+				wails_rt.MessageDialog(a.ctx, dialogOpts)
 			} else {
 				buttons = []string{"Ok"}
-				dialogOpts = runtime.MessageDialogOptions{Title: "Update Error", Message: "Update failed, please manually update from GitHub Releases. ", Type: runtime.InfoDialog, Buttons: buttons, DefaultButton: "Ok"}
-				runtime.MessageDialog(a.ctx, dialogOpts)
+				dialogOpts = wails_rt.MessageDialogOptions{Title: "Update Error", Message: "Update failed, please manually update from GitHub Releases. ", Type: wails_rt.InfoDialog, Buttons: buttons, DefaultButton: "Ok"}
+				wails_rt.MessageDialog(a.ctx, dialogOpts)
 			}
 		}
 	}
