@@ -33,7 +33,7 @@ const TabSwitcher = () => {
 								location.pathname.startsWith(tab.href)
 									? 'border-rose-600 text-rose-500'
 									: 'border-transparent text-neutral-500 hover:text-neutral-300 hover:border-neutral-300',
-								'whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm transition'
+								'whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm transition',
 							)}>
 							{tab.name}
 						</Link>
@@ -67,12 +67,12 @@ const Sidebar = () => {
 								to={item.href}
 								className={classNames(
 									location.pathname.startsWith(item.href) ? 'bg-neutral-900 text-white' : 'text-neutral-300 hover:bg-neutral-700 hover:text-white',
-									'group flex items-center px-2 py-2 text-sm font-medium rounded-md transition'
+									'group flex items-center px-2 py-2 text-sm font-medium rounded-md transition',
 								)}>
 								<item.icon
 									className={classNames(
 										location.pathname.startsWith(item.href) ? 'text-neutral-300' : 'text-neutral-400 group-hover:text-neutral-300',
-										'mr-3 flex-shrink-0 h-6 w-6 transition'
+										'mr-3 flex-shrink-0 h-6 w-6 transition',
 									)}
 									aria-hidden="true"
 								/>

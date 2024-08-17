@@ -1,0 +1,6 @@
+[env]
+CC = "cc"
+CXX = "c++"
+
+[tools]
+go = "1.23"

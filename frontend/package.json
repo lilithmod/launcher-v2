@@ -2,6 +2,7 @@
 	"name": "lilith_launcher",
 	"license": "GPL-3.0",
 	"homepage": "/index.html",
+	"type": "module",
 	"babelMacros": {
 		"twin": {
 			"preset": "emotion"
