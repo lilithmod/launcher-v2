@@ -28,7 +28,7 @@ const Appbar = () => {
 		return pathname != '/launch'
 			? AppSettings!.blur
 				? tw`bg-neutral-700 backdrop-blur-lg backdrop-filter bg-opacity-[0.34]`
-				: tw`bg-neutral-800 shadow`
+				: tw`bg-neutral-800 shadow-xl border-b border-neutral-700/30`
 			: tw`pt-3.5`;
 	};
 
