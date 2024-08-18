@@ -1,6 +1,7 @@
 export { default as Fade } from './Fade';
 export { default as Appbar } from './Appbar';
 export { default as Splash } from './Splash';
+export { default as Shimmer } from './Shimmer';
 export { default as Spinner } from './Spinner';
 export { default as Heroicons } from './Heroicons';
 export { default as Snowflakes } from './Snowflakes';

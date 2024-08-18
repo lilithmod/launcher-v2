@@ -220,6 +220,18 @@ func (a *App) LoadConfig() (string, error) {
 	return string(fileData), err
 }
 
+func (a *App) DeleteEverything() error {
+	homeDir, _ := os.UserHomeDir()
+	err := os.RemoveAll(fmt.Sprint(homeDir, "/lilith/"))
+	if err != nil {
+		return err
+	}
+
+	time.Sleep(2 * time.Second)
+
+	return nil
+}
+
 func (a *App) SaveConfig(config string) error {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {

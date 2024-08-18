@@ -1,3 +1,6 @@
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
 export const toHex = (str: string) => {
 	let result = '';
 	for (let i = 0; i < str.length; i++) {
@@ -15,9 +18,9 @@ export const getRandomString = (length: number) => {
 	return result;
 };
 
-export const classNames = (...classes: Array<any>) => {
-	return classes.filter(Boolean).join(' ');
-};
+export const classNames = (...classes: Array<any>) => classes.filter(Boolean).join(' ');
+
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
 export const tryParseJSONObject = (jsonString: string) => {
 	try {

@@ -39,7 +39,7 @@ const Appbar = () => {
 					<img src={LilithLogo} css={location.pathname == '/launch' ? tw`hidden` : tw`h-9`} alt="Lilith" />
 				</div>
 				<NavLink to="/launch" name="Home" />
-				<NavLink to="/settings/general" name="Settings" />
+				<NavLink to="/settings" name="Settings" />
 				<button onClick={() => BrowserOpenURL('https://lilith.rip/pricing')} css={LinkStyle}>
 					Plans
 				</button>

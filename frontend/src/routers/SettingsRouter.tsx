@@ -11,8 +11,8 @@ import { LoadConfig } from '@/wailsjs/go/main/App';
 import { classNames, tryParseJSONObject } from '@/helpers';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Spinner, TransitionWrapper } from '@/components/elements/Generic';
-import Settings, { Launcher, Aliases } from '@/components/pages/Settings';
+import { TransitionWrapper } from '@/components/elements/Generic';
+import { Settings } from '@/components/pages';
 
 const SettingsRouter = () => {
 	const AppSettings = useStoreState((state: ApplicationStore) => state.settings.data);
@@ -20,10 +20,10 @@ const SettingsRouter = () => {
 
 	const [lilithConfig, setLilithConfig] = useState({});
 	const [validJson, setValidJson] = useState(true);
-	const [loaded, setLoaded] = useState(false);
+	const [fileExists, setFileExists] = useState(false);
 
 	useEffect(() => {
-		setLoaded(false);
+		setFileExists(false);
 		LoadConfig()
 			.then((data: any) => {
 				tryParseJSONObject(data) ? setValidJson(true) : setValidJson(false);
@@ -34,7 +34,7 @@ const SettingsRouter = () => {
 						blur: JSON.parse(data).launcher.blur,
 					});
 				}
-				setLoaded(true);
+				if ('commandAliases' in JSON.parse(data) && 'gamemodeAliases' in JSON.parse(data)) setFileExists(true);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -50,7 +50,10 @@ const SettingsRouter = () => {
 	} else {
 		return (
 			<Routes>
-				<Route path="/general" element={<TransitionWrapper render={<Page component={Launcher} id="settings-launcher" config={lilithConfig} />} />} />
+				<Route
+					path="/"
+					element={<TransitionWrapper render={<Page component={Settings} id="settings-launcher" config={lilithConfig} loaded={fileExists} />} />}
+				/>
 			</Routes>
 		);
 	}
