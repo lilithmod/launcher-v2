@@ -23,15 +23,23 @@ func main() {
 	app := NewApp()
 
 	opt := &options.App{
-		Title:       "Lilith Launcher",
-		Width:       1160,
-		Height:      646,
-		Frameless:   true,
-		AssetServer: &assetserver.Options{Assets: assets},
-		OnDomReady:  app.domReady,
-		OnShutdown:  app.shutdown,
+		Title:     "Lilith Launcher",
+		Width:     1160,
+		Height:    646,
+		Frameless: true,
+
+		OnDomReady: app.domReady,
+		OnShutdown: app.shutdown,
+
 		Bind:        []interface{}{app},
+		AssetServer: &assetserver.Options{Assets: assets},
+
 		Mac: &mac.Options{
+			// WebviewIsTransparent: true,
+			// WindowIsTranslucent:  false,
+			// TitleBar: &mac.TitleBar{
+			// 	TitlebarAppearsTransparent: true,
+			// },
 			About: &mac.AboutInfo{
 				Title:   fmt.Sprintf("Lilith Launcher v%v", update.Version),
 				Message: "© 2021-2024 theMackabu, Lilith Development",

@@ -46,10 +46,10 @@ const Base = (props: { id: string }) => {
 				<Transition
 					show={ButtonStartStatus}
 					className="transition-all fixed overflow-hidden"
-					enter="transition ease-in-out duration-[400ms] transform"
+					enter="transition ease-in-out duration-300 transform"
 					enterFrom="translate-y-full"
 					enterTo="-translate-y-0"
-					leave="transition ease-in-out duration-[400ms] transform"
+					leave="transition ease-in-out duration-300 transform"
 					leaveFrom="-translate-y-0"
 					leaveTo="translate-y-full">
 					<Console />
@@ -58,17 +58,17 @@ const Base = (props: { id: string }) => {
 
 			<div tw="h-screen bg-cover" style={{ backgroundImage: `url(data:image/jpeg;base64,${BackgroundImage})` }}>
 				<div tw="pt-36 pl-20">
-					<h1 tw="text-5xl text-white font-bold duration-[400ms] transition">
+					<h1 tw="text-5xl text-white font-bold duration-300 transition">
 						<img
 							src={LilithLogo}
-							tw="h-28 -ml-5 -mb-6 duration-[400ms] transition"
+							tw="h-28 -ml-5 -mb-6 duration-300 transition"
 							alt="Lilith"
 							css={ButtonStartStatus && tw`-translate-y-[8rem] -translate-x-[2rem] h-16`}
 						/>
 					</h1>
 					<p
 						tw="text-neutral-500 text-lg"
-						css={ButtonStartStatus && tw`-translate-y-16 mt-1 -translate-x-12 text-lg font-bold text-neutral-200 duration-[400ms] transition`}>
+						css={ButtonStartStatus && tw`-translate-y-16 mt-1 -translate-x-12 text-lg font-bold text-neutral-200 duration-300 transition`}>
 						{ButtonStartStatus ? ButtonData : `v${UserStore!.version}`}
 					</p>
 					<div tw="pt-8">
@@ -77,7 +77,7 @@ const Base = (props: { id: string }) => {
 								ButtonStartStatus &&
 								tw`translate-x-[58.4rem] -translate-y-[7.1rem] hover:bg-neutral-500 shadow-neutral-600/10 hover:shadow-neutral-500/80 bg-neutral-500 border-neutral-400 scale-[0.80] hover:scale-[0.82]`
 							}
-							className="group relative z-0 inline-flex shadow-sm rounded-lg duration-[400ms] transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 border border-rose-400 hover:bg-rose-500">
+							className="group relative z-0 inline-flex shadow-sm rounded-lg duration-300 transition bg-rose-500/[0.84] shadow-md shadow-rose-600/40 ease-in-out hover:scale-[1.03] hover:shadow-rose-500/50 border border-rose-400 hover:bg-rose-500">
 							<button
 								onClick={() => {
 									if (ButtonStartStatus) {
@@ -88,7 +88,7 @@ const Base = (props: { id: string }) => {
 									}
 								}}
 								tw="transition rounded-l-lg py-2 px-8 disabled:pointer-events-none">
-								<p tw="duration-[400ms] transition font-black text-2xl text-white group-hover:drop-shadow">
+								<p tw="duration-300 transition font-black text-2xl text-white group-hover:drop-shadow">
 									{!ButtonStartStatus && (
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 inline mr-2 -mt-0.5">
 											<path

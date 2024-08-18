@@ -4,7 +4,6 @@ const initialState = { blur: false, sidebar: true };
 
 export interface AppSettings {
 	blur: boolean;
-	sidebar: boolean;
 }
 
 export interface SettingsStore {
