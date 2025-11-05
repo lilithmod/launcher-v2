@@ -1,21 +1,19 @@
-<p align="center"><img style="width: 300px;" src="https://lilith.rip/images/lilith-text.png"></p>
+# README
 
-##
+## About
 
-[![Build](https://github.com/lilithmod/launcher-v2/actions/workflows/build.yml/badge.svg)](https://github.com/lilithmod/launcher-v2/actions/workflows/build.yml) [![Version](https://img.shields.io/badge/Version-0.4.0-%23EF2D5C.svg)](https://github.com/lilithmod/launcher-v2/releases/latest) [![Go](https://img.shields.io/badge/Powered_by-Golang-%2300ADD8.svg?style=flat&logoColor=white)]() [![Go Version](https://img.shields.io/github/go-mod/go-version/lilithmod/launcher-v2.svg)](https://github.com/lilithmod/launcher-v2/blob/master/go.mod) [![Maid](https://img.shields.io/badge/Uses-Maid-%23FF8BBF.svg?style=flat&logoColor=white)](https://github.com/exact-labs/maid)
+This is the official Wails React-TS template.
 
-Lilith is the next generation of Hypixel overlay. View more information at https://lilith.rip
+You can configure the project by editing `wails.json`. More information about the project settings can be found
+here: https://wails.io/docs/reference/project-config
 
-<img style="height: 300px;" src="https://github.com/lilithmod/launcher-v2/blob/master/.github/assets/screenshot.png">
+## Live Development
 
-### Installation
+To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
+server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
+and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
+to this in your browser, and you can call your Go code from devtools.
 
-Pre-built binaries for Linux, MacOS, and Windows can be found on the [releases](https://github.com/lilithmod/launcher-v2/releases) page.
+## Building
 
-### Building
-
-- Clone the project using `git clone https://github.com/lilithmod/launcher-v2`
-- Open a terminal in the project folder
-- Check if you have go installed, just type in `go version` _(Make sure you are using go1.22+)_
-- Install wails using `go install github.com/wailsapp/wails/v2/cmd/wails@latest`
-- To build for your platform, run `wails build --clean`
+To build a redistributable, production mode package, use `wails build`.

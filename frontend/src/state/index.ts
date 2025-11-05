@@ -1,14 +1,14 @@
-import { createStore } from 'easy-peasy';
-import user, { UserStore } from '@/state/user';
-import settings, { SettingsStore } from '@/state/settings';
-import button, { ButtonStore } from '@/state/button';
-import logs, { LogsStore } from '@/state/logs';
+import { createStore } from 'easy-peasy'
+import button, { type ButtonStore } from '../state/button'
+import logs, { type LogsStore } from '../state/logs'
+import settings, { type SettingsStore } from '../state/settings'
+import user, { type UserStore } from '../state/user'
 
 export interface ApplicationStore {
-	user: UserStore;
-	settings: SettingsStore;
-	button: ButtonStore;
-	logs: LogsStore;
+	user: UserStore
+	settings: SettingsStore
+	button: ButtonStore
+	logs: LogsStore
 }
 
 const state: ApplicationStore = {
@@ -16,6 +16,6 @@ const state: ApplicationStore = {
 	settings,
 	button,
 	logs,
-};
+}
 
-export const store = createStore(state);
+export const store = createStore(state)

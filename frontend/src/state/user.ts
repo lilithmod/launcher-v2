@@ -1,25 +1,25 @@
-import { Action, action } from 'easy-peasy';
+import { type Action, action } from 'easy-peasy'
 
-const initialState = { version: '0.0.0' };
+const initialState = { version: '0.0.0' }
 
 export interface UserData {
-	version: string;
+	version: string
 }
 
 export interface UserStore {
-	data?: UserData;
-	setUserData: Action<UserStore, UserData>;
-	reset: Action<UserStore>;
+	data?: UserData
+	setUserData: Action<UserStore, UserData>
+	reset: Action<UserStore>
 }
 
 const user: UserStore = {
 	data: initialState,
 	setUserData: action((state, payload) => {
-		state.data = payload;
+		state.data = payload
 	}),
 	reset: action((state) => {
-		state.data = initialState;
+		state.data = initialState
 	}),
-};
+}
 
-export default user;
+export default user

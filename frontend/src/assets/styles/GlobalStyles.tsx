@@ -1,18 +1,18 @@
-import React, { Fragment } from 'react';
-import { Global } from '@emotion/react';
-import tw, { css, theme, GlobalStyles as BaseStyles } from 'twin.macro';
+import { Global } from '@emotion/react'
+import React, { Fragment } from 'react'
+import tw, { GlobalStyles as BaseStyles, css } from 'twin.macro'
 
 const customStyles = css({
 	body: {
-		...tw`overscroll-none antialiased rounded-lg bg-neutral-900 cursor-default select-none scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-neutral-900`,
+		...tw`overscroll-none antialiased rounded-lg bg-neutral-900 cursor-default select-none `,
 	},
-});
+})
 
 const GlobalStyles = () => (
 	<Fragment>
 		<BaseStyles />
 		<Global styles={customStyles} />
 	</Fragment>
-);
+)
 
-export default GlobalStyles;
+export default GlobalStyles

@@ -20,8 +20,9 @@ import (
 	"syscall"
 	"time"
 
-	wails_rt "github.com/wailsapp/wails/v2/pkg/runtime"
 	lilith_update "lilith/internal/update"
+
+	wails_rt "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type App struct {

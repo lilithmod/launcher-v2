@@ -1,22 +1,13 @@
 {
-	"$schema": "https://wails.io/schemas/config.v2.json",
-	"name": "Lilith Launcher",
-	"outputfilename": "lilith_launcher",
-	"assetdir": "frontend/dist",
-	"wailsjsdir": "frontend/src",
-	"frontend:install": "pnpm install",
-	"frontend:build": "pnpm run build",
-	"frontend:dev:watcher": "pnpm run dev",
-	"frontend:dev:serverUrl": "auto",
-	"info": {
-		"companyName": "Lilith",
-		"productName": "Lilith Launcher",
-		"productVersion": "0.4.0",
-		"copyright": "Copyright lilith.rip 2024",
-		"comments": "Built by https://themackabu.dev"
-	},
-	"author": {
-		"name": "theMackabu",
-		"email": "theMackabu@gmail.com"
-	}
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "lilith",
+  "outputfilename": "lilith",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Yanice",
+    "email": "git@yanice.me"
+  }
 }

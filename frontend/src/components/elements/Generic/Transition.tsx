@@ -1,28 +1,28 @@
-import { TwStyle } from 'twin.macro';
-import { Transition as HeadlessUiTransition, TransitionEvents } from '@headlessui/react';
+import { Transition as HeadlessUiTransition, type TransitionEvents } from '@headlessui/react'
+import type { TwStyle } from 'twin.macro'
 
 type TransitionProps = {
-	enter?: TwStyle;
-	enterFrom?: TwStyle;
-	enterTo?: TwStyle;
-	entered?: TwStyle;
-	leave?: TwStyle;
-	leaveFrom?: TwStyle;
-	leaveTo?: TwStyle;
-	children: React.ReactNode;
-	show?: boolean;
-	as?: React.ElementType;
-	appear?: boolean;
-	unmount?: boolean;
-} & TransitionEvents;
+	enter?: TwStyle
+	enterFrom?: TwStyle
+	enterTo?: TwStyle
+	entered?: TwStyle
+	leave?: TwStyle
+	leaveFrom?: TwStyle
+	leaveTo?: TwStyle
+	children: React.ReactNode
+	show?: boolean
+	as?: React.ElementType
+	appear?: boolean
+	unmount?: boolean
+} & TransitionEvents
 
 export default function Transition(props: TransitionProps) {
-	return <HeadlessUiTransition {...getProps(props)} />;
+	return <HeadlessUiTransition {...getProps(props)} />
 }
 
 Transition.Child = function TransitionChild(props: TransitionProps) {
-	return <HeadlessUiTransition.Child {...getProps(props)} />;
-};
+	return <HeadlessUiTransition.Child {...getProps(props)} />
+}
 
 function getProps(props: TransitionProps) {
 	return {
@@ -47,5 +47,5 @@ function getProps(props: TransitionProps) {
 		afterEnter: () => props.afterEnter?.(),
 		beforeLeave: () => props.beforeLeave?.(),
 		afterLeave: () => props.afterLeave?.(),
-	};
+	}
 }

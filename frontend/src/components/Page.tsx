@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react'
 
 const Page = (props: { component: any; id?: any; config?: any; loaded?: boolean }) => {
-	return <props.component pageId={props?.id} config={props?.config} loaded={props?.loaded} />;
-};
+	return <props.component pageId={props?.id} config={props?.config} loaded={props?.loaded} />
+}
 
-export default Page;
+export default Page

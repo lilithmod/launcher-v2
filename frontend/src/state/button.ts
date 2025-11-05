@@ -1,19 +1,19 @@
-import { Action, action } from 'easy-peasy';
+import { type Action, action } from 'easy-peasy'
 
 export interface ButtonStore {
-	data: any;
-	setButtonData: Action<ButtonStore>;
-	reset: Action<ButtonStore>;
+	data: any
+	setButtonData: Action<ButtonStore>
+	reset: Action<ButtonStore>
 }
 
 const button: ButtonStore = {
 	data: 'ready to launch',
 	setButtonData: action((state, payload) => {
-		state.data = payload;
+		state.data = payload
 	}),
 	reset: action((state) => {
-		state.data = 'ready to launch';
+		state.data = 'ready to launch'
 	}),
-};
+}
 
-export default button;
+export default button

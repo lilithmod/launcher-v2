@@ -1,15 +1,15 @@
-import React, { CSSProperties } from 'react';
+import React, { type CSSProperties } from 'react'
 
-import { cn } from '@/helpers';
+import { cn } from '../../../helpers'
 
 export interface ShimmerButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-	shimmerColor?: string;
-	shimmerSize?: string;
-	borderRadius?: string;
-	shimmerDuration?: string;
-	background?: string;
-	className?: string;
-	children?: React.ReactNode;
+	shimmerColor?: string
+	shimmerSize?: string
+	borderRadius?: string
+	shimmerDuration?: string
+	background?: string
+	className?: string
+	children?: React.ReactNode
 }
 
 const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
@@ -46,8 +46,8 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
 				ref={ref}
 				{...props}>
 				<div className={cn('-z-30 blur-[2px]', 'absolute inset-0 overflow-visible [container-type:size]')}>
-					<div className="absolute inset-0 h-[100cqh] animate-slide [aspect-ratio:1] [border-radius:0] [mask:none]">
-						<div className="animate-spin-around absolute inset-[-100%] w-auto rotate-0 [background:conic-gradient(from_calc(270deg-(var(--spread)*0.5)),transparent_0,var(--shimmer-color)_var(--spread),transparent_var(--spread))] [translate:0_0]" />
+					<div className='absolute inset-0 h-[100cqh] animate-slide [aspect-ratio:1] [border-radius:0] [mask:none]'>
+						<div className='animate-spin-around absolute inset-[-100%] w-auto rotate-0 [background:conic-gradient(from_calc(270deg-(var(--spread)*0.5)),transparent_0,var(--shimmer-color)_var(--spread),transparent_var(--spread))] [translate:0_0]' />
 					</div>
 				</div>
 				{children}
@@ -63,12 +63,14 @@ const ShimmerButton = React.forwardRef<HTMLButtonElement, ShimmerButtonProps>(
 					)}
 				/>
 
-				<div className={cn('absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]')} />
+				<div
+					className={cn('absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]')}
+				/>
 			</button>
-		);
+		)
 	},
-);
+)
 
-ShimmerButton.displayName = 'ShimmerButton';
+ShimmerButton.displayName = 'ShimmerButton'
 
-export default ShimmerButton;
+export default ShimmerButton

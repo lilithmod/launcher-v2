@@ -1,13 +1,12 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import pkg from './package.json';
-import { createHtmlPlugin } from 'vite-plugin-html';
-import removeConsole from 'vite-plugin-remove-console';
-import banner from 'vite-plugin-banner';
-import checker from 'vite-plugin-checker';
-import path from 'path';
+import react from '@vitejs/plugin-react'
+import path from 'path'
+import { defineConfig } from 'vite'
+import banner from 'vite-plugin-banner'
+import checker from 'vite-plugin-checker'
+import removeConsole from 'vite-plugin-remove-console'
+import pkg from './package.json'
 
-const resolve = path.resolve;
+const resolve = path.resolve
 
 export default defineConfig({
 	root: './src',
@@ -23,20 +22,10 @@ export default defineConfig({
 			},
 		}),
 		banner(`Copyright (c) ${new Date().getUTCFullYear()} theMackabu @ Lilith. All Rights Reserved.
-		version: ${pkg.version} 
+		version: ${pkg.version}
 		build: ${process.env.NODE_ENV}
 		`),
-		createHtmlPlugin({
-			minify: true,
-			entry: 'index.tsx',
-			template: 'assets/index.html',
-			inject: {
-				data: {
-					version: pkg.version,
-					build: process.env.NODE_ENV,
-				},
-			},
-		}),
+
 		react({
 			babel: {
 				plugins: [
@@ -56,19 +45,17 @@ export default defineConfig({
 	],
 	build: {
 		outDir: '../dist',
-		output: {
-			entryFileNames: `${pkg.version}/[name].js`,
-			chunkFileNames: `${pkg.version}/[name].js`,
-			assetFileNames: `${pkg.version}/[name].[ext]`,
+		rollupOptions: { external: ['/src/main.tsx'] },
+		target: 'esnext', // you can also use 'es2020' here
+	},
+	optimizeDeps: {
+		esbuildOptions: {
+			target: 'esnext', // you can also use 'es2020' here
 		},
 	},
 	server: {
-		watch: true,
 		hmr: true,
 		port: 5352,
 		host: '0.0.0.0',
 	},
-	resolve: {
-		alias: [{ find: '@', replacement: resolve(__dirname, './src') }],
-	},
-});
+})

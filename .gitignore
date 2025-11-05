@@ -1,7 +1,3 @@
 build/bin
-store.json
-lilith.log
-.DS_Store
-.fleet
-.nova
-__debug_bin
+node_modules
+frontend/dist

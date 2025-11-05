@@ -1,24 +1,23 @@
-import React from 'react';
+import { css, keyframes } from '@emotion/react'
+import styled from '@emotion/styled'
+import React from 'react'
+import tw from 'twin.macro'
 
-import tw from 'twin.macro';
-import styled from '@emotion/styled';
-import { css, keyframes } from '@emotion/react';
-
-export type SpinnerSize = 'small' | 'base' | 'large' | 'xsmall';
+export type SpinnerSize = 'small' | 'base' | 'large' | 'xsmall'
 
 interface Props {
-	size?: SpinnerSize;
-	centered?: boolean;
-	isBlue?: boolean;
+	size?: SpinnerSize
+	centered?: boolean
+	isBlue?: boolean
 }
 
 interface Spinner extends React.FC<Props> {
-	Size: Record<'SMALL' | 'BASE' | 'LARGE' | 'XSMALL', SpinnerSize>;
+	Size: Record<'SMALL' | 'BASE' | 'LARGE' | 'XSMALL', SpinnerSize>
 }
 
 const spin = keyframes`
 	to { transform: rotate(360deg); }
-`;
+`
 
 // noinspection CssOverwrittenProperties
 const SpinnerComponent = styled.div<Props>`
@@ -31,17 +30,17 @@ const SpinnerComponent = styled.div<Props>`
 		props.size === 'small'
 			? tw`w-4 h-4 border-2`
 			: props.size === 'large'
-			? css`
+				? css`
 					${tw`w-16 h-16`};
 					border-width: 6px;
 			  `
-			: props.size === 'xsmall'
-			? tw`w-2 h-2 border`
-			: null};
+				: props.size === 'xsmall'
+					? tw`w-2 h-2 border`
+					: null};
 
 	border-color: ${(props) => (!props.isBlue ? 'rgba(255, 255, 255, 0.2)' : 'hsla(196, 54%, 37%, 0.2)')};
 	border-top-color: ${(props) => (!props.isBlue ? 'rgb(255, 255, 255)' : 'hsl(196, 54%, 37%)')};
-`;
+`
 
 const Spinner: Spinner = ({ centered, ...props }) =>
 	centered ? (
@@ -50,14 +49,14 @@ const Spinner: Spinner = ({ centered, ...props }) =>
 		</div>
 	) : (
 		<SpinnerComponent {...props} />
-	);
-Spinner.displayName = 'Spinner';
+	)
+Spinner.displayName = 'Spinner'
 
 Spinner.Size = {
 	SMALL: 'small',
 	BASE: 'base',
 	LARGE: 'large',
 	XSMALL: 'xsmall',
-};
+}
 
-export default Spinner;
+export default Spinner

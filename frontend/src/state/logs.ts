@@ -1,19 +1,19 @@
-import { Action, action } from 'easy-peasy';
+import { type Action, action } from 'easy-peasy'
 
 export interface LogsStore {
-	data?: any;
-	pushLogs: Action<LogsStore>;
-	reset: Action<LogsStore>;
+	data?: any
+	pushLogs: Action<LogsStore>
+	reset: Action<LogsStore>
 }
 
 const logs: LogsStore = {
 	data: [],
 	pushLogs: action((state, payload) => {
-		state.data.push(payload);
+		state.data.push(payload)
 	}),
 	reset: action((state) => {
-		state.data = [];
+		state.data = []
 	}),
-};
+}
 
-export default logs;
+export default logs
